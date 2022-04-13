@@ -15,25 +15,55 @@
 
   <script>
     var product = new Product();
-    product.title= "Item 2";
-    product.description= "Test";
-    product.profileImgUrl= "http://lorempixel.com/400/200/";
+    product.title = "Item 2";
+    product.description = "Test";
+    product.profileImgUrl = "http://lorempixel.com/400/200/";
     product.coverImgUrl = "http://lorempixel.com/400/200/";
-    product.subTitle= "Substitle";
-    Products.insert(product,(err,result)=>{
-      console.log(result)
+    product.subTitle = "Substitle";
+    Products.insert(product).then(product => {
+      console.log("Insert::: ", product);
+    }).catch(err => {
+      console.error(err);
     });
 
-    var searchOptions={
-            "filter":{},
-            "sort":{},
-            "fields":[],
-            "skip":0,
-            "limit":20
-            };
-    Products.search(searchOptions,(err, result)=>{
-      console.log(result)
-    })
+    var searchOptions = {
+      "filter": {},
+      "sort": {},
+      "fields": [],
+      "skip": 0,
+      "limit": 20
+    };
+    Products.search(searchOptions).then(products => {
+      console.log("Search::: ", products)
+    }).catch(err => {
+      console.error(err);
+    });
+
+    var id = "625733ff985c3e0376ee647b";
+    Products.getById(id).then(product => {
+      console.log("GetByID::: ", product)
+    }).catch(err => {
+      console.error(err);
+    });
+
+    var product = new Product();
+    product.title = "Updated";
+    product.description = "UpdatedDesc";
+    product.profileImgUrl = "http://UpdatedDesc.com/400/200/";
+    product.coverImgUrl = "http://UpdatedDesc.com/400/200/";
+    product.subTitle = "UpdatedTitle";
+    Products.update(id, product).then(product => {
+      console.log("update::: ", product)
+    }).catch(err => {
+      console.error(err);
+    });
+
+    Products.delete(id).then(result => {
+      console.log("delete::: ", result)
+    }).catch(err => {
+      console.error(err);
+    });
+
   </script>
 </body>
 

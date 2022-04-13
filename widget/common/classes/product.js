@@ -9,30 +9,67 @@ class Product {
     }
 }
 
+const db = buildfire.datastore;
+
 const Products = {
-    insert:(product,callback)=>{
-        if(product.title == "" || product.profileImgUrl == "" || product.coverImgUrl == ""){
-            callback(null,false);
-            return;
-        }
-        buildfire.datastore.insert(product, "Products", callback);
-        callback(null, true)
-    } 
-    ,search:(options,callback)=>{
-        buildfire.datastore.search(options,"Products",callback)
-    }
-    ,getById:(productId, callback)=>{
-        buildfire.datastore.getById(productId,"Products",callback)
-        callback(null,true)
+    insert: (product) => {
+        return new Promise((resolve, reject) => {
+            if (product.title == "" || product.profileImgUrl == "" || product.coverImgUrl == "") {
+                reject("Please fill required fields!");
+                return;
+            }
+            db.insert(product, "Products", function (err, result) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(result);
+                }
+            });
+        });
+    },
+    search: (options) => {
+        return new Promise((resolve, reject) => {
+            db.search(options, "Products", function (err, result) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(result);
+                }
+            });
+        });
+    },
+    getById: (productId) => {
+        return new Promise((resolve, reject) => {
+            buildfire.datastore.getById(productId, "Products", function (err, result) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(result);
+                }
+            });
+        });
 
+    },
+    update: (prodId, product) => {
+        return new Promise((resolve, reject) => {
+            buildfire.datastore.update(prodId, product, "Products", function (err, result) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(result);
+                }
+            });
+        });
+    },
+    delete: (productId) => {
+        return new Promise((resolve, reject) => {
+            buildfire.datastore.delete(productId, "Products", function (err, result) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(result);
+                }
+            });
+        });
     }
-    ,update:(product,callback)=>{
-        buildfire.datastore.update(product,"Products",callback)
-        callback(null,true)
-    }
-    ,delete:(productId,callback)=>{
-        buildfire.datastore.delete(productId,"Products",callback)
-        callback(null,true)
-    }
-
 }
