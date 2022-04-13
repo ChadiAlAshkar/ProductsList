@@ -5,30 +5,36 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css" />
 
-  <!--
-    NOTE:
-    1. You can reference the file in SDK via relative path
-    2. The Control and Widget Should NOT share resources. They will be separated in production.
-    3. You may include any JS framework you want with your Widget and Control folders. However, keep in mind
-        to keep you plugin as light weight as possible for performance and transport reasons
-  -->
-
-  <!-- You can load helper.css to use our helper classes.
-    <link href="../../../../styles/helper.css" rel="stylesheet">
-    -->
-
-  <!-- JS -->
   <script src="../../../../scripts/buildfire.js"></script>
+  <script src="../../widget/common/classes/product.js"></script>
 
-  <!--
-    <script src="../../../../scripts/angular/angular.min.js"></script>
-    <script src="../../../../scripts/angular/ui-bootstrap.min.js"></script>
-   <script src="../../../../scripts/jquery/jquery-1.11.2.min.js"></script>
-   -->
 </head>
 
 <body>
   <span>Content - Hello world FRom Pierre2</span>
+
+  <script>
+    var product = new Product();
+    product.title= "Item 2";
+    product.description= "Test";
+    product.profileImgUrl= "http://lorempixel.com/400/200/";
+    product.coverImgUrl = "http://lorempixel.com/400/200/";
+    product.subTitle= "Substitle";
+    Products.insert(product,(err,result)=>{
+      console.log(result)
+    });
+
+    var searchOptions={
+            "filter":{},
+            "sort":{},
+            "fields":[],
+            "skip":0,
+            "limit":20
+            };
+    Products.search(searchOptions,(err, result)=>{
+      console.log(result)
+    })
+  </script>
 </body>
 
 </html>
