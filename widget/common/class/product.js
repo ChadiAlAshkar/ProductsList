@@ -9,7 +9,6 @@ class Product {
     }
 }
 
-const db = buildfire.datastore;
 
 const Products = {
     insert: (product) => {
@@ -18,7 +17,7 @@ const Products = {
                 reject("Please fill required fields!");
                 return;
             }
-            db.insert(product, "Products", function (err, result) {
+            Helper.db.insert(product, "Products", function (err, result) {
                 if (err) {
                     reject(err);
                 } else {

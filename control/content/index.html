@@ -6,64 +6,78 @@
   <link rel="stylesheet" href="style.css" />
 
   <script src="../../../../scripts/buildfire.js"></script>
-  <script src="../../widget/common/classes/product.js"></script>
-
+  <script src="../../widget/common/class/product.js"></script>
+  <script src="../../widget/common/class/introduction.js"></script>
+  <script src="../../widget/common/class/helper.js"></script>
 </head>
 
 <body>
   <span>Content - Hello world FRom Pierre2</span>
 
   <script>
-    var product = new Product();
-    product.title = "Item 2";
-    product.description = "Test";
-    product.profileImgUrl = "http://lorempixel.com/400/200/";
-    product.coverImgUrl = "http://lorempixel.com/400/200/";
-    product.subTitle = "Substitle";
-    Products.insert(product).then(product => {
-      console.log("Insert::: ", product);
-    }).catch(err => {
-      console.error(err);
-    });
+    // var product = new Product();
+    // product.title = "Item 2";
+    // product.description = "Test";
+    // product.profileImgUrl = "http://lorempixel.com/400/200/";
+    // product.coverImgUrl = "http://lorempixel.com/400/200/";
+    // product.subTitle = "Substitle";
+    // Products.insert(product).then(product => {
+    //   console.log("Insert::: ", product);
+    // }).catch(err => {
+    //   console.error(err);
+    // });
 
-    var searchOptions = {
-      "filter": {},
-      "sort": {},
-      "fields": [],
-      "skip": 0,
-      "limit": 20
-    };
-    Products.search(searchOptions).then(products => {
-      console.log("Search::: ", products)
-    }).catch(err => {
-      console.error(err);
-    });
+    // var searchOptions = {
+    //   "filter": {},
+    //   "sort": {},
+    //   "fields": [],
+    //   "skip": 0,
+    //   "limit": 20
+    // };
+    // Products.search(searchOptions).then(products => {
+    //   console.log("Search::: ", products)
+    // }).catch(err => {
+    //   console.error(err);
+    // });
 
-    var id = "625733ff985c3e0376ee647b";
-    Products.getById(id).then(product => {
-      console.log("GetByID::: ", product)
-    }).catch(err => {
-      console.error(err);
-    });
+    // var id = "625733ff985c3e0376ee647b";
+    // Products.getById(id).then(product => {
+    //   console.log("GetByID::: ", product)
+    // }).catch(err => {
+    //   console.error(err);
+    // });
 
-    var product = new Product();
-    product.title = "Updated";
-    product.description = "UpdatedDesc";
-    product.profileImgUrl = "http://UpdatedDesc.com/400/200/";
-    product.coverImgUrl = "http://UpdatedDesc.com/400/200/";
-    product.subTitle = "UpdatedTitle";
-    Products.update(id, product).then(product => {
-      console.log("update::: ", product)
-    }).catch(err => {
-      console.error(err);
-    });
+    // var product = new Product();
+    // product.title = "Updated";
+    // product.description = "UpdatedDesc";
+    // product.profileImgUrl = "http://UpdatedDesc.com/400/200/";
+    // product.coverImgUrl = "http://UpdatedDesc.com/400/200/";
+    // product.subTitle = "UpdatedTitle";
+    // Products.update(id, product).then(product => {
+    //   console.log("update::: ", product)
+    // }).catch(err => {
+    //   console.error(err);
+    // });
 
-    Products.delete(id).then(result => {
-      console.log("delete::: ", result)
-    }).catch(err => {
-      console.error(err);
-    });
+    // Products.delete(id).then(result => {
+    //   console.log("delete::: ", result)
+    // }).catch(err => {
+    //   console.error(err);
+    // });
+      var introduction = new IntroductionItem();
+      introduction.description = "";
+      introduction.images = ["http://UpdatedDesc.com/400/200/","http://UpdatedDesc.com/400/200/"]
+      Introduction.save(introduction).then((result) => {
+          console.log(result);
+      }).catch((err) => {
+        
+      });
 
+      // Introduction.get().then((result) => {
+      //     console.log(result);
+      // }).catch((err) => {
+        
+      // });
   </script>
 </body>
 
