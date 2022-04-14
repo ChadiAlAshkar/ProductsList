@@ -6,10 +6,12 @@ class LanguageItem {
     }
 }
 
-const Languages = {
+//Save and get were used because there will be only one object or instance of this class
+const Language = {
+    //Save and update the Language object in datastore
     save: (language) => {
         return new Promise((resolve, reject) => {
-            db.save(language, "Language", function (err, result) {
+            Helper.db.save(language, "Language", function (err, result) {
                 if (err) {
                     reject(err);
                 } else {
@@ -18,9 +20,10 @@ const Languages = {
             });
         });
     },
+    //Get the Language object from datastore
     get: () => {
         return new Promise((resolve, reject) => {
-            db.get("Language", function (err, result) {
+            Helper.db.get("Language", function (err, result) {
                 if (err) {
                     reject(err);
                 } else {

@@ -8,6 +8,7 @@
   <script src="../../../../scripts/buildfire.js"></script>
   <script src="../../widget/common/class/product.js"></script>
   <script src="../../widget/common/class/introduction.js"></script>
+  <script src="../../widget/common/class/language.js"></script>
   <script src="../../widget/common/class/helper.js"></script>
 </head>
 
@@ -15,6 +16,9 @@
   <span>Content - Hello world FRom Pierre2</span>
 
   <script>
+
+    //PRODUCTS TESTING
+
     // var product = new Product();
     // product.title = "Item 2";
     // product.description = "Test";
@@ -64,20 +68,51 @@
     // }).catch(err => {
     //   console.error(err);
     // });
-      var introduction = new IntroductionItem();
-      introduction.description = "";
-      introduction.images = ["http://UpdatedDesc.com/400/200/","http://UpdatedDesc.com/400/200/"]
-      Introduction.save(introduction).then((result) => {
-          console.log(result);
-      }).catch((err) => {
-        
-      });
 
-      // Introduction.get().then((result) => {
-      //     console.log(result);
-      // }).catch((err) => {
-        
-      // });
+    ///////////////////////////
+
+    //Introduction Testing
+    var introduction = new IntroductionItem();
+    introduction.description = "";
+    introduction.images = [
+      {
+        id: 1,
+        url: "http://UpdatedDesc.com/400/200/"
+      },
+      {
+        id: 2,
+        url: "http://UpdatedDesc.com/400/200/"
+      }
+    ]
+    Introduction.save(introduction).then((result) => {
+      Introduction.get().then((result) => {
+        console.log("Get Introduction::: ", result);
+      }).catch((err) => {
+        console.error("Error in getting Introduction::: ", err);
+      });
+    }).catch((err2) => {
+      console.error("Error in saving Introduction::: ", err2);
+    });
+
+    ///////////////////////////
+
+    //Language Testing
+    var language = new LanguageItem();
+    language.search = "Search";
+    language.sortAZ = "Sort A-Z";
+    language.sortZA = "Sort Z-A";
+
+    Language.save(language).then((result) => {
+      Language.get().then((result) => {
+        console.log("Get Language::: ", result);
+      }).catch((err) => {
+        console.error("Error in getting Language::: ", err);
+      });
+    }).catch((err2) => {
+      console.error("Error in saving Language::: ", err2);
+    });
+
+    ///////////////////////////
   </script>
 </body>
 
