@@ -33,6 +33,7 @@ const Products = {
                 if (err) {
                     reject(err);
                 } else {
+                    console.log(result.toString())
                     resolve(result);
                 }
             });

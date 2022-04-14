@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <script src="../../../../scripts/buildfire.js"></script>
 
@@ -19,85 +18,105 @@
     <script src="../../widget/common/config/helper.js"></script>
 
     <link rel="stylesheet" href="https://unpkg.com/mocha/mocha.css" />
-</head>
+  </head>
 
-<body>
+  <body>
     <div id="mocha"></div>
     <script src="https://unpkg.com/chai/chai.js"></script>
     <script src="https://unpkg.com/mocha/mocha.js"></script>
     <script>
-        mocha.setup('bdd');
-        mocha.checkLeaks();
+      mocha.setup("bdd");
+      //mocha.checkLeaks();
 
-        let expect = chai.expect;
+      let expect = chai.expect;
 
-        describe('Models', function () {
-            describe('Products', function () {
-                it('expect Product to be an object', function () {
-                    expect(Product).to.be.an('function')
-                });
-                var p = new Product();
-                it('expect Product Have a title', function () {
-                    expect(p).to.have.property('title')
-                });
-                it('expect Product Have a profileImgUrl', function () {
-                    expect(p).to.have.property('profileImgUrl')
-                });
-                it('expect Product Have a coverImgUrl', function () {
-                    expect(p).to.have.property('coverImgUrl')
-                });
-            });
-            describe('Introduction', function () {
-                it('expect IntroductionItem to be an object', function () {
-                    expect(IntroductionItem).to.be.an('function')
-                });
-                var i = new IntroductionItem();
-                it('expect IntroductionItem Have a description', function () {
-                    expect(i).to.have.property('description')
-                });
-                it('expect Product Have images', function () {
-                    expect(i).to.have.property('images')
-                });
-            });
-            describe('Language', function () {
-                it('expect LanguageItem to be an object', function () {
-                    expect(LanguageItem).to.be.an('function')
-                });
-                var l = new LanguageItem();
-                it('expect LanguageItem Have a search', function () {
-                    expect(l).to.have.property('search')
-                });
-                it('expect Product Have a sortAsc', function () {
-                    expect(l).to.have.property('sortAsc')
-                });
-                it('expect Product Have a sortDesc', function () {
-                    expect(l).to.have.property('sortDesc')
-                });
-            });
+      describe("Models", function () {
+        describe("Products", function () {
+          it("expect Product to be an object", function () {
+            expect(Product).to.be.an("function");
+          });
+          var p = new Product();
+          it("expect Product Have a title", function () {
+            expect(p).to.have.property("title");
+          });
+          it("expect Product Have a profileImgUrl", function () {
+            expect(p).to.have.property("profileImgUrl");
+          });
+          it("expect Product Have a coverImgUrl", function () {
+            expect(p).to.have.property("coverImgUrl");
+          });
         });
+        describe("Introduction", function () {
+          it("expect IntroductionItem to be an object", function () {
+            expect(IntroductionItem).to.be.an("function");
+          });
+          var i = new IntroductionItem();
+          it("expect IntroductionItem Have a description", function () {
+            expect(i).to.have.property("description");
+          });
+          it("expect Product Have images", function () {
+            expect(i).to.have.property("images");
+          });
+        });
+        describe("Language", function () {
+          it("expect LanguageItem to be an object", function () {
+            expect(LanguageItem).to.be.an("function");
+          });
+          var l = new LanguageItem();
+          it("expect LanguageItem Have a search", function () {
+            expect(l).to.have.property("search");
+          });
+          it("expect Product Have a sortAsc", function () {
+            expect(l).to.have.property("sortAsc");
+          });
+          it("expect Product Have a sortDesc", function () {
+            expect(l).to.have.property("sortDesc");
+          });
+        });
+      });
 
-        describe('Content', function () {
-            describe('ContentTab', function () {
-                describe('#insert()', function () {
-                    it('should complete this test', function (done) {
-                        var product = new Product();
-                        product.title = "Item 2";
-                        product.description = "Test";
-                        product.profileImgUrl = "http://lorempixel.com/400/200/";
-                        product.coverImgUrl = "http://lorempixel.com/400/200/";
-                        product.subTitle = "Substitle";
-                        return
-                        Helper.db.insert(product, Helper.Collections.PRODUCTS, function (err, result) {
-                            if (err) {
-                            } else {
-                            }
-                        });
-                    });
+      describe("Content", function () {
+        describe("ContentTab", function () {
+          describe("#insert()", function () {
+            var product = new Product();
+            product.title = "Test Product";
+            product.description = "Test Description";
+            product.profileImgUrl = "http://lorempixel.com/400/200/";
+            product.coverImgUrl = "http://lorempixel.com/400/200/";
+            product.subTitle = "Test Subtitle";
+
+            it("should add new product", (done) => {
+              Products.insert(product)
+                .then((product) => {
+                  done();
+                })
+                .catch((err) => {
+                  done(err);
                 });
             });
+          });
+
+          describe("#search()", function () {
+            it("should get all products", (done) => {
+              var searchOptions = {
+                filter: {},
+                sort: {},
+                skip: 0
+              };
+              Products.search(searchOptions)
+                .then((products) => {
+                    done();
+                })
+                .catch((err) => {
+                  done(err);
+                });
+            });
+          });
+
+
         });
-        mocha.run();
+      });
+      mocha.run();
     </script>
-</body>
-
+  </body>
 </html>

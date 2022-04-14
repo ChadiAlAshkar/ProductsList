@@ -45,21 +45,20 @@ function TestProducts() {
     }).catch(err => {
         console.error(err);
     });
-
-    var searchOptions = {
+     var searchOptions = {
         "filter": {},
         "sort": {},
-        "fields": [],
         "skip": 0,
-        "limit": 20
+        "limit": 500
     };
     Products.search(searchOptions).then(products => {
         console.log("Search::: ", products)
+       
     }).catch(err => {
         console.error(err);
     });
 
-    var id = "62582f13d633a0037f9da042";
+    var id = "6258868208c3a90378bc7f3d";
     Products.getById(id).then(product => {
         console.log("GetByID::: ", product);
         Analytics.trackAction(Analytics.events.PRODUCT_OPENED);
