@@ -51,4 +51,4 @@ class PushNotification {
     }
 }
 
-PushNotification.init();
+// PushNotification.init();

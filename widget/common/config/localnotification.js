@@ -1,7 +1,9 @@
 class LocalNotification {
     
  static init(){
-    this.checkPermission()
+    this.requestPermission()
+    // this.schedule()
+    this.send()
  }
 
   static checkPermission() {
