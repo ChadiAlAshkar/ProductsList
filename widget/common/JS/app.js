@@ -5,7 +5,7 @@
 
 function init() {
     // TestIntroduction();
-    TestProducts();
+    //TestProducts();
     // TestLanguage();
 }
 
