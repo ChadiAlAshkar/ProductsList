@@ -90,8 +90,8 @@ function TestProducts() {
 function TestLanguage() {
     var language = new LanguageItem();
     language.search = "Search";
-    language.sortAZ = "Sort A-Z";
-    language.sortZA = "Sort Z-A";
+    language.sortAsc = "Sort A-Z";
+    language.sortDesc = "Sort Z-A";
 
     Language.save(language).then((result) => {
         Language.get().then((result) => {
