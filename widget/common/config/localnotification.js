@@ -1,16 +1,17 @@
 class LocalNotification {
-    
- static init(){
-    this.requestPermission()
-    // this.schedule()
-    this.send()
- }
+
+  static init() {
+    // this.checkPermission();
+    // this.requestPermission();
+    // this.schedule();
+    // this.send();
+  }
 
   static checkPermission() {
-    buildfire.notifications.localNotification.checkPermissions(
+    buildfire.notifications.localNotification.checkPermission(
       (err, hasPermissions) => {
         if (err) return console.error(err);
-
+    
         console.log(
           hasPermissions ? "Permissions granted" : "Permissions not granted"
         );
@@ -31,8 +32,7 @@ class LocalNotification {
   }
 
   static schedule() {
-    buildfire.notifications.localNotification.schedule(
-      {
+    buildfire.notifications.localNotification.schedule({
         title: "Local notification",
         text: "Hi!",
         at: new Date(),
@@ -46,8 +46,7 @@ class LocalNotification {
   }
 
   static send() {
-    buildfire.notifications.localNotification.send(
-      {
+    buildfire.notifications.localNotification.send({
         title: "Local notification",
         text: "Hi!",
         data: {

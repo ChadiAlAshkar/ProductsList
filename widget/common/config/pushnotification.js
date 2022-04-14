@@ -1,7 +1,8 @@
 class PushNotification {
     
     static init(){
-        this.subscribe();
+        // this.subscribe();
+        // this.schedule();
     }
 
    static schedule() {
@@ -51,4 +52,4 @@ class PushNotification {
     }
 }
 
-// PushNotification.init();
+PushNotification.init();

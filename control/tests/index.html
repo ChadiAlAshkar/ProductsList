@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../../../../scripts/buildfire.js"></script>
+    <script src="../../widget/common/models/product.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/mocha/mocha.css" />
+</head>
+
+<body>
+    <div id="mocha"></div>
+    <script src="https://unpkg.com/chai/chai.js"></script>
+    <script src="https://unpkg.com/mocha/mocha.js"></script>
+    <script>
+        mocha.setup('bdd');
+        mocha.checkLeaks();
+
+        let expect = chai.expect;
+        
+        describe('Widget', function () {
+            describe('Products Screen', function () {
+                describe('Product Text', function () {
+                    it('expect Product to be an object', function () {
+                        expect(Product).to.be.an('function')
+                    })
+                    var p = new Product();
+                    it('expect Product Have an Id', function () {
+                        expect(p).to.have.property('id')
+                    })
+                    it('expect Product Have a name', function () {
+                        expect(p).to.have.property('name')
+                    })
+                })
+            })
+        })
+        mocha.run()
+    </script>
+</body>
+
+</html>
