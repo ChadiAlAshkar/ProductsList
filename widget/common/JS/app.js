@@ -5,7 +5,7 @@
 
 function init() {
     // TestIntroduction();
-    TestProducts();
+    // TestProducts();
     // TestLanguage();
 }
 
@@ -100,5 +100,13 @@ function TestLanguage() {
         console.error("Error in saving Language::: ", err2);
     });
 }
+
+function registerEvents() {
+    buildfire.analytics.registerEvent({
+      title: "ProductsOpened",
+      key: "PRODUCT_OPENED",
+      description: "Occurs when a user gets a product ID"
+    }, { silentNotifications: false });
+  }
 
 init();

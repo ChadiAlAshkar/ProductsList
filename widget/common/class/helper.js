@@ -4,4 +4,12 @@ class Helper {
     static get db() {
         return buildfire.datastore;
     }
+
+    static get Collections() {
+        return {
+            PRODUCTS: 'Products',
+            INTRODUCTION: 'Introduction',
+            LANGUAGE: 'Language'
+        }
+    }
 }

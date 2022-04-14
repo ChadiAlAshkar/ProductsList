@@ -2,7 +2,7 @@
 const Language = {
     save: (language) => {
         return new Promise((resolve, reject) => {
-            Helper.db.save(language, "Language", function (err, result) {
+            Helper.db.save(language, Helper.Collections.LANGUAGE, function (err, result) {
                 if (err) {
                     reject(err);
                 } else {
@@ -13,7 +13,7 @@ const Language = {
     },
     get: () => {
         return new Promise((resolve, reject) => {
-            Helper.db.get("Language", function (err, result) {
+            Helper.db.get(Helper.Collections.LANGUAGE, function (err, result) {
                 if (err) {
                     reject(err);
                 } else {

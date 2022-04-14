@@ -10,7 +10,7 @@ const Products = {
                 reject("Please fill required fields!");
                 return;
             }
-            Helper.db.insert(product, "Products", function (err, result) {
+            Helper.db.insert(product, Helper.Collections.PRODUCTS, function (err, result) {
                 if (err) {
                     reject(err);
                 } else {
@@ -29,7 +29,7 @@ const Products = {
     // };
     search: (options) => {
         return new Promise((resolve, reject) => {
-            Helper.db.search(options, "Products", function (err, result) {
+            Helper.db.search(options, Helper.Collections.PRODUCTS, function (err, result) {
                 if (err) {
                     reject(err);
                 } else {
@@ -40,7 +40,7 @@ const Products = {
     },
     getById: (productId) => {
         return new Promise((resolve, reject) => {
-            Helper.db.getById(productId, "Products", function (err, result) {
+            Helper.db.getById(productId, Helper.Collections.PRODUCTS, function (err, result) {
                 if (err) {
                     reject(err);
                 } else {
@@ -52,7 +52,7 @@ const Products = {
     },
     update: (prodId, product) => {
         return new Promise((resolve, reject) => {
-            Helper.db.update(prodId, product, "Products", function (err, result) {
+            Helper.db.update(prodId, product, Helper.Collections.PRODUCTS, function (err, result) {
                 if (err) {
                     reject(err);
                 } else {
@@ -63,7 +63,7 @@ const Products = {
     },
     delete: (productId) => {
         return new Promise((resolve, reject) => {
-            Helper.db.delete(productId, "Products", function (err, result) {
+            Helper.db.delete(productId, Helper.Collections.PRODUCTS, function (err, result) {
                 if (err) {
                     reject(err);
                 } else {
