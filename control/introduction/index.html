@@ -1,37 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Introduction</title>
-    <script src="../../../../scripts/buildfire.js"></script>
-    <script src="../../widget/common/models/Introduction.js"></script>
-    <script src="../../widget/common/controllers/introduction.js"></script>
-    <script src="../../widget/common/models/Product.js"></script>
-    <script src="../../widget/common/controllers/product.js"></script>
-    <script src="../../../../scripts/tinymce/tinymce.min.js"></script>
-    <script src="../../widget/common/config/helper.js"></script>
-  </head>
-  <body>
-    <textarea id="wysiwygContent" name="content"></textarea>
-    <button onclick="save()" class="btn btn-success">Save</button>
-    <script>
-      tinymce.init({
-        selector: "#wysiwygContent",
-      });
 
-      function save() {
-        var introduction = new IntroductionItem();
-        introduction.description = tinymce.activeEditor.getContent();
-        introduction.images = [];
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Introduction</title>
+  <script src="../../../../scripts/buildfire.js"></script>
+  <script src="../../widget/common/models/Introduction.js"></script>
+  <script src="../../widget/common/controllers/introduction.js"></script>
+  <script src="../../widget/common/models/Product.js"></script>
+  <script src="../../widget/common/controllers/product.js"></script>
+  <script src="../../../../scripts/tinymce/tinymce.min.js"></script>
+  <script src="../../widget/common/config/helper.js"></script>
 
-        Introduction.save(introduction)
-          .then((result) => {})
-          .catch((err2) => {
-            console.error("Error in saving Introduction::: ", err2);
-          });
+  <link href="../../../../styles/helper.css" rel="stylesheet" />
+  <link href="../../../../styles/siteIcons.css" rel="stylesheet" />
+
+  <script src="../../../../scripts/jquery/jquery-1.11.2.min.js"></script>
+  <script src="../../../../scripts/sortable.min.js"></script>
+  <script src="../../../../scripts/buildfire/components/carousel/carousel.js"></script>
+</head>
+
+<body>
+
+  <div class="carousel" style="padding-bottom: 4rem;"></div>
+
+  <textarea id="wysiwygContent" name="content"></textarea>
+  <button onclick="save()" class="btn btn-success">Save</button>
+  <script>
+
+    tinymce.init({
+      selector: "#wysiwygContent",
+    });
+
+    let editor = new buildfire.components.carousel.editor(".carousel", []);
+
+
+    let introduction = new IntroductionItem();
+    introduction.description = "";
+    introduction.images = [];
+
+    Introduction.get().then((result) => {
+      if (result) {
+        introduction.description = result.data.description;
+        tinymce.activeEditor.setContent(introduction.description)
+        introduction.images = result.data.images;
+        editor.loadItems(introduction.images);
       }
-    </script>
-  </body>
+    }).catch((err) => {
+      console.error("Error in getting Introduction::: ", err);
+    });
+
+    editor.onItemChange = (item, index) => {
+      if (introduction.images.length > index) {
+        introduction.images[index].title = item.title;
+        introduction.images[index].action = item.action;
+        introduction.images[index].iconUrl = item.iconUrl;
+      }
+    };
+
+    editor.onOrderChange = (item, oldIndex, newIndex) => {
+      reOrderCarousel(oldIndex, newIndex);
+    };
+
+    editor.onAddItems = (items) => {
+      items.forEach(itm => {
+        introduction.images.push(itm);
+      });
+    };
+
+    editor.onDeleteItem = (item, index) => {
+      introduction.images.splice(index, 1);
+    };
+
+    function reOrderCarousel(from, to) {
+      // Delete the item from it's current position
+      var item = introduction.images.splice(from, 1);
+      // Make sure there's an item to move
+      if (!item.length) {
+        throw new Error('There is no item in the array at index ' + from);
+      }
+      // Move the item to its new position
+      introduction.images.splice(to, 0, item[0]);
+    };
+
+    function save() {
+      introduction.description = tinymce.activeEditor.getContent();
+
+      Introduction.save(introduction)
+        .then((result) => {
+          console.log(result)
+        })
+        .catch((err2) => {
+          console.error("Error in saving Introduction::: ", err2);
+        });
+    }
+  </script>
+</body>
+
 </html>
