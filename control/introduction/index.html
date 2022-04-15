@@ -25,13 +25,8 @@
 <body>
   <div class="carousel" style="padding-bottom: 4rem"></div>
 
-  <textarea id="wysiwygContent" name="content"></textarea>
-  <button onclick="save()" class="btn btn-success">Save</button>
+  <textarea id="wysiwygContent" name="content" onkeyup="debounce()"></textarea>
   <script>
-
-    tinymce.init({
-      selector: "#wysiwygContent",
-    });
 
     let editor = new buildfire.components.carousel.editor(".carousel", []);
 
@@ -43,8 +38,24 @@
     Introduction.get()
       .then((result) => {
         if (result) {
+
           introduction.description = result.data.description;
-          tinymce.get("wysiwygContent").setContent(introduction.description);
+          let timer;
+          tinymce.init({
+            selector: "#wysiwygContent",
+            setup: function (editor) {
+              editor.on('init', function (e) {
+                tinymce.get("wysiwygContent").setContent(introduction.description);
+              });
+              editor.on('keyup', function (e) {
+                clearTimeout(timer);
+                timer = setTimeout(() => {
+                  save();
+                }, 500);
+              });
+            }
+          });
+          
           introduction.images = result.data.images;
           editor.loadItems(introduction.images);
         }
