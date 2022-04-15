@@ -53,6 +53,12 @@
                   save();
                 }, 500);
               });
+              editor.on('change', function (e) {
+                clearTimeout(timer);
+                timer = setTimeout(() => {
+                  save();
+                }, 500);
+              });
             }
           });
 
