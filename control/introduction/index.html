@@ -55,7 +55,7 @@
               });
             }
           });
-          
+
           introduction.images = result.data.images;
           editor.loadItems(introduction.images);
         }
@@ -108,7 +108,6 @@
 
       Introduction.save(introduction)
         .then((result) => {
-          console.log(result);
         })
         .catch((err2) => {
           console.error("Error in saving Introduction::: ", err2);
