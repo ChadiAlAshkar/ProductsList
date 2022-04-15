@@ -17,12 +17,14 @@
       {
         "title": "Tests",
         "url": "tests/index.html"
+      },
+      {
+        "title": "Introduction",
+        "url": "introduction/index.html"
       }
     ]
   },
   "widget": {},
   "features": [],
-  "languages": [
-    "en"
-  ]
+  "languages": ["en"]
 }

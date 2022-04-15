@@ -1,15 +1,27 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css"/>
-  <script src="../../../scripts/buildfire.js"></script>
-  <script src="../../../scripts/buildfire/services/notifications/pushNotifications.js"></script>
-  <script src="../../../scripts/buildfire/services/notifications/localNotifications.js"></script>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <script src="../../../scripts/buildfire.js"></script>
+    <script src="../../../scripts/buildfire/services/notifications/pushNotifications.js"></script>
+    <script src="../../../scripts/buildfire/services/notifications/localNotifications.js"></script>
+    <script src="./common/config/helper.js"></script>
+    <script src="./common/config/localnotification.js"></script>
+  </head>
+  <body>
+    <div id="my_container_div"></div>
 
-  <script src="./common/config/localnotification.js"></script>
-</head>
-<body>
-<span>Widget - Hello, world!</span>
-</body>
+    <script>
+      buildfire.datastore.onUpdate((response) => {
+        if (response.tag == Helper.Collections.PRODUCTS) {
+          console.log("Products updated");
+        }
+        if (response.tag == Helper.Collections.INTRODUCTION) {
+          document.getElementById("my_container_div").innerHTML =
+            response.data.description;
+        }
+      });
+    </script>
+  </body>
 </html>

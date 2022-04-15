@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Introduction</title>
+    <script src="../../../../scripts/buildfire.js"></script>
+    <script src="../../widget/common/models/Introduction.js"></script>
+    <script src="../../widget/common/controllers/introduction.js"></script>
+    <script src="../../widget/common/models/Product.js"></script>
+    <script src="../../widget/common/controllers/product.js"></script>
+    <script src="../../../../scripts/tinymce/tinymce.min.js"></script>
+    <script src="../../widget/common/config/helper.js"></script>
+  </head>
+  <body>
+    <textarea id="wysiwygContent" name="content"></textarea>
+    <button onclick="save()" class="btn btn-success">Save</button>
+    <script>
+      tinymce.init({
+        selector: "#wysiwygContent",
+      });
+
+      function save() {
+        var introduction = new IntroductionItem();
+        introduction.description = tinymce.activeEditor.getContent();
+        introduction.images = [];
+
+        Introduction.save(introduction)
+          .then((result) => {})
+          .catch((err2) => {
+            console.error("Error in saving Introduction::: ", err2);
+          });
+      }
+    </script>
+  </body>
+</html>
