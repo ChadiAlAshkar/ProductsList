@@ -1,33 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Introduction</title>
 
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Introduction</title>
-  <script src="../../../../scripts/buildfire.js"></script>
-  <script src="../../widget/common/models/Introduction.js"></script>
-  <script src="../../widget/common/controllers/introduction.js"></script>
-  <script src="../../widget/common/models/Product.js"></script>
-  <script src="../../widget/common/controllers/product.js"></script>
-  <script src="../../../../scripts/tinymce/tinymce.min.js"></script>
-  <script src="../../widget/common/config/helper.js"></script>
+    <script src="../../../../scripts/buildfire.js"></script>
+    <script src="../../widget/common/models/Introduction.js"></script>
+    <script src="../../widget/common/controllers/introduction.js"></script>
+    <script src="../../widget/common/models/Product.js"></script>
+    <script src="../../widget/common/controllers/product.js"></script>
+    <script src="../../../../scripts/tinymce/tinymce.min.js"></script>
+    <script src="../../widget/common/config/helper.js"></script>
 
-  <link href="../../../../styles/helper.css" rel="stylesheet" />
-  <link href="../../../../styles/siteIcons.css" rel="stylesheet" />
+    <link href="../../../../styles/helper.css" rel="stylesheet" />
+    <link href="../../../../styles/siteIcons.css" rel="stylesheet" />
 
-  <script src="../../../../scripts/jquery/jquery-1.11.2.min.js"></script>
-  <script src="../../../../scripts/sortable.min.js"></script>
-  <script src="../../../../scripts/buildfire/components/carousel/carousel.js"></script>
-</head>
+    <script src="../../../../scripts/jquery/jquery-1.11.2.min.js"></script>
+    <script src="../../../../scripts/sortable.min.js"></script>
+    <script src="../../../../scripts/buildfire/components/carousel/carousel.js"></script>
 
-<body>
-  <div class="carousel" style="padding-bottom: 4rem"></div>
+    <link href="./style.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="carousel" style="padding-bottom: 4rem"></div>
 
-  <textarea id="wysiwygContent" name="content" onkeyup="debounce()"></textarea>
+    <textarea
+      id="wysiwygContent"
+      name="content"
+      onkeyup="debounce()"
+    ></textarea>
 
-  <script src="./app.js"></script>
-</body>
-
+    <script src="./app.js"></script>
+  </body>
 </html>
