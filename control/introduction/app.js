@@ -11,10 +11,8 @@ function init() {
         let timer;
         tinymce.init({
           selector: "#wysiwygContent",
-          oninit: "postInitWork",
           setup: function (editor) {
-            editor.on("init", function (e) {
-              tinymce.activeEditor.getBody().style.backgroundColor = "#ebf0f3";
+            editor.on("init", function (e) {              
               tinymce
                 .get("wysiwygContent")
                 .setContent(introduction.description);
