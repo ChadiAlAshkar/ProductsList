@@ -14,6 +14,7 @@ function init() {
           oninit: "postInitWork",
           setup: function (editor) {
             editor.on("init", function (e) {
+              tinymce.activeEditor.getBody().style.backgroundColor = "#ebf0f3";
               tinymce
                 .get("wysiwygContent")
                 .setContent(introduction.description);
