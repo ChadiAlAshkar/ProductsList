@@ -22,34 +22,12 @@
     <script src="./common/controllers/introduction.js"></script>
     <script src="./common/models/Introduction.js"></script>
   </head>
+
   <body>
     <div class="carousel"></div>
 
     <div id="my_container_div"></div>
 
-    <script>
-      let viewer = new buildfire.components.carousel.view(".carousel");
-      let description = document.getElementById("my_container_div");
-      Introduction.get()
-        .then((result) => {
-          if (result) {
-            viewer.loadItems(result.data.images);
-            description.innerHTML = result.data.description;
-          }
-        })
-        .catch((err) => {
-          console.error("Error in getting Introduction::: ", err);
-        });
-
-      buildfire.datastore.onUpdate((response) => {
-        if (response.tag == Helper.Collections.PRODUCTS) {
-          console.log("Products updated");
-        }
-        if (response.tag == Helper.Collections.INTRODUCTION) {
-          description.innerHTML = response.data.description;
-          viewer.loadItems(response.data.images);
-        }
-      });
-    </script>
+    <script src="./JS/app.js"></script>
   </body>
 </html>
