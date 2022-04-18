@@ -43,9 +43,7 @@ function init() {
   //Carousel Listeners and functions
   editor.onItemChange = (item, index) => {
     if (introduction.images.length > index) {
-      introduction.images[index].title = item.title;
-      introduction.images[index].action = item.action;
-      introduction.images[index].iconUrl = item.iconUrl;
+      introduction.images[index] = item;
       save();
     }
   };
