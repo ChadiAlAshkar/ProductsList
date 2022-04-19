@@ -145,8 +145,7 @@ class SearchTableHelper {
       let classes = [];
       if (colConfig.type == "date") classes = ["text-center"];
       else if (colConfig.type == "number") classes = ["text-right"];
-      else if (colConfig.type == "Image") {
-      } else classes = ["text-left"];
+      else if (colConfig.type == "Image") {} else classes = ["text-left"];
       var td;
       if (colConfig.type == "command") {
         td = this._create(
@@ -185,6 +184,8 @@ class SearchTableHelper {
         if (colConfig.header == "Title") {
           classes.push("pointer");
           classes.push("primaryColor");
+        } else {
+          classes.push("colBlack");
         }
         td = this._create("td", tr, output, classes);
       }
@@ -218,8 +219,7 @@ class SearchTableHelper {
           "pointer",
         ]);
         btn.onclick = () => {
-          buildfire.notifications.confirm(
-            {
+          buildfire.notifications.confirm({
               title: "Are you sure?",
               message: "Are you sure to delete this product?",
               confirmButton: {
