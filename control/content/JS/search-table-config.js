@@ -3,8 +3,7 @@ const searchTableConfig = {
     showEditButton: true,
     showDeleteButton: true,
   },
-  columns: [
-    {
+  columns: [{
       header: "",
       data: "${data.profileImgUrl}",
       type: "Image",
@@ -21,7 +20,7 @@ const searchTableConfig = {
     {
       header: "Sub Title",
       data: "${data.subTitle}",
-      type: "number",
+      type: "string",
       width: "",
       sortBy: "subTitle",
     },
