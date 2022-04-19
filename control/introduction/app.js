@@ -12,7 +12,7 @@ function init() {
         tinymce.init({
           selector: "#wysiwygContent",
           setup: function (editor) {
-            editor.on("init", function (e) {              
+            editor.on("init", function (e) {
               tinymce
                 .get("wysiwygContent")
                 .setContent(introduction.description);
@@ -34,6 +34,7 @@ function init() {
 
         introduction.images = result.data.images;
         editor.loadItems(introduction.images);
+        changeDefaultDeleteIcon();
       }
     })
     .catch((err) => {
@@ -57,6 +58,7 @@ function init() {
       introduction.images.push(itm);
       save();
     });
+    changeDefaultDeleteIcon();
   };
 
   editor.onDeleteItem = (item, index) => {
@@ -84,6 +86,15 @@ function save() {
     .catch((err2) => {
       console.error("Error in saving Introduction::: ", err2);
     });
+}
+
+function changeDefaultDeleteIcon() {
+  Array.from(document.querySelectorAll(".btn-icon.btn-delete-icon")).forEach(
+    (el) => {
+      el.classList.remove("btn-icon", "btn-delete-icon", "btn-danger");
+      el.classList.add("icon", "icon-cross2");
+    }
+  );
 }
 
 init();
