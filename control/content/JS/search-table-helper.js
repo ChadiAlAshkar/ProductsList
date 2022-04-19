@@ -115,8 +115,8 @@ class SearchTableHelper {
 
     if (Object.keys(this.sort).length === 0) {
       this.sort = {
-        creationDate: -1
-      }
+        creationDate: -1,
+      };
     }
 
     let options = {
@@ -127,9 +127,9 @@ class SearchTableHelper {
     };
 
     this.searchOptions = options;
-
     Products.search(this.searchOptions)
       .then((products) => {
+        console.log(products);
         if (products.length > 0) {
           this.productsLength = products.length;
           this.emptyState.classList.add("hidden");
@@ -165,7 +165,8 @@ class SearchTableHelper {
       let classes = [];
       if (colConfig.type == "date") classes = ["text-center"];
       else if (colConfig.type == "number") classes = ["text-right"];
-      else if (colConfig.type == "Image") {} else classes = ["text-left"];
+      else if (colConfig.type == "Image") {
+      } else classes = ["text-left"];
       var td;
       if (colConfig.type == "command") {
         td = this._create(
@@ -231,7 +232,8 @@ class SearchTableHelper {
         let btn = this._create("button", div, "", ["btn", "bf-btn-icon"]);
         let span = this._create("span", btn, "", ["icon", "icon-cross2"]);
         btn.onclick = () => {
-          buildfire.dialog.confirm({
+          buildfire.dialog.confirm(
+            {
               title: "Are you sure?",
               message: "Are you sure you want to delete this product?",
               confirmButton: {
