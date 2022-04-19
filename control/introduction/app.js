@@ -6,6 +6,7 @@ introduction.images = [];
 function init() {
   Introduction.get()
     .then((result) => {
+      console.log(result)
       if (result) {
         introduction.description = result.data.description;
         let timer;
