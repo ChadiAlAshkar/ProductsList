@@ -29,7 +29,7 @@
     <p class="info-note margin-bottom-twenty" style="font-size: 13px">
       You can create a list of items with images, actions and other details.
       Add an introduction section on the
-      <a class="link" href="">Introduction</a> tab.
+      <a class="link" href="javascript:openIntro()">Introduction</a> tab.
     </p>
     <div class="row">
       <div class="col-md-9">
@@ -134,15 +134,29 @@
         let filter = {
           $or: [
             {
-              "$json.title": searchProductText.value,
+              "$json.title": { $regex: searchProductText.value, $options: "-i" }
             },
             {
-              "$json.subTitle": searchProductText.value,
-            },
+              "$json.subTitle": { $regex: searchProductText.value, $options: "-i" },
+            }
           ],
         };
         searchTableHelper.search(filter);
       }
+    }
+
+    function openIntro() {
+      buildfire.navigation.navigateToTab(
+        {
+          tabTitle: "Introduction",
+          deeplinkData: {}
+        },
+        (err) => {
+          if (err) return console.error(err); // `Content` tab was not found
+
+          console.log("NAVIGATION FINISHED");
+        }
+      );
     }
   </script>
 </body>

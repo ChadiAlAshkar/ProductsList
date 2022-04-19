@@ -125,6 +125,8 @@ class SearchTableHelper {
       page: pageIndex,
       pageSize: pageSize,
     };
+
+    console.log(options)
     this.searchOptions = options;
 
     Products.search(this.searchOptions)
