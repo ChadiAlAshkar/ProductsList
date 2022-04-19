@@ -118,9 +118,13 @@ class SearchTableHelper {
 
     Products.search(this.searchOptions)
       .then((products) => {
-        this.tbody.innerHTML = "";
-        products.forEach((p) => this.renderRow(p));
-        this.endReached = results.length < pageSize;
+        if (products.length > 0) {
+          this.tbody.innerHTML = "";
+          products.forEach((p) => this.renderRow(p));
+          this.endReached = results.length < pageSize;
+        } else {
+          this.table.classList.add("hidden");
+        }
       })
       .catch((err) => {
         // callback(err);

@@ -19,6 +19,17 @@ const Products = {
             });
         });
     },
+    bulkInsert: (products) => {
+        return new Promise((resolve, reject) => {
+            Helper.db.bulkInsert(products, Helper.Collections.PRODUCTS, function (err, result) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(result);
+                }
+            });
+        });
+    },
     //Options Example:
     // var searchOptions = {
     //   "filter": {},
