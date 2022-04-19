@@ -1,145 +1,150 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" />
 
-    <script src="../../../../scripts/buildfire.js"></script>
-    <script src="../../../../scripts/buildfire/services/notifications/pushNotifications.js"></script>
-    <script src="../../widget/common/config/helper.js"></script>
-    <script src="../../widget/common/config/analytics.js"></script>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
 
-    <script src="../../widget/common/config/pushnotification.js"></script>
+  <script src="../../../../scripts/buildfire.js"></script>
+  <script src="../../../../scripts/buildfire/services/notifications/pushNotifications.js"></script>
+  <script src="../../widget/common/config/helper.js"></script>
+  <script src="../../widget/common/config/analytics.js"></script>
 
-    <script src="../../widget/common/models/Product.js"></script>
+  <script src="../../widget/common/config/pushnotification.js"></script>
 
-    <script src="../../widget/common/controllers/product.js"></script>
+  <script src="../../widget/common/models/Product.js"></script>
 
-    <link href="../../../../styles/helper.css" rel="stylesheet" />
-    <link href="../../../../styles/siteStyle.css" rel="stylesheet" />
-    <link
-      href="../../../../styles/control/siteIcons-control.css"
-      rel="stylesheet"
-    />
-    <link href="../../../../styles/control/bf-base.css" rel="stylesheet" />
+  <script src="../../widget/common/controllers/product.js"></script>
 
-    <!-- <script src="../../widget/common/JS/app.js"></script> -->
-  </head>
+  <link href="../../../../styles/helper.css" rel="stylesheet" />
+  <link href="../../../../styles/siteStyle.css" rel="stylesheet" />
+  <link href="../../../../styles/control/siteIcons-control.css" rel="stylesheet" />
+  <link href="../../../../styles/control/bf-base.css" rel="stylesheet" />
 
-  <body>
-    <div class="container">
-      <p class="info-note margin-bottom-twenty" style="font-size: 13px">
-        You can create a list of items with images, actions and other details.
-        Add an introduction section on the
-        <a class="link" href="">Introduction</a> tab.
-      </p>
-      <div class="row">
-        <div class="col-md-9">
-          <div class="input-group margin-bottom-twenty">
-            <input
-              type="text"
-              id="searchProductText"
-              class="form-control"
-              placeholder="Search"
-            />
-            <span class="input-group-btn">
-              <button
-                class="btn btn-info stretch margin-left-zero"
-                onclick="searchProducts()"
-              >
-                <span class="icon icon-magnifier"></span>
-              </button>
-            </span>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <button class="btn btn-success stretch">
-            <span class="icon icon-plus margin-right-ten"></span>Add Item
-          </button>
+  <!-- <script src="../../widget/common/JS/app.js"></script> -->
+</head>
+
+<body>
+  <div class="container">
+    <p class="info-note margin-bottom-twenty" style="font-size: 13px">
+      You can create a list of items with images, actions and other details.
+      Add an introduction section on the
+      <a class="link" href="">Introduction</a> tab.
+    </p>
+    <div class="row">
+      <div class="col-md-9">
+        <div class="input-group margin-bottom-twenty">
+          <input type="text" id="searchProductText" class="form-control" placeholder="Search" />
+          <span class="input-group-btn">
+            <button class="btn btn-info stretch margin-left-zero" onclick="searchProducts()">
+              <span class="icon icon-magnifier"></span>
+            </button>
+          </span>
         </div>
       </div>
-
-      <table id="searchResults" class="table table-bf"></table>
-      <div
-        id="emptyState"
-        class="well empty-state-lg"
-        style="flex-direction: column"
-      >
-        <h5 class="text-center" style="margin-bottom: 0px">
-          You haven’t added anything yet.
-        </h5>
-        <h5 class="text-center" style="padding-bottom: 1.5rem">
-          Add sample data to preview this feature.
-        </h5>
-        <button class="btn btn-success" onclick="addSampleData()">
-          <span class="icon icon-plus margin-right-ten"></span>Add Sample Data
+      <div class="col-md-3">
+        <button class="btn btn-success stretch">
+          <span class="icon icon-plus margin-right-ten"></span>Add Item
         </button>
       </div>
     </div>
 
-    <script src="./JS/search-table-config.js"></script>
-    <script src="./JS/search-table-helper.js"></script>
-    <script src="./JS/dummy-data.js"></script>
-    <script>
-      let searchTableHelper = new SearchTableHelper(
-        "searchResults",
-        "records",
-        searchTableConfig,
-        "emptyState"
-      );
-      function load() {
-        searchTableHelper.search();
-      }
-      load();
+    <table id="searchResults" class="table table-bf"></table>
+    <div id="emptyState" class="well empty-state-lg" style="flex-direction: column">
+      <h5 class="text-center" style="margin-bottom: 0px">
+        You haven’t added anything yet.
+      </h5>
+      <h5 class="text-center" style="padding-bottom: 1.5rem">
+        Add sample data to preview this feature.
+      </h5>
+      <button class="btn btn-success" onclick="addSampleData()">
+        <span class="icon icon-plus margin-right-ten"></span>Add Sample Data
+      </button>
+    </div>
+    <div id="noDataSearch" class="well empty-state-lg">
+      <h5 class="text-center" style="margin-bottom: 0px">
+        No products found!
+      </h5>
+    </div>
+  </div>
 
-      searchTableHelper.onEditRow = (obj, tr) => {
-        console.log(obj);
-        //call subPage to edit then call
-        // let newObj = obj;
-        // searchTableHelper.renderRow(newObj, tr); ///to update table
-      };
+  <script src="./JS/search-table-config.js"></script>
+  <script src="./JS/search-table-helper.js"></script>
+  <script src="./JS/dummy-data.js"></script>
+  <script>
+    let searchTableHelper = new SearchTableHelper(
+      "searchResults",
+      "records",
+      searchTableConfig,
+      "emptyState",
+      "noDataSearch"
+    );
+    function load() {
+      searchTableHelper.search();
+    }
+    load();
 
-      searchTableHelper.onCommand("greeting", (obj, tr) => {
-        buildfire.notifications.alert(
-          {
-            title: "Greetings",
-            message: `Hi  ${obj.data.name.firstName} ${obj.data.name.lastName}`,
-            okButton: { text: "Ok" },
-          },
-          function (e, data) {
-            if (e) console.error(e);
-            if (data) console.log(data);
-          }
-        );
-      });
+    searchTableHelper.onEditRow = (obj, tr) => {
+      console.log(obj);
+      //call subPage to edit then call
+      // let newObj = obj;
+      // searchTableHelper.renderRow(newObj, tr); ///to update table
+    };
 
-      function addSampleData() {
-        dummyData
-          .insertDummyRecords()
-          .then((result) => {
-            load();
-          })
-          .catch((err) => {
-            console.error(err);
-          });
-      }
-      function searchProducts() {
-        if (searchProductText.value == "") {
-          load();
-        } else {
-          let filter = {
-            $or: [
-              {
-                "$json.title": searchProductText.value,
-              },
-              {
-                "$json.subTitle": searchProductText.value,
-              },
-            ],
-          };
-          searchTableHelper.search(filter);
+    searchTableHelper.onCommand("greeting", (obj, tr) => {
+      buildfire.notifications.alert(
+        {
+          title: "Greetings",
+          message: `Hi  ${obj.data.name.firstName} ${obj.data.name.lastName}`,
+          okButton: { text: "Ok" },
+        },
+        function (e, data) {
+          if (e) console.error(e);
+          if (data) console.log(data);
         }
+      );
+    });
+
+    function addSampleData() {
+      dummyData
+        .insertDummyRecords()
+        .then((result) => {
+          load();
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+    }
+
+    var search = document.getElementById("searchProductText");
+    search.addEventListener("keyup", function (event) {
+      // Number 13 is the "Enter" key on the keyboard
+      if (event.keyCode === 13) {
+        // Cancel the default action, if needed
+        event.preventDefault();
+        // Trigger the button element with a click
+        searchProducts();
       }
-    </script>
-  </body>
+    });
+
+    function searchProducts() {
+      if (searchProductText.value == "") {
+        load();
+      } else {
+        let filter = {
+          $or: [
+            {
+              "$json.title": searchProductText.value,
+            },
+            {
+              "$json.subTitle": searchProductText.value,
+            },
+          ],
+        };
+        searchTableHelper.search(filter);
+      }
+    }
+  </script>
+</body>
+
 </html>

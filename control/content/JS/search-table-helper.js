@@ -1,7 +1,7 @@
 class SearchTableHelper {
   productsLength = 0;
 
-  constructor(tableId, tag, config, emptyState) {
+  constructor(tableId, tag, config, emptyState, noDataSearch) {
     if (!config) throw "No config provided";
     if (!tableId) throw "No tableId provided";
     this.table = document.getElementById(tableId);
@@ -11,6 +11,11 @@ class SearchTableHelper {
     this.emptyState = document.getElementById(emptyState);
     if (!this.emptyState)
       throw "Cant find emptyState with ID that was provided";
+
+    if (!noDataSearch) throw "No emptyState provided";
+    this.noDataSearch = document.getElementById(noDataSearch);
+    if (!this.noDataSearch)
+      throw "Cant find noDataSearch with ID that was provided";
 
     this.config = config;
     this.tag = tag;
@@ -22,6 +27,7 @@ class SearchTableHelper {
   init() {
     this.table.innerHTML = "";
     this.table.classList.add("hidden");
+    this.noDataSearch.classList.add("hidden");
     this.renderHeader();
     this.renderBody();
   }
@@ -84,6 +90,7 @@ class SearchTableHelper {
   }
 
   search(filter) {
+    this.noDataSearch.classList.add("hidden");
     this.tbody.innerHTML = "";
     this._create("tr", this.tbody, '<td colspan="99"> searching...</td>', [
       "loadingRow",
@@ -105,13 +112,19 @@ class SearchTableHelper {
     if (pageIndex > 0 && this.endReached) return;
     let pageSize = 50;
     this.pageIndex = pageIndex;
+
+    if (Object.keys(this.sort).length === 0) {
+      this.sort = {
+        creationDate: -1
+      }
+    }
+
     let options = {
       filter: filter,
       sort: this.sort,
       page: pageIndex,
       pageSize: pageSize,
     };
-    console.log(options);
     this.searchOptions = options;
 
     Products.search(this.searchOptions)
@@ -123,6 +136,9 @@ class SearchTableHelper {
           this.tbody.innerHTML = "";
           products.forEach((p) => this.renderRow(p));
           this.endReached = results.length < pageSize;
+        } else {
+          this.tbody.innerHTML = "";
+          this.noDataSearch.classList.remove("hidden");
         }
       })
       .catch((err) => {
@@ -148,8 +164,7 @@ class SearchTableHelper {
       let classes = [];
       if (colConfig.type == "date") classes = ["text-center"];
       else if (colConfig.type == "number") classes = ["text-right"];
-      else if (colConfig.type == "Image") {
-      } else classes = ["text-left"];
+      else if (colConfig.type == "Image") {} else classes = ["text-left"];
       var td;
       if (colConfig.type == "command") {
         td = this._create(
@@ -215,8 +230,7 @@ class SearchTableHelper {
         let btn = this._create("button", div, "", ["btn", "bf-btn-icon"]);
         let span = this._create("span", btn, "", ["icon", "icon-cross2"]);
         btn.onclick = () => {
-          buildfire.notifications.confirm(
-            {
+          buildfire.notifications.confirm({
               title: "Are you sure?",
               message: "Are you sure to delete this product?",
               confirmButton: {
