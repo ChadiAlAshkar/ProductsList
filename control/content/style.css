@@ -27,6 +27,10 @@
     color: var(--c-info);
 }
 
+.icon:hover {
+    cursor: pointer;
+}
+
 .pointer {
     cursor: pointer;
 }

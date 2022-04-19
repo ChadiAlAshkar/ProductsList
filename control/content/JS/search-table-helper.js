@@ -52,17 +52,6 @@ class SearchTableHelper {
             icon.classList.remove("icon-chevron-up");
             icon.classList.add("icon-chevron-down");
           } else {
-            //revert icon if previously sorted
-            for (let i = 0; i < _t.thead.children.length; i++) {
-              if (_t.thead.children[i].children[0]) {
-                _t.thead.children[i].children[0].classList.remove(
-                  "icon-chevron-up"
-                );
-                _t.thead.children[i].children[0].classList.add(
-                  "icon-chevron-down"
-                );
-              }
-            }
             _t.sort = {
               [colConfig.sortBy]: 1,
             };
@@ -122,7 +111,7 @@ class SearchTableHelper {
       page: pageIndex,
       pageSize: pageSize,
     };
-
+    console.log(options);
     this.searchOptions = options;
 
     Products.search(this.searchOptions)
@@ -220,19 +209,11 @@ class SearchTableHelper {
         btn.onclick = () => {
           t.onEditRow(obj, tr);
         };
-        let span = this._create("span", btn, "", [
-          "icon",
-          "icon-pencil",
-          "pointer",
-        ]);
+        let span = this._create("span", btn, "", ["icon", "icon-pencil"]);
       }
       if (this.config.options.showDeleteButton) {
         let btn = this._create("button", div, "", ["btn", "bf-btn-icon"]);
-        let span = this._create("span", btn, "", [
-          "icon",
-          "icon-cross2",
-          "pointer",
-        ]);
+        let span = this._create("span", btn, "", ["icon", "icon-cross2"]);
         btn.onclick = () => {
           buildfire.notifications.confirm(
             {
