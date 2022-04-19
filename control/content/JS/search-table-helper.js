@@ -1,9 +1,14 @@
 class SearchTableHelper {
-  constructor(tableId, tag, config) {
+  constructor(tableId, tag, config, emptyState) {
     if (!config) throw "No config provided";
     if (!tableId) throw "No tableId provided";
     this.table = document.getElementById(tableId);
     if (!this.table) throw "Cant find table with ID that was provided";
+
+    if (!emptyState) throw "No emptyState provided";
+    this.emptyState = document.getElementById(emptyState);
+    if (!this.emptyState) throw "Cant find emptyState with ID that was provided";
+
     this.config = config;
     this.tag = tag;
     this.sort = {};
@@ -13,6 +18,7 @@ class SearchTableHelper {
 
   init() {
     this.table.innerHTML = "";
+    this.table.classList.add("hidden");
     this.renderHeader();
     this.renderBody();
   }
@@ -119,11 +125,11 @@ class SearchTableHelper {
     Products.search(this.searchOptions)
       .then((products) => {
         if (products.length > 0) {
+          this.emptyState.classList.add("hidden");
+          this.table.classList.remove("hidden");
           this.tbody.innerHTML = "";
           products.forEach((p) => this.renderRow(p));
           this.endReached = results.length < pageSize;
-        } else {
-          this.table.classList.add("hidden");
         }
       })
       .catch((err) => {
@@ -262,12 +268,10 @@ class SearchTableHelper {
   }
   onRowAdded(obj, tr) {}
 
-  onEditRow(obj, tr) {
-    console.log("Edit row", obj);
-  }
+  onEditRow(obj, tr) {}
 
   onRowDeleted(obj, tr) {
-    console.log("Record Delete", obj);
+    // this.search();
   }
 
   onCommand(command, cb) {

@@ -50,19 +50,24 @@
     </div>
 
     <table id="searchResults" class="table table-bf"></table>
-    <div id="emptyState" class="well empty-state-lg">
-      <h5 class="text-center">You haven’t added anything yet.</h5>
-      <h5 class="text-center"> Add sample data to preview this feature.</h5>
+    <div id="emptyState" class="well empty-state-lg" style="flex-direction: column;">
+      <h5 class="text-center" style="margin-bottom: 0px;">You haven’t added anything yet.</h5>
+      <h5 class="text-center" style="padding-bottom: 1.5rem;"> Add sample data to preview this feature.</h5>
+      <button class="btn btn-success" onclick="addSampleData()">
+        <span class="icon icon-plus margin-right-ten"></span>Add Sample Data
+      </button>
     </div>
   </div>
 
   <script src="./JS/search-table-config.js"></script>
   <script src="./JS/search-table-helper.js"></script>
+  <script src="./JS/dummy-data.js"></script>
   <script>
     let searchTableHelper = new SearchTableHelper(
       "searchResults",
       "records",
-      searchTableConfig
+      searchTableConfig,
+      "emptyState"
     );
     function load() {
       searchTableHelper.search();
@@ -89,6 +94,14 @@
         }
       );
     });
+
+    function addSampleData() {
+      dummyData.insertDummyRecords().then(result => {
+        load();
+      }).catch(err => {
+        console.error(err);
+      })
+    }
   </script>
 </body>
 
