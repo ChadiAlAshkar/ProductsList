@@ -91,20 +91,6 @@
       // searchTableHelper.renderRow(newObj, tr); ///to update table
     };
 
-    searchTableHelper.onCommand("greeting", (obj, tr) => {
-      buildfire.notifications.alert(
-        {
-          title: "Greetings",
-          message: `Hi  ${obj.data.name.firstName} ${obj.data.name.lastName}`,
-          okButton: { text: "Ok" },
-        },
-        function (e, data) {
-          if (e) console.error(e);
-          if (data) console.log(data);
-        }
-      );
-    });
-
     function addSampleData() {
       dummyData
         .insertDummyRecords()

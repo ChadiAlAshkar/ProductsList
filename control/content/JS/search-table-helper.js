@@ -126,7 +126,6 @@ class SearchTableHelper {
       pageSize: pageSize,
     };
 
-    console.log(options)
     this.searchOptions = options;
 
     Products.search(this.searchOptions)
@@ -232,23 +231,19 @@ class SearchTableHelper {
         let btn = this._create("button", div, "", ["btn", "bf-btn-icon"]);
         let span = this._create("span", btn, "", ["icon", "icon-cross2"]);
         btn.onclick = () => {
-          buildfire.notifications.confirm({
+          buildfire.dialog.confirm({
               title: "Are you sure?",
-              message: "Are you sure to delete this product?",
+              message: "Are you sure you want to delete this product?",
               confirmButton: {
-                text: "Yes",
-                key: "yes",
+                text: "Delete",
                 type: "danger",
               },
-              cancelButton: {
-                text: "No",
-                key: "no",
-                type: "default",
-              },
             },
-            function (e, data) {
-              if (e) console.error(e);
-              if (data.selectedButton.key == "yes") {
+            (err, isConfirmed) => {
+              if (err) console.error(err);
+
+              if (isConfirmed) {
+                //Go back
                 tr.classList.add("hidden");
                 Products.delete(obj.id)
                   .then((result) => {
@@ -257,6 +252,8 @@ class SearchTableHelper {
                   .catch((err) => {
                     tr.classList.remove("hidden");
                   });
+              } else {
+                //Prevent action
               }
             }
           );
@@ -279,10 +276,6 @@ class SearchTableHelper {
       this.emptyState.classList.remove("hidden");
       this.table.classList.add("hidden");
     }
-  }
-
-  onCommand(command, cb) {
-    this.commands[command] = cb;
   }
 
   _create(elementType, appendTo, innerHTML, classNameArray) {
