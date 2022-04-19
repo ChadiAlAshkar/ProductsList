@@ -65,12 +65,16 @@ class SearchTableHelper {
       }
       //   if (colConfig.width) th.style.width = colConfig.width;
     });
-
-    if (this.config.options.showEditButton)
+    if (
+      this.config.options.showEditButton ||
+      this.config.options.showDeleteButton
+    )
       this._create("th", this.thead, "", ["editColumn"]);
+    // if (this.config.options.showEditButton)
+    //   this._create("th", this.thead, "", ["editColumn"]);
 
-    if (this.config.options.showDeleteButton)
-      this._create("th", this.thead, "", ["deleteColumn"]);
+    // if (this.config.options.showDeleteButton)
+    //   this._create("th", this.thead, "", ["deleteColumn"]);
   }
 
   renderBody() {
@@ -157,12 +161,13 @@ class SearchTableHelper {
         };
       } else if (colConfig.type == "Image") {
         try {
+          classes.push("tdImageSize");
           td = this._create("td", tr, output, classes);
           var cellDiv = this._create("div", td, "", [
             "img-holder",
             "aspect-1-1",
           ]);
-          var cellImg = this._create("img", cellDiv, "", "");
+          var cellImg = this._create("img", cellDiv, "", ["imgStyle"]);
           var data = obj.data;
           cellImg.src = eval("`" + colConfig.data + "`");
         } catch (error) {
@@ -177,63 +182,73 @@ class SearchTableHelper {
         } catch (error) {
           console.log(error);
         }
+        if (colConfig.header == "Title") {
+          classes.push("pointer");
+          classes.push("primaryColor");
+        }
         td = this._create("td", tr, output, classes);
       }
       //   if (colConfig.width) td.style.width = colConfig.width;
     });
 
     let t = this;
-    if (this.config.options.showEditButton) {
-      let td = this._create(
-        "td",
-        tr,
-        '<button class="btn btn--icon"><span class="icon icon-pencil"></span></button>',
-        ["editColumn"]
-      );
-      td.onclick = () => {
-        t.onEditRow(obj, tr);
-      };
-    }
 
-    if (this.config.options.showDeleteButton) {
-      let td = this._create(
-        "td",
-        tr,
-        '<button class="btn btn--icon"><span class="icon icon-cross2"></span></button>',
-        ["editColumn"]
-      );
-      td.onclick = () => {
-        buildfire.notifications.confirm(
-          {
-            title: "Are you sure?",
-            message: "Are you sure to delete this product?",
-            confirmButton: {
-              text: "Yes",
-              key: "yes",
-              type: "danger",
+    if (
+      this.config.options.showEditButton ||
+      this.config.options.showDeleteButton
+    ) {
+      let td = this._create("td", tr, "", ["editColumn"]);
+      let div = this._create("div", td, "", ["pull-right"]);
+      if (this.config.options.showEditButton) {
+        let btn = this._create("button", div, "", ["btn", "bf-btn-icon"]);
+        btn.onclick = () => {
+          t.onEditRow(obj, tr);
+        };
+        let span = this._create("span", btn, "", [
+          "icon",
+          "icon-pencil",
+          "pointer",
+        ]);
+      }
+      if (this.config.options.showDeleteButton) {
+        let btn = this._create("button", div, "", ["btn", "bf-btn-icon"]);
+        let span = this._create("span", btn, "", [
+          "icon",
+          "icon-cross2",
+          "pointer",
+        ]);
+        btn.onclick = () => {
+          buildfire.notifications.confirm(
+            {
+              title: "Are you sure?",
+              message: "Are you sure to delete this product?",
+              confirmButton: {
+                text: "Yes",
+                key: "yes",
+                type: "danger",
+              },
+              cancelButton: {
+                text: "No",
+                key: "no",
+                type: "default",
+              },
             },
-            cancelButton: {
-              text: "No",
-              key: "no",
-              type: "default",
-            },
-          },
-          function (e, data) {
-            if (e) console.error(e);
-
-            if (data.selectedButton.key == "yes") {
-              tr.classList.add("hidden");
-              Products.delete(obj.id)
-                .then((result) => {
-                  t.onRowDeleted(obj, tr);
-                })
-                .catch((err) => {
-                  tr.classList.remove("hidden");
-                });
+            function (e, data) {
+              if (e) console.error(e);
+              if (data.selectedButton.key == "yes") {
+                tr.classList.add("hidden");
+                Products.delete(obj.id)
+                  .then((result) => {
+                    t.onRowDeleted(obj, tr);
+                  })
+                  .catch((err) => {
+                    tr.classList.remove("hidden");
+                  });
+              }
             }
-          }
-        );
-      };
+          );
+        };
+      }
     }
     this.onRowAdded(obj, tr);
   }

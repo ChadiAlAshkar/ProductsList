@@ -3,7 +3,8 @@ const searchTableConfig = {
     showEditButton: true,
     showDeleteButton: true,
   },
-  columns: [{
+  columns: [
+    {
       header: "",
       data: "${data.profileImgUrl}",
       type: "Image",

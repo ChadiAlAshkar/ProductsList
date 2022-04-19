@@ -2,3 +2,28 @@
 .headerCell {
     padding: 15px 8px 13px;
 }
+
+.imgStyle {
+    width: 2.5rem;
+    height: 2.5rem;
+}
+
+.tdImageSize {
+    width: 2.5rem;
+}
+
+.icon-pencil:hover {
+    color: var(--c-primary);
+}
+
+.icon-cross2:hover {
+    color: var(--c-danger);
+}
+
+.primaryColor {
+    color: var(--c-primary);
+}
+
+.pointer {
+    cursor: pointer;
+}

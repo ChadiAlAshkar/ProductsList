@@ -40,9 +40,9 @@ function TestProducts() {
   product.title = "Item 2";
   product.description = "Test";
   product.profileImgUrl =
-    "https://th.bing.com/th/id/OIP.cYJqYIxJt0t6r676NPAWngHaEK?pid=ImgDet&rs=1";
+    "https://marmotamaps.com/de/fx/wallpaper/download/faszinationen/Marmotamaps_Wallpaper_Berchtesgaden_Desktop_1920x1080.jpg";
   product.coverImgUrl =
-    "https://th.bing.com/th/id/OIP.cYJqYIxJt0t6r676NPAWngHaEK?pid=ImgDet&rs=1";
+    "https://marmotamaps.com/de/fx/wallpaper/download/faszinationen/Marmotamaps_Wallpaper_Berchtesgaden_Desktop_1920x1080.jpg";
   product.subTitle = "Substitle";
   Products.insert(product)
     .then((product) => {
