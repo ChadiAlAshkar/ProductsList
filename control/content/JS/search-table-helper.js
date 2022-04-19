@@ -1,4 +1,6 @@
 class SearchTableHelper {
+  productsLength = 0;
+
   constructor(tableId, tag, config, emptyState) {
     if (!config) throw "No config provided";
     if (!tableId) throw "No tableId provided";
@@ -7,7 +9,8 @@ class SearchTableHelper {
 
     if (!emptyState) throw "No emptyState provided";
     this.emptyState = document.getElementById(emptyState);
-    if (!this.emptyState) throw "Cant find emptyState with ID that was provided";
+    if (!this.emptyState)
+      throw "Cant find emptyState with ID that was provided";
 
     this.config = config;
     this.tag = tag;
@@ -125,6 +128,7 @@ class SearchTableHelper {
     Products.search(this.searchOptions)
       .then((products) => {
         if (products.length > 0) {
+          this.productsLength = products.length;
           this.emptyState.classList.add("hidden");
           this.table.classList.remove("hidden");
           this.tbody.innerHTML = "";
@@ -155,7 +159,8 @@ class SearchTableHelper {
       let classes = [];
       if (colConfig.type == "date") classes = ["text-center"];
       else if (colConfig.type == "number") classes = ["text-right"];
-      else if (colConfig.type == "Image") {} else classes = ["text-left"];
+      else if (colConfig.type == "Image") {
+      } else classes = ["text-left"];
       var td;
       if (colConfig.type == "command") {
         td = this._create(
@@ -229,7 +234,8 @@ class SearchTableHelper {
           "pointer",
         ]);
         btn.onclick = () => {
-          buildfire.notifications.confirm({
+          buildfire.notifications.confirm(
+            {
               title: "Are you sure?",
               message: "Are you sure to delete this product?",
               confirmButton: {
@@ -271,7 +277,11 @@ class SearchTableHelper {
   onEditRow(obj, tr) {}
 
   onRowDeleted(obj, tr) {
-    // this.search();
+    this.productsLength -= 1;
+    if (this.productsLength == 0) {
+      this.emptyState.classList.remove("hidden");
+      this.table.classList.add("hidden");
+    }
   }
 
   onCommand(command, cb) {
