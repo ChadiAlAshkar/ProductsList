@@ -1,15 +1,15 @@
 .btn-plus-icon-with-text {
-    float: right !important;
-  }
+  float: right !important;
+}
 
 .draggable-list-view .d-item span.icon {
   font-size: 20px !important;
   top: 0.25rem;
 }
 
-.copy > .pull-right > .icon  {
+.copy > .pull-right > .icon {
   margin-right: 0 !important;
-  margin-left: 1rem ;
+  margin-left: 0.4rem;
 }
 
 .draggable-list-view .d-item a.text {
@@ -19,4 +19,4 @@
 
 .icon-cross2:hover {
   color: var(--c-danger) !important;
-} 
+}
