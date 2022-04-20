@@ -39,3 +39,25 @@
     color: var(--c-danger);
     font-size: 12px;
 }
+.custom-thumbnail {
+    display: inline-block;
+
+}
+
+.screens .screen.layouticon a {
+    max-width:24rem !important;
+}
+.thumbnail-picker > .item > .main > .screens > .screen > a {
+    width: 6rem;
+    height: 7rem;
+} 
+
+.thumbnail-picker2 > .item > .main > .screens > .screen > a {
+    width: 10.6875rem;
+    height: 7rem;
+} 
+
+img {
+    width: inherit;
+    height: inherit;
+}
