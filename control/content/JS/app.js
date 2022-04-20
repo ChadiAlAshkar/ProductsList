@@ -9,6 +9,7 @@ let searchTableHelper = new SearchTableHelper(
 let image1 = document.getElementById("image1");
 let image2 = document.getElementById("image2");
 let titleErr = document.getElementById("titleErr");
+let btnSave = document.getElementById("btnSave");
 
 function load() {
   searchTableHelper.search();
@@ -21,6 +22,7 @@ searchTableHelper.onEditRow = (obj, tr) => {
   title.value = obj.data.title;
   subTitle.value = obj.data.subTitle;
   tinymce.get("wysiwygContent").setContent(obj.data.description);
+  btnSave.disabled = checkSaveDisable();
   document.getElementById("mainDiv").classList.add("hidden");
   document.getElementById("subDiv").classList.remove("hidden");
   editedProduct = obj;
@@ -56,8 +58,7 @@ function searchProducts() {
     load();
   } else {
     let filter = {
-      $or: [
-        {
+      $or: [{
           "$json.title": {
             $regex: searchProductText.value,
             $options: "-i",
@@ -76,8 +77,7 @@ function searchProducts() {
 }
 
 function openIntro() {
-  buildfire.navigation.navigateToTab(
-    {
+  buildfire.navigation.navigateToTab({
       tabTitle: "Introduction",
       deeplinkData: {},
     },
@@ -94,6 +94,7 @@ function openSub() {
   title.value = "";
   subTitle.value = "";
   tinymce.get("wysiwygContent").setContent("");
+  btnSave.disabled = checkSaveDisable();
   document.getElementById("mainDiv").classList.add("hidden");
   document.getElementById("subDiv").classList.remove("hidden");
 }
@@ -101,16 +102,14 @@ function openSub() {
 let editedProduct = null;
 
 const thumbnail = new buildfire.components.images.thumbnail(
-  ".thumbnail-picker",
-  {
+  ".thumbnail-picker", {
     title: " ",
     dimensionsLabel: "600x600px",
     multiSelection: false,
   }
 );
 const thumbnail2 = new buildfire.components.images.thumbnail(
-  ".thumbnail-picker2",
-  {
+  ".thumbnail-picker2", {
     title: " ",
     dimensionsLabel: "1200x675px",
     multiSelection: false,
@@ -119,18 +118,21 @@ const thumbnail2 = new buildfire.components.images.thumbnail(
 
 thumbnail2.onChange = (imageUrl) => {
   image2.classList.add("hidden");
+  btnSave.disabled = checkSaveDisable();
+};
+
+thumbnail2.onDelete = (imageUrl) => {
+  btnSave.disabled = true;
 };
 
 thumbnail.onDelete = (imageUrl) => {
-  console.log("Image was delted", imageUrl);
+  btnSave.disabled = true;
 };
 
 thumbnail.onChange = (imageUrl) => {
   image1.classList.add("hidden");
+  btnSave.disabled = checkSaveDisable();
 };
-function clear() {
-  thumbnail.clear();
-}
 
 let timer;
 tinymce.init({
@@ -168,6 +170,7 @@ title.addEventListener("keyup", function (event) {
       titleErr.classList.add("hidden");
     }
   }
+  btnSave.disabled = checkSaveDisable();
 });
 
 function saveItem() {
@@ -187,13 +190,13 @@ function saveItem() {
   if (err == 1) return;
   if (editedProduct != null) {
     Products.update(editedProduct.id, {
-      title: title.value,
-      description: tinymce.activeEditor.getContent(),
-      profileImgUrl: thumbnail.imageUrl,
-      coverImgUrl: thumbnail2.imageUrl,
-      subTitle: subTitle.value,
-      creationDate: editedProduct.data.creationDate,
-    })
+        title: title.value,
+        description: tinymce.activeEditor.getContent(),
+        profileImgUrl: thumbnail.imageUrl,
+        coverImgUrl: thumbnail2.imageUrl,
+        subTitle: subTitle.value,
+        creationDate: editedProduct.data.creationDate,
+      })
       .then((product) => {
         this.load();
         this.backToMain();
@@ -220,4 +223,23 @@ function saveItem() {
         console.error(err);
       });
   }
+}
+
+function checkSaveDisable() {
+  let err = 0;
+  if (thumbnail.imageUrl == "") {
+    console.log("IN1")
+    err = 1;
+  }
+  if (thumbnail2.imageUrl == "") {
+    console.log("IN2")
+    err = 1;
+  }
+  if (title.value == "") {
+    console.log("IN3")
+    err = 1;
+  }
+  if (err == 1) return true;
+
+  return false;
 }
