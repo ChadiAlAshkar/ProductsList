@@ -6,6 +6,7 @@
 
     <script src="../../../../scripts/buildfire.js"></script>
     <script src="../../../../scripts/buildfire/services/notifications/pushNotifications.js"></script>
+    <script src="../../../../scripts/buildfire/components/images/thumbnail.js"></script>
     <script src="../../widget/common/config/helper.js"></script>
     <script src="../../widget/common/config/analytics.js"></script>
 
@@ -27,7 +28,7 @@
   </head>
 
   <body>
-    <div class="container">
+    <!-- <div class="container">
       <p class="info-note margin-bottom-twenty" style="font-size: 13px">
         You can create a list of items with images, actions and other details.
         Add an introduction section on the
@@ -80,88 +81,53 @@
           No products found!
         </h5>
       </div>
+    </div> -->
+    <div class="container sub-class slide-in">
+      <div class="row">
+        <div class="col-md-6">
+          <div
+            class="margin-bottom-twenty image-picker aspect-1-1 thumbnail-picker"
+          ></div>
+        </div>
+        <div class="col-md-4">
+          <div
+            class="margin-bottom-twenty image-picker aspect-1-1 thumbnail-picker2"
+          ></div>
+        </div>
+      </div>
     </div>
 
     <script src="./JS/search-table-config.js"></script>
     <script src="./JS/search-table-helper.js"></script>
     <script src="./JS/dummy-data.js"></script>
-    <script>
-      let searchTableHelper = new SearchTableHelper(
-        "searchResults",
-        "records",
-        searchTableConfig,
-        "emptyState",
-        "noDataSearch"
-      );
-      function load() {
-        searchTableHelper.search();
-      }
-      load();
+    <script src="./JS/app.js"></script>
 
-      searchTableHelper.onEditRow = (obj, tr) => {
-        console.log(obj);
-        //call subPage to edit then call
-        // let newObj = obj;
-        // searchTableHelper.renderRow(newObj, tr); ///to update table
+    <script>
+      const thumbnail = new buildfire.components.images.thumbnail(
+        ".thumbnail-picker",
+        {
+          title: "Icon",
+          dimensionsLabel: "600x600px",
+          multiSelection: false,
+        }
+      );
+      const thumbnail2 = new buildfire.components.images.thumbnail(
+        ".thumbnail-picker2",
+        {
+          title: " ",
+          dimensionsLabel: "1200x675px",
+          multiSelection: false,
+        }
+      );
+      thumbnail.onDelete = (imageUrl) => {
+        console.log("Image was delted", imageUrl);
       };
 
-      function addSampleData() {
-        dummyData
-          .insertDummyRecords()
-          .then((result) => {
-            load();
-          })
-          .catch((err) => {
-            console.error(err);
-          });
-      }
-
-      var search = document.getElementById("searchProductText");
-      search.addEventListener("keyup", function (event) {
-        // Number 13 is the "Enter" key on the keyboard
-        if (event.keyCode === 13) {
-          // Cancel the default action, if needed
-          event.preventDefault();
-          // Trigger the button element with a click
-          searchProducts();
-        }
-      });
-
-      function searchProducts() {
-        if (searchProductText.value == "") {
-          load();
-        } else {
-          let filter = {
-            $or: [
-              {
-                "$json.title": {
-                  $regex: searchProductText.value,
-                  $options: "-i",
-                },
-              },
-              {
-                "$json.subTitle": {
-                  $regex: searchProductText.value,
-                  $options: "-i",
-                },
-              },
-            ],
-          };
-          searchTableHelper.search(filter);
-        }
-      }
-
-      function openIntro() {
-        buildfire.navigation.navigateToTab(
-          {
-            tabTitle: "Introduction",
-            deeplinkData: {},
-          },
-          (err, res) => {
-            if (err) return console.error(err); // `Content` tab was not found
-            console.log("NAVIGATION FINISHED");
-          }
-        );
+      thumbnail.onChange = (imageUrl) => {
+        console.log("Image was changed to", imageUrl);
+      };
+      function clear() {
+        thumbnail.clear();
       }
     </script>
   </body>
