@@ -5,6 +5,7 @@ let searchTableHelper = new SearchTableHelper(
   "emptyState",
   "noDataSearch"
 );
+
 function load() {
   searchTableHelper.search();
 }
@@ -44,8 +45,7 @@ function searchProducts() {
     load();
   } else {
     let filter = {
-      $or: [
-        {
+      $or: [{
           "$json.title": {
             $regex: searchProductText.value,
             $options: "-i",
@@ -64,8 +64,7 @@ function searchProducts() {
 }
 
 function openIntro() {
-  buildfire.navigation.navigateToTab(
-    {
+  buildfire.navigation.navigateToTab({
       tabTitle: "Introduction",
       deeplinkData: {},
     },
@@ -74,4 +73,9 @@ function openIntro() {
       console.log("NAVIGATION FINISHED");
     }
   );
+}
+
+function openSub() {
+  document.getElementById('mainDiv').classList.add("hidden");
+  document.getElementById('subDiv').classList.remove("hidden");
 }

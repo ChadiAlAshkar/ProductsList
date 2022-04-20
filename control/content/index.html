@@ -1,134 +1,234 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" />
 
-    <script src="../../../../scripts/buildfire.js"></script>
-    <script src="../../../../scripts/buildfire/services/notifications/pushNotifications.js"></script>
-    <script src="../../../../scripts/buildfire/components/images/thumbnail.js"></script>
-    <script src="../../widget/common/config/helper.js"></script>
-    <script src="../../widget/common/config/analytics.js"></script>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
 
-    <script src="../../widget/common/config/pushnotification.js"></script>
+  <script src="../../../../scripts/buildfire.js"></script>
+  <script src="../../../../scripts/buildfire/services/notifications/pushNotifications.js"></script>
+  <script src="../../../../scripts/buildfire/components/images/thumbnail.js"></script>
+  <script src="../../widget/common/config/helper.js"></script>
+  <script src="../../widget/common/config/analytics.js"></script>
 
-    <script src="../../widget/common/models/Product.js"></script>
+  <script src="../../widget/common/config/pushnotification.js"></script>
 
-    <script src="../../widget/common/controllers/product.js"></script>
+  <script src="../../widget/common/models/Product.js"></script>
 
-    <link href="../../../../styles/helper.css" rel="stylesheet" />
-    <link href="../../../../styles/siteStyle.css" rel="stylesheet" />
-    <link
-      href="../../../../styles/control/siteIcons-control.css"
-      rel="stylesheet"
-    />
-    <link href="../../../../styles/control/bf-base.css" rel="stylesheet" />
+  <script src="../../widget/common/controllers/product.js"></script>
 
-    <!-- <script src="../../widget/common/JS/app.js"></script> -->
-  </head>
+  <script src="../../../../scripts/tinymce/tinymce.min.js"></script>
 
-  <body>
-    <!-- <div class="container">
-      <p class="info-note margin-bottom-twenty" style="font-size: 13px">
-        You can create a list of items with images, actions and other details.
-        Add an introduction section on the
-        <a class="link" href="javascript:openIntro()">Introduction</a> tab.
-      </p>
-      <div class="row">
-        <div class="col-md-9">
-          <div class="input-group margin-bottom-twenty">
-            <input
-              type="text"
-              id="searchProductText"
-              class="form-control"
-              placeholder="Search"
-            />
-            <span class="input-group-btn">
-              <button
-                class="btn btn-info stretch margin-left-zero"
-                onclick="searchProducts()"
-              >
-                <span class="icon icon-magnifier"></span>
-              </button>
-            </span>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <button class="btn btn-success stretch">
-            <span class="icon icon-plus margin-right-ten"></span>Add Item
-          </button>
+  <link href="../../../../styles/helper.css" rel="stylesheet" />
+  <link href="../../../../styles/siteStyle.css" rel="stylesheet" />
+  <link href="../../../../styles/control/siteIcons-control.css" rel="stylesheet" />
+  <link href="../../../../styles/control/bf-base.css" rel="stylesheet" />
+
+  <!-- <script src="../../widget/common/JS/app.js"></script> -->
+</head>
+
+<body>
+  <div id="mainDiv" class="container">
+    <p class="info-note margin-bottom-twenty" style="font-size: 13px">
+      You can create a list of items with images, actions and other details.
+      Add an introduction section on the
+      <a class="link" href="javascript:openIntro()">Introduction</a> tab.
+    </p>
+    <div class="row">
+      <div class="col-md-9">
+        <div class="input-group margin-bottom-twenty">
+          <input type="text" id="searchProductText" class="form-control" placeholder="Search" />
+          <span class="input-group-btn">
+            <button class="btn btn-info stretch margin-left-zero" onclick="searchProducts()">
+              <span class="icon icon-magnifier"></span>
+            </button>
+          </span>
         </div>
       </div>
-
-      <table id="searchResults" class="table table-bf"></table>
-      <div
-        id="emptyState"
-        class="well empty-state-lg"
-        style="flex-direction: column"
-      >
-        <h5 class="text-center" style="margin-bottom: 0px">
-          You haven’t added anything yet.
-        </h5>
-        <h5 class="text-center" style="padding-bottom: 1.5rem">
-          Add sample data to preview this feature.
-        </h5>
-        <button class="btn btn-success" onclick="addSampleData()">
-          <span class="icon icon-plus margin-right-ten"></span>Add Sample Data
+      <div class="col-md-3">
+        <button class="btn btn-success stretch" onclick="openSub()">
+          <span class="icon icon-plus margin-right-ten"></span>Add Item
         </button>
-      </div>
-      <div id="noDataSearch" class="well empty-state-lg">
-        <h5 class="text-center" style="margin-bottom: 0px">
-          No products found!
-        </h5>
-      </div>
-    </div> -->
-    <div class="container sub-class slide-in">
-      <div class="row">
-        <div class="col-md-6">
-          <div
-            class="margin-bottom-twenty image-picker aspect-1-1 thumbnail-picker"
-          ></div>
-        </div>
-        <div class="col-md-4">
-          <div
-            class="margin-bottom-twenty image-picker aspect-1-1 thumbnail-picker2"
-          ></div>
-        </div>
       </div>
     </div>
 
-    <script src="./JS/search-table-config.js"></script>
-    <script src="./JS/search-table-helper.js"></script>
-    <script src="./JS/dummy-data.js"></script>
-    <script src="./JS/app.js"></script>
+    <table id="searchResults" class="table table-bf"></table>
+    <div id="emptyState" class="well empty-state-lg" style="flex-direction: column">
+      <h5 class="text-center" style="margin-bottom: 0px">
+        You haven’t added anything yet.
+      </h5>
+      <h5 class="text-center" style="padding-bottom: 1.5rem">
+        Add sample data to preview this feature.
+      </h5>
+      <button class="btn btn-success" onclick="addSampleData()">
+        <span class="icon icon-plus margin-right-ten"></span>Add Sample Data
+      </button>
+    </div>
+    <div id="noDataSearch" class="well empty-state-lg">
+      <h5 class="text-center" style="margin-bottom: 0px">
+        No products found!
+      </h5>
+    </div>
+  </div>
 
-    <script>
-      const thumbnail = new buildfire.components.images.thumbnail(
-        ".thumbnail-picker",
-        {
-          title: "Icon",
-          dimensionsLabel: "600x600px",
-          multiSelection: false,
-        }
-      );
-      const thumbnail2 = new buildfire.components.images.thumbnail(
-        ".thumbnail-picker2",
-        {
-          title: " ",
-          dimensionsLabel: "1200x675px",
-          multiSelection: false,
-        }
-      );
-      thumbnail.onDelete = (imageUrl) => {
-        console.log("Image was delted", imageUrl);
-      };
+  <div class="sub-page hidden" id="subDiv">
+    <div class="container padding-bottom-twenty slide-in" style="padding-bottom: 100px !important;">
+      <h1>Item Images</h1>
+      <div class="row">
+        <div class="col-md-4">
+          <label>List Image & Cover Image <span class="text-danger">*</span> </label>
+        </div>
+        <div class="col-md-4">
+          <div class="margin-bottom-twenty image-picker aspect-1-1 thumbnail-picker"></div>
+          <label id="image1" class="error-note hidden">Please select an image to continue</label>
+        </div>
+        <div class="col-md-4">
+          <div class="margin-bottom-twenty image-picker aspect-1-1 thumbnail-picker2"></div>
+          <label id="image2" class="error-note hidden">Please select an image to continue</label>
+        </div>
+      </div>
 
-      thumbnail.onChange = (imageUrl) => {
-        console.log("Image was changed to", imageUrl);
-      };
-      function clear() {
-        thumbnail.clear();
+      <h1>Item Details</h1>
+      <div class="row margin-bottom-fifteen">
+        <div class="col-md-3">
+          <label for="title">Title <span class="text-danger">*</span> </label>
+        </div>
+        <div class="col-md-9">
+          <input id="title" type="text" class="form-control">
+          <label id="titleErr" class="error-note hidden">Please insert a title to continue</label>
+        </div>
+      </div>
+      <div class="row margin-bottom-fifteen">
+        <div class="col-md-3">
+          <label for="subTitle">Subtitle</label>
+        </div>
+        <div class="col-md-9">
+          <input id="subTitle" type="text" class="form-control">
+        </div>
+      </div>
+
+      <textarea id="wysiwygContent" name="content"></textarea>
+
+    </div>
+
+    <div class="bottom-actions">
+      <button class="btn btn-default" onclick="backToMain()">Cancel</button>
+      <button class="btn btn-success" onclick="saveItem()">Save</button>
+    </div>
+  </div>
+
+
+  <script src="./JS/search-table-config.js"></script>
+  <script src="./JS/search-table-helper.js"></script>
+  <script src="./JS/dummy-data.js"></script>
+  <script src="./JS/app.js"></script>
+
+  <script>
+
+    let image1 = document.getElementById("image1");
+    let image2 = document.getElementById("image2");
+    let titleErr = document.getElementById("titleErr");
+
+    const thumbnail = new buildfire.components.images.thumbnail(
+      ".thumbnail-picker",
+      {
+        title: " ",
+        dimensionsLabel: "600x600px",
+        multiSelection: false,
       }
-    </script>
-  </body>
+    );
+    const thumbnail2 = new buildfire.components.images.thumbnail(
+      ".thumbnail-picker2",
+      {
+        title: " ",
+        dimensionsLabel: "1200x675px",
+        multiSelection: false,
+      }
+    );
+
+    thumbnail2.onChange = (imageUrl) => {
+      image2.classList.add("hidden");
+    };
+
+    thumbnail.onDelete = (imageUrl) => {
+      console.log("Image was delted", imageUrl);
+    };
+
+    thumbnail.onChange = (imageUrl) => {
+      image1.classList.add("hidden");
+    };
+    function clear() {
+      thumbnail.clear();
+    }
+
+    let timer;
+    tinymce.init({
+      selector: "#wysiwygContent",
+      setup: function (editor) {
+        editor.on("init", function (e) {
+          // tinymce
+          //   .get("wysiwygContent")
+          //   .setContent(introduction.description);
+        });
+        editor.on("keyup", function (e) {
+          clearTimeout(timer);
+          timer = setTimeout(() => {
+            // save();
+          }, 500);
+        });
+        editor.on("change", function (e) {
+          clearTimeout(timer);
+          timer = setTimeout(() => {
+            // save();
+          }, 500);
+        });
+      },
+    });
+
+    function backToMain() {
+      document.getElementById('mainDiv').classList.remove("hidden");
+      document.getElementById('subDiv').classList.add("hidden");
+    }
+
+    var title = document.getElementById("title");
+    title.addEventListener("keyup", function (event) {
+      if (!titleErr.classList.contains("hidden")) {
+        if (title.value != "") {
+          titleErr.classList.add("hidden");
+        }
+      }
+    });
+
+    function saveItem() {
+      if (thumbnail.imageUrl == "") {
+        image1.classList.remove("hidden");
+      }
+      if (thumbnail2.imageUrl == "") {
+        image2.classList.remove("hidden");
+      }
+      if (title.value == "") {
+        titleErr.classList.remove("hidden");
+      }
+
+      var product = new Product();
+      product.title = title.value;
+      product.description = tinymce.activeEditor.getContent();;
+      product.profileImgUrl = thumbnail.imageUrl;
+      product.coverImgUrl = thumbnail.imageUrl2;
+      product.subTitle = subTitle.value;
+      Products.insert(product)
+        .then((product) => {
+          console.log("Insert::: ", product);
+          Analytics.trackAction(Analytics.events.PRODUCT_CREATED);
+          this.load();
+          this.backToMain();
+        })
+        .catch((err) => {
+          console.error(err);
+        });
+
+    }
+  </script>
+</body>
+
 </html>

@@ -3,8 +3,8 @@
 }
 
 .imgStyle {
-    width: 2.5rem;
-    height: 2.5rem;
+    width: inherit;
+    height: inherit;
 }
 
 .tdImageSize {
@@ -33,4 +33,9 @@
 
 .pointer {
     cursor: pointer;
+}
+
+.error-note {
+    color: var(--c-danger);
+    font-size: 12px;
 }
