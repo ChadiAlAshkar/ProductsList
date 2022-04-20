@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+
+    <script src="../../../../scripts/buildfire.js"></script>
+    <script src="../../widget/common/models/Language.js"></script>
+    <script src="../../widget/common/controllers/language.js"></script>
+
+    <script src="../../widget/common/config/helper.js"></script>
+    <script src="../../widget/common/JS/stringsConfig.js"></script>
+    <script src="../../widget/common/JS/strings.js"></script>
+    <script src="js/stringsUI.js"></script>
+    <script src="../../../../scripts/tinymce/tinymce.min.js"></script>
+</head>
+
+<body>
+    <div id="stringsContainer" class="hidden">
+        loading...
+    </div>
+    <script>
+        let strings;
+
+        function loadLanguage() {
+            stringsContainer.classList.add("hidden");
+            strings = new buildfire.services.Strings(stringsConfig);
+            strings.init().then(() => {
+                showNewLanguageState(strings.id);
+                strings.inject();
+            });
+            stringsUI.init("stringsContainer", strings, stringsConfig);
+
+        }
+        loadLanguage();
+
+        function showNewLanguageState(show) {
+            if (show) {
+                stringsContainer.classList.remove("hidden");
+            }
+            else {
+                stringsContainer.classList.add("hidden");
+            }
+        }
+
+
+        function save() {
+
+            strings.save(() => {
+                buildfire.messaging.sendMessageToWidget({ cmd: "refresh" })
+            });
+        }
+
+    </script>
+</body>
+
+</html>

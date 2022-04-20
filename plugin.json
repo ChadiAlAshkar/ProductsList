@@ -21,10 +21,16 @@
       {
         "title": "Tests",
         "url": "tests/index.html"
+      },
+      {
+        "title": "Language",
+        "url": "/strings/index.html"
       }
     ]
   },
   "widget": {},
   "features": [],
-  "languages": ["en"]
+  "languages": [
+    "en"
+  ]
 }

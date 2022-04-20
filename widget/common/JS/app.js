@@ -1,17 +1,13 @@
-// import IntroductionItem from "../class/Introduction.js";
-// import Introduction from "../controllers/introduction.js";
-
 function init() {
   // TestIntroduction();
-  TestProducts();
+  // TestProducts();
   // TestLanguage();
 }
 
 function TestIntroduction() {
   var introduction = new IntroductionItem();
   introduction.description = "";
-  introduction.images = [
-    {
+  introduction.images = [{
       id: 1,
       url: "http://UpdatedDesc.com/400/200/",
     },
