@@ -5,7 +5,7 @@ const stringsUI = {
     _debouncers: {},
     debounce(key, fn) {
         if (this._debouncers[key]) clearTimeout(this._debouncers[key]);
-        this._debouncers[key] = setTimeout(fn, 300);
+        this._debouncers[key] = setTimeout(fn, 500);
     }
 
     ,
@@ -80,8 +80,10 @@ const stringsUI = {
     },
     buildLabel(container, prop, labelObj) {
 
-        let div = this.createAndAppend('div', '', ["form-group"], container);
-        this.createAndAppend('label', labelObj.title, [], div);
+        let div = this.createAndAppend('div', '', ["form-group", "row"], container);
+        let divCol1 = this.createAndAppend('div', '', ["col-md-4"], div);
+        let divCol2 = this.createAndAppend('div', '', ["col-md-8"], div);
+        this.createAndAppend('label', labelObj.title, [], divCol1);
         let inputElement;
         let id = prop;
         let inputType = labelObj.inputType ? labelObj.inputType.toLowerCase() : "";
@@ -89,9 +91,9 @@ const stringsUI = {
         if (
             labelObj.inputType && ["textarea", "wysiwyg"].indexOf(inputType) >= 0
         )
-            inputElement = this.createAndAppend('textarea', '', ["form-control", "bf" + inputType], div);
+            inputElement = this.createAndAppend('textarea', '', ["form-control", "bf" + inputType], divCol2);
         else {
-            inputElement = this.createAndAppend('input', '', ["form-control"], div);
+            inputElement = this.createAndAppend('input', '', ["form-control"], divCol2);
             inputElement.type = labelObj.inputType || "text";
         }
 
@@ -112,7 +114,6 @@ const stringsUI = {
         if (inputType == "wysiwyg") {
             //handled outside by tinyMCE
         } else {
-
             inputElement.onkeyup = (e) => {
                 stringsUI.debounce(prop, () => {
                     if (inputElement.checkValidity()) {

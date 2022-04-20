@@ -20,10 +20,6 @@ buildfire.services.Strings = class {
 
 	}
 
-	get collectionName() {
-		return Helper.Collections.LANGUAGE;
-	}
-
 	set(prop, value) {
 		if (!this._data) throw "Strings not ready";
 
@@ -34,6 +30,12 @@ buildfire.services.Strings = class {
 
 		if (!this._data[segmentKey][labelKey]) this._data[segmentKey][labelKey] = {};
 		this._data[segmentKey][labelKey].value = value;
+		this.save((result, err) => {
+			if (err) {
+				console.error(err);
+			}
+			buildfire.messaging.sendMessageToWidget({ cmd: "refresh" })
+		});
 	}
 
 	get(prop, enableVariables, context) {
@@ -60,19 +62,16 @@ buildfire.services.Strings = class {
 	refresh(callback) {
 		Language.get()
 			.then((result) => {
+				console.log(result)
 				let obj = {
 					data: {}
 				};
 				obj = result;
 				this.id = obj.id;
 
-				for (let sectionKey in obj.data) {
-					if (!this._data[sectionKey]) this._data[sectionKey] = this._data[sectionKey] = {};
-					for (let labelKey in obj.data[sectionKey]) {
-						if (!this._data[sectionKey][labelKey]) this._data[sectionKey][labelKey] = {};
-						let v = obj.data[sectionKey][labelKey];
-						let i = this._data[sectionKey][labelKey];
-						i.value = v.value;
+				for (let sectionKey in this._data) {
+					for (let labelKey in obj.data) {
+						this._data[sectionKey][labelKey].value = obj.data[labelKey];
 					}
 				}
 
@@ -116,17 +115,19 @@ buildfire.services.Strings = class {
 
 	save(callback) {
 		var language = new LanguageItem();
-		language.search = this._data.search;
-		language.sortAsc = this._data.sortAsc;
-		language.sortDesc = this._data.sortDesc;
-
+		for (let sectionKey in this._data) {
+			for (let labelKey in this._data[sectionKey]) {
+				language[labelKey] = this._data[sectionKey][labelKey].value
+			}
+		}
 		Language.save(language)
 			.then((result) => {
+				console.log(result)
 				callback();
 			})
 			.catch((err2) => {
 				callback(err2);
 			});
-		buildfire.datastore.save(this._data, this.collectionName, callback);
+		// buildfire.datastore.save(this._data, this.collectionName, callback);
 	}
 };

@@ -14,43 +14,25 @@
     <script src="../../widget/common/JS/strings.js"></script>
     <script src="js/stringsUI.js"></script>
     <script src="../../../../scripts/tinymce/tinymce.min.js"></script>
+    <link href="../../../../styles/control/bf-base.css" rel="stylesheet" />
 </head>
 
 <body>
     <div id="stringsContainer" class="hidden">
-        loading...
     </div>
     <script>
         let strings;
 
         function loadLanguage() {
-            stringsContainer.classList.add("hidden");
             strings = new buildfire.services.Strings(stringsConfig);
             strings.init().then(() => {
-                showNewLanguageState(strings.id);
+                stringsContainer.classList.remove("hidden");
                 strings.inject();
             });
             stringsUI.init("stringsContainer", strings, stringsConfig);
 
         }
         loadLanguage();
-
-        function showNewLanguageState(show) {
-            if (show) {
-                stringsContainer.classList.remove("hidden");
-            }
-            else {
-                stringsContainer.classList.add("hidden");
-            }
-        }
-
-
-        function save() {
-
-            strings.save(() => {
-                buildfire.messaging.sendMessageToWidget({ cmd: "refresh" })
-            });
-        }
 
     </script>
 </body>
