@@ -205,6 +205,11 @@ class SearchTableHelper {
           classes.push("colBlack");
         }
         td = this._create("td", tr, output, classes);
+        if (colConfig.header == "Title") {
+          td.onclick = () => {
+            t.onEditRow(obj, tr);
+          };
+        }
       }
       //   if (colConfig.width) td.style.width = colConfig.width;
     });
