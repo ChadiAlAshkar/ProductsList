@@ -15,12 +15,12 @@
     },
     "customTabs": [
       {
-        "title": "Tests",
-        "url": "tests/index.html"
-      },
-      {
         "title": "Introduction",
         "url": "introduction/index.html"
+      },
+      {
+        "title": "Tests",
+        "url": "tests/index.html"
       }
     ]
   },

@@ -13,14 +13,18 @@ const searchTableConfig = {
     },
     {
       header: "Title",
-      data: "${data.title}",
+      data:
+        "${data.title.substring(0,20)}" +
+        "${data.title.length > 20 ? '...' : '' }",
       type: "string",
       width: "",
       sortBy: "title",
     },
     {
       header: "Sub Title",
-      data: "${data.subTitle}",
+      data:
+        "${data.subTitle.substring(0,20)}" +
+        "${data.subTitle.length > 20 ? '...' : '' }",
       type: "string",
       width: "",
       sortBy: "subTitle",

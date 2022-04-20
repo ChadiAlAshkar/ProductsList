@@ -67,18 +67,12 @@ class SearchTableHelper {
           _t._fetchPageOfData();
         });
       }
-      //   if (colConfig.width) th.style.width = colConfig.width;
     });
     if (
       this.config.options.showEditButton ||
       this.config.options.showDeleteButton
     )
       this._create("th", this.thead, "", ["editColumn"]);
-    // if (this.config.options.showEditButton)
-    //   this._create("th", this.thead, "", ["editColumn"]);
-
-    // if (this.config.options.showDeleteButton)
-    //   this._create("th", this.thead, "", ["deleteColumn"]);
   }
 
   renderBody() {
@@ -129,7 +123,6 @@ class SearchTableHelper {
     this.searchOptions = options;
     Products.search(this.searchOptions)
       .then((products) => {
-        console.log(products);
         if (products.length > 0) {
           this.productsLength = products.length;
           this.emptyState.classList.add("hidden");
@@ -139,7 +132,10 @@ class SearchTableHelper {
           this.endReached = results.length < pageSize;
         } else {
           this.tbody.innerHTML = "";
-          this.noDataSearch.classList.remove("hidden");
+
+          if (filter != undefined) {
+            this.noDataSearch.classList.remove("hidden");
+          }
         }
       })
       .catch((err) => {
