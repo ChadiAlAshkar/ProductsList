@@ -1,7 +1,7 @@
 const dummyData = {
   fetchDummyRecords: () => {
     var r = new XMLHttpRequest();
-    r.open("GET", `https://fakestoreapi.com/products`, true);
+    r.open("GET", `https://fakestoreapi.com/products?limit=5`, true);
     r.send();
 
     return r;
