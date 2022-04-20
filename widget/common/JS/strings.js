@@ -23,10 +23,11 @@ buildfire.services.Strings = class {
 	set(prop, value) {
 		if (!this._data) throw "Strings not ready";
 
-		let s = prop.split(".");
-		if (s.length != 2) throw ("invalid string prop name");
-		let segmentKey = s[0];
-		let labelKey = s[1];
+		//prop For Example: ScreenOne.Search
+		let props = prop.split(".");
+		if (props.length != 2) throw ("invalid string prop name");
+		let segmentKey = props[0];
+		let labelKey = props[1];
 
 		if (!this._data[segmentKey][labelKey]) this._data[segmentKey][labelKey] = {};
 		this._data[segmentKey][labelKey].value = value;
@@ -34,17 +35,20 @@ buildfire.services.Strings = class {
 			if (err) {
 				console.error(err);
 			}
-			buildfire.messaging.sendMessageToWidget({ cmd: "refresh" })
+			buildfire.messaging.sendMessageToWidget({
+				cmd: "refresh"
+			})
 		});
 	}
 
+	//Check After Inject
 	get(prop, enableVariables, context) {
 		if (!this._data) throw "Strings not ready";
 
-		let s = prop.split(".");
-		if (s.length != 2) throw ("invalid string prop name");
-		let segmentKey = s[0];
-		let labelKey = s[1];
+		let props = prop.split(".");
+		if (props.length != 2) throw ("invalid string prop name");
+		let segmentKey = props[0];
+		let labelKey = props[1];
 
 		let v;
 		let l = this._data[segmentKey][labelKey];
@@ -62,7 +66,6 @@ buildfire.services.Strings = class {
 	refresh(callback) {
 		Language.get()
 			.then((result) => {
-				console.log(result)
 				let obj = {
 					data: {}
 				};
@@ -82,13 +85,12 @@ buildfire.services.Strings = class {
 			});
 	}
 
-	init(callback) {
+	init() {
 		let t = this;
 		return new Promise((resolve, reject) => {
 
 			t.refresh(e => {
 				if (e) {
-					if (callback) callback(e);
 					reject(e);
 				} else
 					resolve();
@@ -128,6 +130,5 @@ buildfire.services.Strings = class {
 			.catch((err2) => {
 				callback(err2);
 			});
-		// buildfire.datastore.save(this._data, this.collectionName, callback);
 	}
 };

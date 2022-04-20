@@ -6,9 +6,7 @@ const stringsUI = {
     debounce(key, fn) {
         if (this._debouncers[key]) clearTimeout(this._debouncers[key]);
         this._debouncers[key] = setTimeout(fn, 500);
-    }
-
-    ,
+    },
     init(containerId, strings, stringsConfig) {
         this.strings = strings;
         this.stringsConfig = stringsConfig;
@@ -17,10 +15,7 @@ const stringsUI = {
         for (let key in this.stringsConfig) {
             this.buildSection(this.container, key, this.stringsConfig[key]);
         }
-
-        stringsUI._setupTinyMCE();
-
-
+        // stringsUI._setupTinyMCE();
     },
     _setupTinyMCE() {
         if (!tinymce) return;
@@ -54,9 +49,7 @@ const stringsUI = {
     },
     onSave(prop, value) {
         this.strings.set(prop, value);
-    }
-
-    ,
+    },
     createAndAppend(elementType, innerHTML, classArray, parent) {
         let e = document.createElement(elementType);
         e.innerHTML = innerHTML;
@@ -67,9 +60,7 @@ const stringsUI = {
     createIfNotEmpty(elementType, innerHTML, classArray, parent) {
         if (innerHTML)
             return this.createAndAppend(elementType, innerHTML, classArray, parent);
-    }
-
-    ,
+    },
     buildSection(container, sectionProp, sectionObj) {
         let sec = this.createAndAppend("section", "", [], container);
 
@@ -110,7 +101,6 @@ const stringsUI = {
 
         inputElement.setAttribute("bfString", prop);
 
-
         if (inputType == "wysiwyg") {
             //handled outside by tinyMCE
         } else {
@@ -127,22 +117,5 @@ const stringsUI = {
         }
 
         return inputElement;
-    }
-
-    ,
-    scrape() {
-        let obj = {};
-
-        this.container.querySelectorAll("*[bfString]").forEach(e => {
-            let s = e.getAttribute("bfString").split(".");
-
-            if (!obj[s[0]]) obj[s[0]] = {};
-
-            if (e.type == "TEXTAREA")
-                obj[s[0]][s[1]] = e.innerHTML;
-            else
-                obj[s[0]][s[1]] = e.value;
-        });
-        return obj;
     }
 };

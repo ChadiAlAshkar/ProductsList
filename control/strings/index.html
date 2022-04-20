@@ -13,7 +13,6 @@
     <script src="../../widget/common/JS/stringsConfig.js"></script>
     <script src="../../widget/common/JS/strings.js"></script>
     <script src="js/stringsUI.js"></script>
-    <script src="../../../../scripts/tinymce/tinymce.min.js"></script>
     <link href="../../../../styles/control/bf-base.css" rel="stylesheet" />
 </head>
 
@@ -23,7 +22,7 @@
     <script>
         let strings;
 
-        function loadLanguage() {
+        function load() {
             strings = new buildfire.services.Strings(stringsConfig);
             strings.init().then(() => {
                 stringsContainer.classList.remove("hidden");
@@ -32,8 +31,7 @@
             stringsUI.init("stringsContainer", strings, stringsConfig);
 
         }
-        loadLanguage();
-
+        load();
     </script>
 </body>
 
