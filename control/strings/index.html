@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
-
-<head>
+  <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
 
@@ -14,25 +13,22 @@
     <script src="../../widget/common/JS/strings.js"></script>
     <script src="js/stringsUI.js"></script>
     <link href="../../../../styles/control/bf-base.css" rel="stylesheet" />
-</head>
+  </head>
 
-<body>
-    <div id="stringsContainer" class="hidden">
-    </div>
+  <body>
+    <div id="stringsContainer" class="hidden"></div>
     <script>
-        let strings;
+      let strings;
 
-        function load() {
-            strings = new buildfire.services.Strings(stringsConfig);
-            strings.init().then(() => {
-                stringsContainer.classList.remove("hidden");
-                strings.inject();
-            });
-            stringsUI.init("stringsContainer", strings, stringsConfig);
-
-        }
-        load();
+      function loadLanguage(lang) {
+        strings = new buildfire.services.Strings(lang, stringsConfig);
+        strings.init().then(() => {
+          stringsContainer.classList.remove("hidden");
+          strings.inject();
+        });
+        stringsUI.init("stringsContainer", strings, stringsConfig);
+      }
+      loadLanguage("en-US");
     </script>
-</body>
-
+  </body>
 </html>
