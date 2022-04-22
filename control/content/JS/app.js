@@ -6,8 +6,8 @@ let searchTableHelper = new SearchTableHelper(
   "noDataSearch"
 );
 
-let image1 = document.getElementById("image1");
-let image2 = document.getElementById("image2");
+// let image1 = document.getElementById("image1");
+// let image2 = document.getElementById("image2");
 let titleErr = document.getElementById("titleErr");
 let btnSave = document.getElementById("btnSave");
 
@@ -117,7 +117,7 @@ const thumbnail2 = new buildfire.components.images.thumbnail(
 );
 
 thumbnail2.onChange = (imageUrl) => {
-  image2.classList.add("hidden");
+  // image2.classList.add("hidden");
   btnSave.disabled = checkSaveDisable();
 };
 
@@ -130,7 +130,7 @@ thumbnail.onDelete = (imageUrl) => {
 };
 
 thumbnail.onChange = (imageUrl) => {
-  image1.classList.add("hidden");
+  // image1.classList.add("hidden");
   btnSave.disabled = checkSaveDisable();
 };
 
@@ -176,11 +176,11 @@ title.addEventListener("keyup", function (event) {
 function saveItem() {
   let err = 0;
   if (thumbnail.imageUrl == "") {
-    image1.classList.remove("hidden");
+    // image1.classList.remove("hidden");
     err = 1;
   }
   if (thumbnail2.imageUrl == "") {
-    image2.classList.remove("hidden");
+    // image2.classList.remove("hidden");
     err = 1;
   }
   if (title.value == "") {
