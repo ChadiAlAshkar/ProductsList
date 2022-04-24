@@ -39,13 +39,13 @@ describe("Content", function () {
               products[0].data.coverImgUrl = "http://UpdatedDesc.com/400/200/";
               products[0].data.subTitle = "UpdatedTitle";
               Products.update(products[0].id, {
-                  title: products[0].data.title,
-                  description: products[0].data.description,
-                  profileImgUrl: products[0].data.profileImgUrl,
-                  coverImgUrl: products[0].data.coverImgUrl,
-                  subTitle: products[0].data.subTitle,
-                  creationDate: products[0].data.creationDate,
-                })
+                title: products[0].data.title,
+                description: products[0].data.description,
+                profileImgUrl: products[0].data.profileImgUrl,
+                coverImgUrl: products[0].data.coverImgUrl,
+                subTitle: products[0].data.subTitle,
+                creationDate: products[0].data.creationDate,
+              })
                 .then((result) => {
                   console.log(result);
                   done();
@@ -128,16 +128,19 @@ describe("Introduction", function () {
   describe("#Save", function () {
     var introduction = new IntroductionItem();
     introduction.description = "<h5>Test Update</h5>";
-    introduction.images = [{
-      action: "noAction",
-      iconUrl: "https://s3-us-west-2.amazonaws.com/imageserver.prod/1649774124364-0019321411895620644/945ae700-bcc4-11ec-a150-391c0afe6247.jpg",
-      title: "image"
-    }];
+    introduction.images = [
+      {
+        action: "noAction",
+        iconUrl:
+          "https://s3-us-west-2.amazonaws.com/imageserver.prod/1649774124364-0019321411895620644/945ae700-bcc4-11ec-a150-391c0afe6247.jpg",
+        title: "image",
+      },
+    ];
     it("Should save introduction", (done) => {
       Introduction.save({
-          description: introduction.description,
-          images: introduction.images
-        })
+        description: introduction.description,
+        images: introduction.images,
+      })
         .then((result) => {
           done();
         })
@@ -162,10 +165,12 @@ describe("Introduction", function () {
 
 describe("Language", function () {
   describe("#Save", function () {
-    var language = new LanguageItem();
-    language.search = "Search";
-    language.sortAsc = "Sort A-Z";
-    language.sortDesc = "Sort Z-A";
+    var data = {
+      search: "Search",
+      sortAsc: "Sort A-Z",
+      sortDesc: "Sort Z-A",
+    };
+    var language = new LanguageItem(data);
 
     it("Should save language", (done) => {
       Language.save(language)

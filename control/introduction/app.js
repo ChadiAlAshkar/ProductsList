@@ -1,39 +1,12 @@
 let editor = new buildfire.components.carousel.editor(".carousel", []);
-let introduction = new IntroductionItem();
-introduction.description = "";
-introduction.images = [];
+let introduction;
 
 function init() {
   Introduction.get()
     .then((result) => {
-      console.log(result)
       if (result) {
-        introduction.description = result.data.description;
-        let timer;
-        tinymce.init({
-          selector: "#wysiwygContent",
-          setup: function (editor) {
-            editor.on("init", function (e) {
-              tinymce
-                .get("wysiwygContent")
-                .setContent(introduction.description);
-            });
-            editor.on("keyup", function (e) {
-              clearTimeout(timer);
-              timer = setTimeout(() => {
-                save();
-              }, 500);
-            });
-            editor.on("change", function (e) {
-              clearTimeout(timer);
-              timer = setTimeout(() => {
-                save();
-              }, 500);
-            });
-          },
-        });
-
-        introduction.images = result.data.images;
+        introduction = new IntroductionItem(result.data);
+        initTinymce();
         editor.loadItems(introduction.images);
         changeDefaultDeleteIcon();
       }
@@ -41,7 +14,34 @@ function init() {
     .catch((err) => {
       console.error("Error in getting Introduction::: ", err);
     });
-  //Carousel Listeners and functions
+  setupCarouselHandlers();
+}
+
+function initTinymce() {
+  let timer;
+  tinymce.init({
+    selector: "#wysiwygContent",
+    setup: function (editor) {
+      editor.on("init", function (e) {
+        tinymce.get("wysiwygContent").setContent(introduction.description);
+      });
+      editor.on("keyup", function (e) {
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+          save();
+        }, 500);
+      });
+      editor.on("change", function (e) {
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+          save();
+        }, 500);
+      });
+    },
+  });
+}
+
+function setupCarouselHandlers() {
   editor.onItemChange = (item, index) => {
     if (introduction.images.length > index) {
       introduction.images[index] = item;

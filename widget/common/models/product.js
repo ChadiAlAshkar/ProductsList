@@ -1,10 +1,11 @@
 class Product {
-    constructor() {
-        this.title = "";
-        this.subTitle = "";
-        this.description = "";
-        this.profileImgUrl = "";
-        this.coverImgUrl = "";
-        this.creationDate = new Date();
-    }
+  constructor(data = {}) {
+    this.id = data.id || "";
+    this.title = data.title || "";
+    this.subtitle = data.subtitle || "";
+    this.description = data.description || "";
+    this.profileImgUrl = data.profileImgUrl || "";
+    this.coverImgUrl = data.coverImgUrl || "";
+    this.creationDate = data.creationDate || new Date();
+  }
 }

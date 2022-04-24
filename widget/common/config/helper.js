@@ -7,7 +7,7 @@ class Helper {
   static get Collections() {
     return {
       PRODUCTS: "Products",
-      INTRODUCTION: "Introduction",
+      INTRODUCTION: "Introduction4",
       LANGUAGE: "$bfLanguageSettings_",
     };
   }

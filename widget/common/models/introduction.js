@@ -1,6 +1,6 @@
 class IntroductionItem {
-    constructor() {
-        this.description = "";
-        this.images = [];
-    }
+  constructor(data = {}) {
+    this.description = data.description || "";
+    this.images = data.images || [];
+  }
 }

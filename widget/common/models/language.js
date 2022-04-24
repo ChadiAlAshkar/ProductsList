@@ -1,7 +1,7 @@
 class LanguageItem {
-    constructor() {
-        this.search = "";
-        this.sortAsc = "";
-        this.sortDesc = "";
-    }
+  constructor(data = {}) {
+    this.search = data.search || "";
+    this.sortAscending = data.sortAscending || "";
+    this.sortDescending = data.sortDescending || "";
+  }
 }

@@ -211,7 +211,6 @@ class SearchTableHelper {
           };
         }
       }
-      //   if (colConfig.width) td.style.width = colConfig.width;
     });
 
     let t = this;

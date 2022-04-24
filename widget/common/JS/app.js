@@ -7,7 +7,8 @@ function init() {
 function TestIntroduction() {
   var introduction = new IntroductionItem();
   introduction.description = "";
-  introduction.images = [{
+  introduction.images = [
+    {
       id: 1,
       url: "http://UpdatedDesc.com/400/200/",
     },
@@ -93,10 +94,12 @@ function TestProducts() {
 }
 
 function TestLanguage() {
-  var language = new LanguageItem();
-  language.search = "Search";
-  language.sortAsc = "Sort A-Z";
-  language.sortDesc = "Sort Z-A";
+  var data = {
+    search: "Search",
+    sortAsc: "Sort A-Z",
+    sortDesc: "Sort Z-A",
+  };
+  var language = new LanguageItem(data);
 
   Language.save(language)
     .then((result) => {

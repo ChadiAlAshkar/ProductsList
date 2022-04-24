@@ -1,122 +1,142 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
 
-<head>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="style.css" />
+    <script src="../../../../scripts/buildfire.js"></script>
+    <script src="../../../../scripts/buildfire/services/notifications/pushNotifications.js"></script>
+    <script src="../../../../scripts/buildfire/components/images/thumbnail.js"></script>
+    <script src="../../widget/common/config/helper.js"></script>
+    <script src="../../widget/common/config/analytics.js"></script>
 
-  <script src="../../../../scripts/buildfire.js"></script>
-  <script src="../../../../scripts/buildfire/services/notifications/pushNotifications.js"></script>
-  <script src="../../../../scripts/buildfire/components/images/thumbnail.js"></script>
-  <script src="../../widget/common/config/helper.js"></script>
-  <script src="../../widget/common/config/analytics.js"></script>
+    <script src="../../widget/common/config/pushnotification.js"></script>
 
-  <script src="../../widget/common/config/pushnotification.js"></script>
+    <script src="../../widget/common/models/Product.js"></script>
 
-  <script src="../../widget/common/models/Product.js"></script>
+    <script src="../../widget/common/controllers/product.js"></script>
 
-  <script src="../../widget/common/controllers/product.js"></script>
+    <script src="../../../../scripts/tinymce/tinymce.min.js"></script>
 
-  <script src="../../../../scripts/tinymce/tinymce.min.js"></script>
+    <link href="../../../../styles/helper.css" rel="stylesheet" />
+    <link href="../../../../styles/siteStyle.css" rel="stylesheet" />
+    <link
+      href="../../../../styles/control/siteIcons-control.css"
+      rel="stylesheet"
+    />
+    <link href="../../../../styles/control/bf-base.css" rel="stylesheet" />
+  </head>
 
-  <link href="../../../../styles/helper.css" rel="stylesheet" />
-  <link href="../../../../styles/siteStyle.css" rel="stylesheet" />
-  <link href="../../../../styles/control/siteIcons-control.css" rel="stylesheet" />
-  <link href="../../../../styles/control/bf-base.css" rel="stylesheet" />
-
-  <!-- <script src="../../widget/common/JS/app.js"></script> -->
-</head>
-
-<body>
-  <div id="mainDiv" class="container">
-    <p class="info-note margin-bottom-twenty" style="font-size: 13px">
-      You can create a list of items with images, actions and other details.
-      Add an introduction section on the
-      <a class="link" href="javascript:openIntro()">Introduction</a> tab.
-    </p>
-    <div class="row">
-      <div class="col-md-9">
-        <div class="input-group margin-bottom-twenty">
-          <input type="text" id="searchProductText" class="form-control" placeholder="Search" />
-          <span class="input-group-btn">
-            <button class="btn btn-info stretch margin-left-zero" onclick="searchProducts()">
-              <span class="icon icon-magnifier"></span>
-            </button>
-          </span>
+  <body>
+    <div id="mainDiv" class="container">
+      <p class="info-note margin-bottom-twenty" style="font-size: 13px">
+        You can create a list of items with images, actions and other details.
+        Add an introduction section on the
+        <a class="link" href="javascript:openIntroductionPage()"
+          >Introduction</a
+        >
+        tab.
+      </p>
+      <div class="row">
+        <div class="col-md-9">
+          <div class="input-group margin-bottom-twenty">
+            <input
+              type="text"
+              id="searchItemText"
+              class="form-control"
+              placeholder="Search"
+            />
+            <span class="input-group-btn">
+              <button
+                class="btn btn-info stretch margin-left-zero"
+                onclick="searchProducts()"
+              >
+                <span class="icon icon-magnifier"></span>
+              </button>
+            </span>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <button class="btn btn-success stretch" onclick="openSubItemPage()">
+            <span class="icon icon-plus margin-right-ten"></span>Add Item
+          </button>
         </div>
       </div>
-      <div class="col-md-3">
-        <button class="btn btn-success stretch" onclick="openSub()">
-          <span class="icon icon-plus margin-right-ten"></span>Add Item
+
+      <table id="searchResults" class="table table-bf"></table>
+      <div
+        id="emptyState"
+        class="well empty-state-lg"
+        style="flex-direction: column"
+      >
+        <h5 class="text-center" style="margin-bottom: 0px">
+          You haven’t added anything yet.
+        </h5>
+        <h5 class="text-center" style="padding-bottom: 1.5rem">
+          Add sample data to preview this feature.
+        </h5>
+        <button class="btn btn-success" onclick="generateSampleData()">
+          <span class="icon icon-plus margin-right-ten"></span>Add Sample Data
+        </button>
+      </div>
+      <div id="noDataSearch" class="well empty-state-lg">
+        <h5 class="text-center" style="margin-bottom: 0px">
+          No products found!
+        </h5>
+      </div>
+    </div>
+
+    <div class="sub-page hidden" id="subDiv">
+      <div
+        class="container padding-bottom-twenty slide-in"
+        style="padding-bottom: 100px !important"
+      >
+        <h1>Item Images</h1>
+        <div class="">
+          <div class="col-md-4">
+            <label
+              >List Image & Cover Image <span class="text-danger">*</span>
+            </label>
+          </div>
+          <div class="image-picker thumbnail-picker custom-thumbnail"></div>
+          <div class="image-picker thumbnail-picker2 custom-thumbnail"></div>
+        </div>
+
+        <h1>Item Details</h1>
+        <div class="row margin-bottom-fifteen">
+          <div class="col-md-3">
+            <label for="title">Title <span class="text-danger">*</span> </label>
+          </div>
+          <div class="col-md-9">
+            <input id="itemTitle" type="text" class="form-control" />
+            <label id="titleErr" class="error-note hidden"
+              >Please insert a title to continue</label
+            >
+          </div>
+        </div>
+        <div class="row margin-bottom-fifteen">
+          <div class="col-md-3">
+            <label for="subTitle">Subtitle</label>
+          </div>
+          <div class="col-md-9">
+            <input id="itemSubTitle" type="text" class="form-control" />
+          </div>
+        </div>
+
+        <textarea id="wysiwygContent" name="content"></textarea>
+      </div>
+
+      <div class="bottom-actions">
+        <button class="btn btn-default" onclick="backToMain()">Cancel</button>
+        <button class="btn btn-success" onclick="saveItem()" id="itemSaveBtn">
+          Save
         </button>
       </div>
     </div>
 
-    <table id="searchResults" class="table table-bf"></table>
-    <div id="emptyState" class="well empty-state-lg" style="flex-direction: column">
-      <h5 class="text-center" style="margin-bottom: 0px">
-        You haven’t added anything yet.
-      </h5>
-      <h5 class="text-center" style="padding-bottom: 1.5rem">
-        Add sample data to preview this feature.
-      </h5>
-      <button class="btn btn-success" onclick="addSampleData()">
-        <span class="icon icon-plus margin-right-ten"></span>Add Sample Data
-      </button>
-    </div>
-    <div id="noDataSearch" class="well empty-state-lg">
-      <h5 class="text-center" style="margin-bottom: 0px">
-        No products found!
-      </h5>
-    </div>
-  </div>
-
-  <div class="sub-page hidden" id="subDiv">
-    <div class="container padding-bottom-twenty slide-in" style="padding-bottom: 100px !important">
-      <h1>Item Images</h1>
-      <div class="">
-        <div class="col-md-4">
-          <label>List Image & Cover Image <span class="text-danger">*</span>
-          </label>
-        </div>
-        <div class="image-picker thumbnail-picker custom-thumbnail"></div>
-        <div class="image-picker thumbnail-picker2 custom-thumbnail"></div>
-      </div>
-
-      <h1>Item Details</h1>
-      <div class="row margin-bottom-fifteen">
-        <div class="col-md-3">
-          <label for="title">Title <span class="text-danger">*</span> </label>
-        </div>
-        <div class="col-md-9">
-          <input id="title" type="text" class="form-control" />
-          <label id="titleErr" class="error-note hidden">Please insert a title to continue</label>
-        </div>
-      </div>
-      <div class="row margin-bottom-fifteen">
-        <div class="col-md-3">
-          <label for="subTitle">Subtitle</label>
-        </div>
-        <div class="col-md-9">
-          <input id="subTitle" type="text" class="form-control" />
-        </div>
-      </div>
-
-      <textarea id="wysiwygContent" name="content"></textarea>
-    </div>
-
-    <div class="bottom-actions">
-      <button class="btn btn-default" onclick="backToMain()">Cancel</button>
-      <button class="btn btn-success" onclick="saveItem()" id="btnSave">
-        Save
-      </button>
-    </div>
-  </div>
-
-  <script src="./JS/search-table-config.js"></script>
-  <script src="./JS/search-table-helper.js"></script>
-  <script src="./JS/dummy-data.js"></script>
-  <script src="./JS/app.js"></script>
-</body>
-
+    <script src="./JS/search-table-config.js"></script>
+    <script src="./JS/search-table-helper.js"></script>
+    <script src="./JS/dummy-data.js"></script>
+    <script src="./JS/app.js"></script>
+  </body>
 </html>
