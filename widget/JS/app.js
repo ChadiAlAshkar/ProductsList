@@ -4,10 +4,23 @@ let productClicked = null;
 const listView = new buildfire.components.listView("listViewContainer", {
   enableAddButton: false,
 });
+
+buildfire.navigation.onBackButtonClick = () => {
+  if (main.classList.contains("hidden")) {
+    productClicked = null;
+    itemTitle.innerHTML = "";
+    itemSubTitle.innerHTML = "";
+    main.classList.remove("hidden");
+    subpage.classList.add("hidden");
+    my_sub_container_div.innerHTML = "";
+    coverImg.src = null;
+    profileImg.src = null;
+    body.scrollTo(0, 0);
+  }
+};
+
 listView.onItemClicked = (item) => {
   productClicked = item;
-
-  console.log(productClicked);
   itemTitle.innerHTML = item.data.title;
   itemSubTitle.innerHTML = item.data.subTitle;
   main.classList.add("hidden");
@@ -15,6 +28,8 @@ listView.onItemClicked = (item) => {
   my_sub_container_div.innerHTML = item.data.description;
   coverImg.src = item.data.coverImgUrl;
   profileImg.src = item.data.profileImgUrl;
+
+  body.scrollTo(0, 0);
 };
 let lang = {};
 
@@ -62,6 +77,27 @@ function init() {
       searchTxt.setAttribute("placeholder", this.lang.data.search);
     }
   });
+}
+
+function imagePreview(img) {
+  if (img == 1) {
+    buildfire.imagePreviewer.show({
+        images: [productClicked.data.coverImgUrl],
+      },
+      () => {
+        console.log("Image previewer closed");
+      }
+    );
+  } else {
+
+    buildfire.imagePreviewer.show({
+        images: [productClicked.data.profileImgUrl],
+      },
+      () => {
+        console.log("Image previewer closed");
+      }
+    );
+  }
 }
 
 skipIndex = 0;
@@ -141,8 +177,7 @@ function getNextData(callback) {
 function search(sort, searchText, overwrite, callback) {
   var searchOptions = {
     filter: {
-      $or: [
-        {
+      $or: [{
           "$json.title": {
             $regex: searchText,
             $options: "-i",
@@ -187,10 +222,8 @@ function search(sort, searchText, overwrite, callback) {
 
 function openSort() {
   let t = this;
-  buildfire.components.drawer.open(
-    {
-      listItems: [
-        {
+  buildfire.components.drawer.open({
+      listItems: [{
           id: 1,
           text: this.lang.data.sortAsc,
         },
