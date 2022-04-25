@@ -142,6 +142,7 @@ function search(searchText, overwrite, callback) {
         products.push(t);
       }
     });
+    console.log(listView)
     if (overwrite) {
       listView.loadListViewItems(products);
     }
