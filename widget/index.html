@@ -42,23 +42,32 @@
   </head>
 
   <body>
-    <div class="mdc-card search-card">
-      <div class="inner-search-container">
-        <span class="material-icons icon" id="searchIcon">search</span>
-        <input type="text" name="search" id="searchTxt" autocomplete="off" />
-        <span
-          class="material-icons icon cursor"
-          id="sortIcon"
-          onclick="openSort()"
-          >sort</span
-        >
+    <div id="main">
+      <div class="mdc-card search-card">
+        <div class="inner-search-container">
+          <span class="material-icons icon" id="searchIcon">search</span>
+          <input type="text" name="search" id="searchTxt" autocomplete="off" />
+          <span
+            class="material-icons icon cursor"
+            id="sortIcon"
+            onclick="openSort()"
+            >sort</span
+          >
+        </div>
       </div>
+      <div class="carousel" id="carousel"></div>
+
+      <div id="my_container_div"></div>
+      <div id="listViewContainer"></div>
     </div>
-    <div class="carousel" id="carousel"></div>
 
-    <div id="my_container_div"></div>
-    <div id="listViewContainer"></div>
-
+    <div id="subpage" class="hidden">
+      <img id="coverImg" />
+      <img id="profileImg" />
+      <label id="itemTitle"></label>
+      <label id="itemSubTitle"></label>
+      <div id="my_sub_container_div"></div>
+    </div>
     <script src="./JS/app.js"></script>
 
     <script></script>

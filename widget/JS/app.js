@@ -1,10 +1,21 @@
 let viewer = new buildfire.components.carousel.view(".carousel");
 let description = document.getElementById("my_container_div");
-
+let productClicked = null;
 const listView = new buildfire.components.listView("listViewContainer", {
   enableAddButton: false,
 });
+listView.onItemClicked = (item) => {
+  productClicked = item;
 
+  console.log(productClicked);
+  itemTitle.innerHTML = item.data.title;
+  itemSubTitle.innerHTML = item.data.subTitle;
+  main.classList.add("hidden");
+  subpage.classList.remove("hidden");
+  my_sub_container_div.innerHTML = item.data.description;
+  coverImg.src = item.data.coverImgUrl;
+  profileImg.src = item.data.profileImgUrl;
+};
 let lang = {};
 
 function init() {
