@@ -1,8 +1,11 @@
 let viewer = new buildfire.components.carousel.view(".carousel");
 let description = document.getElementById("my_container_div");
 
+const listView = new buildfire.components.listView("listViewContainer", {
+  enableAddButton: false,
+});
 function init() {
-  this.getIntroduction();
+  this.getData();
 
   buildfire.datastore.onUpdate((response) => {
     if (response.tag == Constants.Collections.PRODUCTS) {
@@ -14,18 +17,40 @@ function init() {
     }
   });
 }
+function getData() {
+  var searchOptions = {
+    filter: {},
+    sort: {},
+    skip: 0,
+    limit: 20,
+    fields: ["id", "title", "profileImgUrl", "subtitle", "description"],
+  };
 
-function getIntroduction() {
-  Introduction.get()
-    .then((result) => {
-      if (result) {
-        viewer.loadItems(result.data.images);
-        description.innerHTML = result.data.description;
-      }
-    })
-    .catch((err) => {
-      console.error("Error in getting Introduction::: ", err);
+  var promise1 = Introduction.get();
+  var promise2 = Products.search(searchOptions);
+  Promise.all([promise1, promise2]).then((results) => {
+    products = [];
+    results[1].forEach((element) => {
+      var t = new ListViewItem();
+      t.id = element.id;
+      t.title = element.data.title;
+      t.description = element.data.description;
+      t.imageUrl = element.data.profileImgUrl;
+      t.subTitle = element.data.subTitle;
+      t.data = element.data;
+      products.push(t);
     });
+    console.log(listView.items);
+    viewer.loadItems(results[0].data.images);
+    description.innerHTML = results[0].data.description;
+
+    listView
+      .loadListViewItems(products)
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((err) => {});
+  });
 }
 
 init();

@@ -1,0 +1,9 @@
+.listViewContainer.full-width {
+    padding-top: 0;
+}
+.listViewItem {
+    padding-right: 1.5rem;
+}
+.listViewItem .listViewItemImg {
+    border-radius: 0 ;
+}
