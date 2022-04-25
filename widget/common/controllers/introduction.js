@@ -2,7 +2,7 @@
 const Introduction = {
     save: (introduction) => {
         return new Promise((resolve, reject) => {
-            Helper.db.save(introduction, Helper.Collections.INTRODUCTION, function (err, result) {
+            Constants.db.save(introduction, Constants.Collections.INTRODUCTION, function (err, result) {
                 if (err) {
                     reject(err);
                 } else {
@@ -13,7 +13,7 @@ const Introduction = {
     },
     get: () => {
         return new Promise((resolve, reject) => {
-            Helper.db.get(Helper.Collections.INTRODUCTION, function (err, result) {
+            Constants.db.get(Constants.Collections.INTRODUCTION, function (err, result) {
                 if (err) {
                     reject(err);
                 } else {

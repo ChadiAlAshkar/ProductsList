@@ -10,7 +10,7 @@ const Products = {
                 reject("Please fill required fields!");
                 return;
             }
-            Helper.db.insert(product, Helper.Collections.PRODUCTS, function (err, result) {
+            Constants.db.insert(product, Constants.Collections.PRODUCTS, function (err, result) {
                 if (err) {
                     reject(err);
                 } else {
@@ -21,7 +21,7 @@ const Products = {
     },
     bulkInsert: (products) => {
         return new Promise((resolve, reject) => {
-            Helper.db.bulkInsert(products, Helper.Collections.PRODUCTS, function (err, result) {
+            Constants.db.bulkInsert(products, Constants.Collections.PRODUCTS, function (err, result) {
                 if (err) {
                     reject(err);
                 } else {
@@ -40,7 +40,7 @@ const Products = {
     // };
     search: (options) => {
         return new Promise((resolve, reject) => {
-            Helper.db.search(options, Helper.Collections.PRODUCTS, function (err, result) {
+            Constants.db.search(options, Constants.Collections.PRODUCTS, function (err, result) {
                 if (err) {
                     reject(err);
                 } else {
@@ -51,7 +51,7 @@ const Products = {
     },
     getById: (productId) => {
         return new Promise((resolve, reject) => {
-            Helper.db.getById(productId, Helper.Collections.PRODUCTS, function (err, result) {
+            Constants.db.getById(productId, Constants.Collections.PRODUCTS, function (err, result) {
                 if (err) {
                     reject(err);
                 } else {
@@ -63,7 +63,7 @@ const Products = {
     },
     update: (prodId, product) => {
         return new Promise((resolve, reject) => {
-            Helper.db.update(prodId, product, Helper.Collections.PRODUCTS, function (err, result) {
+            Constants.db.update(prodId, product, Constants.Collections.PRODUCTS, function (err, result) {
                 if (err) {
                     reject(err);
                 } else {
@@ -74,7 +74,7 @@ const Products = {
     },
     delete: (productId) => {
         return new Promise((resolve, reject) => {
-            Helper.db.delete(productId, Helper.Collections.PRODUCTS, function (err, result) {
+            Constants.db.delete(productId, Constants.Collections.PRODUCTS, function (err, result) {
                 if (err) {
                     reject(err);
                 } else {

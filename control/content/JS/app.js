@@ -3,16 +3,14 @@ let searchTableHelper;
 let timer;
 
 const thumbnail = new buildfire.components.images.thumbnail(
-  ".thumbnail-picker",
-  {
+  ".thumbnail-picker", {
     title: " ",
     dimensionsLabel: "600x600px",
     multiSelection: false,
   }
 );
 const thumbnail2 = new buildfire.components.images.thumbnail(
-  ".thumbnail-picker2",
-  {
+  ".thumbnail-picker2", {
     title: " ",
     dimensionsLabel: "1200x675px",
     multiSelection: false,
@@ -77,11 +75,6 @@ function initTinymce() {
   tinymce.init({
     selector: "#wysiwygContent",
     setup: function (editor) {
-      editor.on("init", function (e) {
-        // tinymce
-        //   .get("wysiwygContent")
-        //   .setContent(introduction.description);
-      });
       editor.on("keyup", function (e) {
         clearTimeout(timer);
         timer = setTimeout(() => {
@@ -99,8 +92,7 @@ function initTinymce() {
 }
 
 function openIntroductionPage() {
-  buildfire.navigation.navigateToTab(
-    {
+  buildfire.navigation.navigateToTab({
       tabTitle: "Introduction",
       deeplinkData: {},
     },
@@ -166,8 +158,7 @@ function searchProducts() {
     init();
   } else {
     let filter = {
-      $or: [
-        {
+      $or: [{
           "$json.title": {
             $regex: searchItemText.value,
             $options: "-i",
@@ -205,6 +196,7 @@ function addProduct() {
   product.subTitle = itemSubTitle.value;
   return Products.insert(product);
 }
+
 function checkSaveDisable() {
   if (
     thumbnail.imageUrl == "" ||

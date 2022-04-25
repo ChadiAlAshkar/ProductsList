@@ -20,7 +20,7 @@ buildfire.services.Strings = class {
     this._data = obj;
   }
   get collectionName() {
-    return Helper.Collections.LANGUAGE + this.language.toLowerCase();
+    return Constants.Collections.LANGUAGE + this.language.toLowerCase();
   }
 
   set(prop, value) {

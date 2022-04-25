@@ -5,10 +5,10 @@ function init() {
   this.getIntroduction();
 
   buildfire.datastore.onUpdate((response) => {
-    if (response.tag == Helper.Collections.PRODUCTS) {
+    if (response.tag == Constants.Collections.PRODUCTS) {
       console.log("Products updated");
     }
-    if (response.tag == Helper.Collections.INTRODUCTION) {
+    if (response.tag == Constants.Collections.INTRODUCTION) {
       description.innerHTML = response.data.description;
       viewer.loadItems(response.data.images);
     }
