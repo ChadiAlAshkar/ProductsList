@@ -72,7 +72,6 @@ buildfire.services.Strings = class {
         };
         obj = result;
         this.id = obj.id;
-
         for (let sectionKey in this._data) {
           for (let labelKey in obj.data) {
             this._data[sectionKey][labelKey].value = obj.data[labelKey];
@@ -82,7 +81,7 @@ buildfire.services.Strings = class {
         if (callback) callback();
       })
       .catch((err) => {
-        callback(e);
+        callback(err);
       });
   }
 
@@ -119,7 +118,6 @@ buildfire.services.Strings = class {
     }
     Language.save(language, this.collectionName)
       .then((result) => {
-        console.log(result);
         callback();
       })
       .catch((err2) => {

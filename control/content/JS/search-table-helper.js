@@ -34,18 +34,18 @@ class SearchTableHelper {
 
   renderHeader() {
     if (!this.config.columns) throw "No columns are indicated in the config";
-    this.thead = this._create("thead", this.table);
+    this.thead = ui.createElement("thead", this.table);
     this.config.columns.forEach((colConfig) => {
       let classes = ["headerCell"];
       if (colConfig.type == "date") classes.push("text-center");
       else if (colConfig.type == "number") classes.push("text-right");
       else classes.push("text-left");
-      let th = this._create("th", this.thead, "", "");
-      let h5 = this._create("h5", th, colConfig.header + " ", classes);
+      let th = ui.createElement("th", this.thead, "", "");
+      let h5 = ui.createElement("h5", th, colConfig.header + " ", classes);
 
       colConfig.header;
       if (colConfig.sortBy) {
-        const icon = this._create("span", h5, "", [
+        const icon = ui.createElement("span", h5, "", [
           "icon",
           "icon-chevron-down",
         ]);
@@ -72,11 +72,11 @@ class SearchTableHelper {
       this.config.options.showEditButton ||
       this.config.options.showDeleteButton
     )
-      this._create("th", this.thead, "", ["editColumn"]);
+      ui.createElement("th", this.thead, "", ["editColumn"]);
   }
 
   renderBody() {
-    this.tbody = this._create("tbody", this.table);
+    this.tbody = ui.createElement("tbody", this.table);
     let t = this;
     this.tbody.onscroll = (e) => {
       if (t.tbody.scrollTop / t.tbody.scrollHeight > 0.8) t._fetchNextPage();
@@ -86,7 +86,7 @@ class SearchTableHelper {
   search(filter) {
     this.noDataSearch.classList.add("hidden");
     this.tbody.innerHTML = "";
-    this._create("tr", this.tbody, '<td colspan="99"> searching...</td>', [
+    ui.createElement("tr", this.tbody, '<td colspan="99"> searching...</td>', [
       "loadingRow",
     ]);
     this.filter = filter;
@@ -155,7 +155,7 @@ class SearchTableHelper {
     if (tr)
       //used to update a row
       tr.innerHTML = "";
-    else tr = this._create("tr", this.tbody);
+    else tr = ui.createElement("tr", this.tbody);
     tr.setAttribute("objId", obj.id);
     this.config.columns.forEach((colConfig) => {
       let classes = [];
@@ -165,7 +165,7 @@ class SearchTableHelper {
       } else classes = ["text-left"];
       var td;
       if (colConfig.type == "command") {
-        td = this._create(
+        td = ui.createElement(
           "td",
           tr,
           '<button class="btn btn-link">' + colConfig.text + "</button>",
@@ -178,12 +178,12 @@ class SearchTableHelper {
       } else if (colConfig.type == "Image") {
         try {
           classes.push("tdImageSize");
-          td = this._create("td", tr, output, classes);
-          var cellDiv = this._create("div", td, "", [
+          td = ui.createElement("td", tr, output, classes);
+          var cellDiv = ui.createElement("div", td, "", [
             "img-holder",
             "aspect-1-1",
           ]);
-          var cellImg = this._create("img", cellDiv, "", ["imgStyle"]);
+          var cellImg = ui.createElement("img", cellDiv, "", ["imgStyle"]);
           var data = obj.data;
           cellImg.src = eval("`" + colConfig.data + "`");
         } catch (error) {
@@ -204,7 +204,7 @@ class SearchTableHelper {
         } else {
           classes.push("colBlack");
         }
-        td = this._create("td", tr, output, classes);
+        td = ui.createElement("td", tr, output, classes);
         if (colConfig.header == "Title") {
           td.onclick = () => {
             t.onEditRow(obj, tr);
@@ -219,18 +219,18 @@ class SearchTableHelper {
       this.config.options.showEditButton ||
       this.config.options.showDeleteButton
     ) {
-      let td = this._create("td", tr, "", ["editColumn"]);
-      let div = this._create("div", td, "", ["pull-right"]);
+      let td = ui.createElement("td", tr, "", ["editColumn"]);
+      let div = ui.createElement("div", td, "", ["pull-right"]);
       if (this.config.options.showEditButton) {
-        let btn = this._create("button", div, "", ["btn", "bf-btn-icon"]);
+        let btn = ui.createElement("button", div, "", ["btn", "bf-btn-icon"]);
         btn.onclick = () => {
           t.onEditRow(obj, tr);
         };
-        let span = this._create("span", btn, "", ["icon", "icon-pencil"]);
+        let span = ui.createElement("span", btn, "", ["icon", "icon-pencil"]);
       }
       if (this.config.options.showDeleteButton) {
-        let btn = this._create("button", div, "", ["btn", "bf-btn-icon"]);
-        let span = this._create("span", btn, "", ["icon", "icon-cross2"]);
+        let btn = ui.createElement("button", div, "", ["btn", "bf-btn-icon"]);
+        let span = ui.createElement("span", btn, "", ["icon", "icon-cross2"]);
         btn.onclick = () => {
           buildfire.dialog.confirm(
             {
@@ -268,6 +268,7 @@ class SearchTableHelper {
   onSearchSet(options) {
     return options;
   }
+
   onRowAdded(obj, tr) {}
 
   onEditRow(obj, tr) {}
@@ -278,14 +279,5 @@ class SearchTableHelper {
       this.emptyState.classList.remove("hidden");
       this.table.classList.add("hidden");
     }
-  }
-
-  _create(elementType, appendTo, innerHTML, classNameArray) {
-    let e = document.createElement(elementType);
-    if (innerHTML) e.innerHTML = innerHTML;
-    if (Array.isArray(classNameArray))
-      classNameArray.forEach((c) => e.classList.add(c));
-    if (appendTo) appendTo.appendChild(e);
-    return e;
   }
 }
