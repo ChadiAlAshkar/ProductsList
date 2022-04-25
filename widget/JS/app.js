@@ -19,6 +19,34 @@ buildfire.navigation.onBackButtonClick = () => {
   }
 };
 
+buildfire.messaging.onReceivedMessage = (message) => {
+  console.log("Message received", message);
+  if (message.openSub) {
+    productClicked = message.itemClicked;
+    itemTitle.innerHTML = message.itemClicked.data.title;
+    itemSubTitle.innerHTML = message.itemClicked.data.subTitle;
+    main.classList.add("hidden");
+    subpage.classList.remove("hidden");
+    my_sub_container_div.innerHTML = message.itemClicked.data.description;
+    coverImg.src = message.itemClicked.data.coverImgUrl;
+    profileImg.src = message.itemClicked.data.profileImgUrl;
+
+    body.scrollTo(0, 0);
+  } else {
+    if (main.classList.contains("hidden")) {
+      productClicked = null;
+      itemTitle.innerHTML = "";
+      itemSubTitle.innerHTML = "";
+      main.classList.remove("hidden");
+      subpage.classList.add("hidden");
+      my_sub_container_div.innerHTML = "";
+      coverImg.src = null;
+      profileImg.src = null;
+      body.scrollTo(0, 0);
+    }
+  }
+};
+
 listView.onItemClicked = (item) => {
   productClicked = item;
   itemTitle.innerHTML = item.data.title;

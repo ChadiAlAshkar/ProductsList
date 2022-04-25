@@ -68,6 +68,11 @@ function setupHandlers() {
     mainDiv.classList.add("hidden");
     subDiv.classList.remove("hidden");
     editedProduct = obj;
+
+    buildfire.messaging.sendMessageToWidget({
+      openSub: true,
+      itemClicked: editedProduct
+    });
   };
 }
 
@@ -117,6 +122,9 @@ function openSubItemPage() {
 function backToMain() {
   document.getElementById("mainDiv").classList.remove("hidden");
   document.getElementById("subDiv").classList.add("hidden");
+  buildfire.messaging.sendMessageToWidget({
+    openSub: false
+  });
 }
 
 function generateSampleData() {
