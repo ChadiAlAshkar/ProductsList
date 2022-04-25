@@ -70,18 +70,15 @@ var endReached = false;
 var fetchingNextPage = false;
 
 function _fetchNextPage() {
-  console.log(this.fetchingNextPage);
   if (this.fetchingNextPage) return;
   this.fetchingNextPage = true;
 
   getNextData(() => {
-    console.log("HIIII");
     this.fetchingNextPage = false;
   });
 }
 
 function getNextData(callback) {
-  console.log(endReached);
   if (this.skipIndex > 0 && this.endReached) return;
   skipIndex++;
   console.log(skipIndex);
