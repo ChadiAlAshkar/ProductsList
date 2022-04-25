@@ -3,7 +3,6 @@ const Language = {
   save: (language, collectionName) => {
     return new Promise((resolve, reject) => {
       Constants.db.save(language, collectionName, function (err, result) {
-        if (err) {
           reject(err);
         } else {
           resolve(result);
