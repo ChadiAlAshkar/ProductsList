@@ -74,6 +74,24 @@ function setupHandlers() {
       itemClicked: editedProduct
     });
   };
+
+  buildfire.messaging.onReceivedMessage = (message) => {
+    console.log(message)
+    // if (message.openSub) {
+    //   thumbnail.loadbackground(message.itemClicked.data.profileImgUrl);
+    //   thumbnail2.loadbackground(message.itemClicked.data.coverImgUrl);
+    //   itemTitle.value = message.itemClicked.data.title;
+    //   itemSubTitle.value = message.itemClicked.data.subTitle;
+    //   tinymce.get("wysiwygContent").setContent(message.itemClicked.data.description);
+    //   itemSaveBtn.disabled = checkSaveDisable();
+    //   mainDiv.classList.add("hidden");
+    //   subDiv.classList.remove("hidden");
+    //   editedProduct = message.itemClicked;
+    // } else {
+    //   document.getElementById("mainDiv").classList.remove("hidden");
+    //   document.getElementById("subDiv").classList.add("hidden");
+    // }
+  };
 }
 
 function initTinymce() {

@@ -16,6 +16,10 @@ buildfire.navigation.onBackButtonClick = () => {
     coverImg.src = null;
     profileImg.src = null;
     body.scrollTo(0, 0);
+
+    buildfire.messaging.sendMessageToControl({
+      openSub: false
+    });
   }
 };
 
@@ -58,6 +62,11 @@ listView.onItemClicked = (item) => {
   profileImg.src = item.data.profileImgUrl;
 
   body.scrollTo(0, 0);
+
+  buildfire.messaging.sendMessageToControl({
+    openSub: true,
+    itemClicked: productClicked
+  });
 };
 let lang = {};
 
