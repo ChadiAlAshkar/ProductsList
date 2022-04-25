@@ -23,25 +23,32 @@ function init() {
     listView.clear();
     clearTimeout(timer);
     timer = setTimeout(() => {
-      console.log(1)
+      console.log(1);
       t.skipIndex = 0;
       let sort = {
         creationDate: -1,
-        title: 1
-      }
-      t.search(sort, searchTxt.value, true, () => {
-
-      });
+        title: 1,
+      };
+      t.search(sort, searchTxt.value, true, () => {});
     }, 500);
   });
 
   buildfire.datastore.onUpdate((response) => {
     if (response.tag == Constants.Collections.PRODUCTS) {
-      console.log("Products updated");
+      listView.clear();
+      let sort = {
+        creationDate: -1,
+        title: 1,
+      };
+      this.search(sort, "", false, () => {});
     }
     if (response.tag == Constants.Collections.INTRODUCTION) {
       description.innerHTML = response.data.description;
       viewer.loadItems(response.data.images);
+    }
+    if (response.tag == Constants.Collections.LANGUAGE + "en-us") {
+      this.lang = response;
+      searchTxt.setAttribute("placeholder", this.lang.data.search);
     }
   });
 }
@@ -54,14 +61,14 @@ function getData() {
     filter: {},
     sort: {
       creationDate: -1,
-      title: 1
+      title: 1,
     },
     skip: this.skipIndex,
     limit: this.limit,
   };
   var promise1 = Introduction.get();
   var promise2 = Products.search(searchOptions);
-  var promise3 = Language.get(Constants.Collections.LANGUAGE + "en-US");
+  var promise3 = Language.get(Constants.Collections.LANGUAGE + "en-us");
   Promise.all([promise1, promise2, promise3]).then((results) => {
     products = [];
     results[1].forEach((element) => {
@@ -81,8 +88,7 @@ function getData() {
     description.innerHTML = results[0].data.description;
 
     this.lang = results[2];
-    console.log(results)
-    searchTxt.placeholder = lang.search;
+    searchTxt.setAttribute("placeholder", this.lang.data.search);
 
     listView.loadListViewItems(products);
   });
@@ -114,8 +120,8 @@ function getNextData(callback) {
 
   let sort = {
     creationDate: -1,
-    title: 1
-  }
+    title: 1,
+  };
   this.search(sort, "", false, () => {
     callback();
   });
@@ -124,7 +130,8 @@ function getNextData(callback) {
 function search(sort, searchText, overwrite, callback) {
   var searchOptions = {
     filter: {
-      $or: [{
+      $or: [
+        {
           "$json.title": {
             $regex: searchText,
             $options: "-i",
@@ -140,7 +147,7 @@ function search(sort, searchText, overwrite, callback) {
     },
     sort: sort,
     skip: this.skipIndex * this.limit,
-    limit: this.limit
+    limit: this.limit,
   };
 
   Products.search(searchOptions).then((result) => {
@@ -169,16 +176,18 @@ function search(sort, searchText, overwrite, callback) {
 
 function openSort() {
   let t = this;
-  buildfire.components.drawer.open({
-      listItems: [{
+  buildfire.components.drawer.open(
+    {
+      listItems: [
+        {
           id: 1,
-          text: 'Sort A-Z'
+          text: this.lang.data.sortAsc,
         },
         {
           id: -1,
-          text: 'Sort Z-A'
-        }
-      ]
+          text: this.lang.data.sortDesc,
+        },
+      ],
     },
     (err, result) => {
       if (err) return console.error(err);
@@ -186,11 +195,9 @@ function openSort() {
       listView.clear();
       let sort = {
         title: result.id,
-        creationDate: -1
-      }
-      t.search(sort, "", true, () => {
-
-      });
+        creationDate: -1,
+      };
+      t.search(sort, "", true, () => {});
     }
   );
 }

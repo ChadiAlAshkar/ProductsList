@@ -13,7 +13,9 @@ const Language = {
   },
   get: (collectionName) => {
     return new Promise((resolve, reject) => {
+      console.log(collectionName);
       Constants.db.get(collectionName, function (err, result) {
+        console.log(result);
         if (err) {
           reject(err);
         } else {
