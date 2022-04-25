@@ -5,17 +5,31 @@ const listView = new buildfire.components.listView("listViewContainer", {
   enableAddButton: false,
 });
 
+let lang = {};
+
 function init() {
   this.getData();
 
   let timer;
   let t = this;
   searchTxt.addEventListener("keyup", function (event) {
+    if (searchTxt.value != "") {
+      carousel.classList.add("hidden");
+      my_container_div.classList.add("hidden");
+    } else {
+      carousel.classList.remove("hidden");
+      my_container_div.classList.remove("hidden");
+    }
+    listView.clear();
     clearTimeout(timer);
     timer = setTimeout(() => {
       console.log(1)
       t.skipIndex = 0;
-      t.search(searchTxt.value, true, () => {
+      let sort = {
+        creationDate: -1,
+        title: 1
+      }
+      t.search(sort, searchTxt.value, true, () => {
 
       });
     }, 500);
@@ -47,8 +61,8 @@ function getData() {
   };
   var promise1 = Introduction.get();
   var promise2 = Products.search(searchOptions);
-  Promise.all([promise1, promise2]).then((results) => {
-    console.log(results[1]);
+  var promise3 = Language.get(Constants.Collections.LANGUAGE + "en-US");
+  Promise.all([promise1, promise2, promise3]).then((results) => {
     products = [];
     results[1].forEach((element) => {
       var t = new ListViewItem();
@@ -65,6 +79,10 @@ function getData() {
     }
     viewer.loadItems(results[0].data.images);
     description.innerHTML = results[0].data.description;
+
+    this.lang = results[2];
+    console.log(results)
+    searchTxt.placeholder = lang.search;
 
     listView.loadListViewItems(products);
   });
@@ -94,14 +112,16 @@ function getNextData(callback) {
   if (this.skipIndex > 0 && this.endReached) return;
   skipIndex++;
 
-  this.search("", false, () => {
+  let sort = {
+    creationDate: -1,
+    title: 1
+  }
+  this.search(sort, "", false, () => {
     callback();
   });
 }
 
-function search(searchText, overwrite, callback) {
-  console.log(2)
-  console.log(searchText)
+function search(sort, searchText, overwrite, callback) {
   var searchOptions = {
     filter: {
       $or: [{
@@ -118,10 +138,7 @@ function search(searchText, overwrite, callback) {
         },
       ],
     },
-    sort: {
-      creationDate: -1,
-      title: 1
-    },
+    sort: sort,
     skip: this.skipIndex * this.limit,
     limit: this.limit
   };
@@ -142,7 +159,6 @@ function search(searchText, overwrite, callback) {
         products.push(t);
       }
     });
-    console.log(listView)
     if (overwrite) {
       listView.loadListViewItems(products);
     }
@@ -150,4 +166,33 @@ function search(searchText, overwrite, callback) {
     callback();
   });
 }
+
+function openSort() {
+  let t = this;
+  buildfire.components.drawer.open({
+      listItems: [{
+          id: 1,
+          text: 'Sort A-Z'
+        },
+        {
+          id: -1,
+          text: 'Sort Z-A'
+        }
+      ]
+    },
+    (err, result) => {
+      if (err) return console.error(err);
+      buildfire.components.drawer.closeDrawer();
+      listView.clear();
+      let sort = {
+        title: result.id,
+        creationDate: -1
+      }
+      t.search(sort, "", true, () => {
+
+      });
+    }
+  );
+}
+
 init();

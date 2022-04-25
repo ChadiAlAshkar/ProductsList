@@ -23,11 +23,14 @@
   <script src="../../../scripts/jquery/jquery-1.11.2.min.js"></script>
   <script src="../../../scripts/owlCarousel/owlCarousel.js"></script>
   <script src="../../../scripts/buildfire/components/carousel/carousel.js"></script>
+  <script src="../../../scripts/buildfire/components/drawer/drawer.js"></script>
 
   <script src="./common/controllers/introduction.js"></script>
   <script src="./common/models/Introduction.js"></script>
   <script src="./common/controllers/product.js"></script>
   <script src="./common/models/product.js"></script>
+  <script src="./common/controllers/language.js"></script>
+  <script src="./common/models/language.js"></script>
 </head>
 
 <body>
@@ -35,10 +38,10 @@
     <div class="inner-search-container">
       <span class="material-icons icon" id="searchIcon">search</span>
       <input type="text" name="search" id="searchTxt" placeholder="Search" autocomplete="off" />
-      <span class="material-icons icon cursor" id="sortIcon">sort</span>
+      <span class="material-icons icon cursor" id="sortIcon" onclick="openSort()">sort</span>
     </div>
   </div>
-  <div class="carousel"></div>
+  <div class="carousel" id="carousel"></div>
 
   <div id="my_container_div"></div>
   <div id="listViewContainer"></div>
