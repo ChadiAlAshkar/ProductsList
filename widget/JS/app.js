@@ -4,8 +4,22 @@ let description = document.getElementById("my_container_div");
 const listView = new buildfire.components.listView("listViewContainer", {
   enableAddButton: false,
 });
+
 function init() {
   this.getData();
+
+  let timer;
+  let t = this;
+  searchTxt.addEventListener("keyup", function (event) {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      console.log(1)
+      t.skipIndex = 0;
+      t.search(searchTxt.value, true, () => {
+
+      });
+    }, 500);
+  });
 
   buildfire.datastore.onUpdate((response) => {
     if (response.tag == Constants.Collections.PRODUCTS) {
@@ -20,14 +34,17 @@ function init() {
 
 skipIndex = 0;
 limit = 10;
+
 function getData() {
   var searchOptions = {
     filter: {},
-    sort: {},
+    sort: {
+      creationDate: -1,
+      title: 1
+    },
     skip: this.skipIndex,
     limit: this.limit,
   };
-  console.log(this.limit);
   var promise1 = Introduction.get();
   var promise2 = Products.search(searchOptions);
   Promise.all([promise1, promise2]).then((results) => {
@@ -44,23 +61,18 @@ function getData() {
       products.push(t);
     });
     if (results[1].length < this.limit) {
-      isLoadingProductsDone = false;
+      endReached = false;
     }
     viewer.loadItems(results[0].data.images);
     description.innerHTML = results[0].data.description;
 
-    listView
-      .loadListViewItems(products)
-      .then((result) => {
-        console.log(result);
-      })
-      .catch((err) => {});
+    listView.loadListViewItems(products);
   });
   let t = this;
   listViewContainer.onscroll = (e) => {
     if (
       t.listViewContainer.scrollTop / t.listViewContainer.scrollHeight >
-      0.8
+      0.2
     ) {
       this._fetchNextPage();
     }
@@ -81,17 +93,41 @@ function _fetchNextPage() {
 function getNextData(callback) {
   if (this.skipIndex > 0 && this.endReached) return;
   skipIndex++;
-  console.log(skipIndex);
 
+  this.search("", false, () => {
+    callback();
+  });
+}
+
+function search(searchText, overwrite, callback) {
+  console.log(2)
+  console.log(searchText)
   var searchOptions = {
-    filter: {},
-    sort: {},
+    filter: {
+      $or: [{
+          "$json.title": {
+            $regex: searchText,
+            $options: "-i",
+          },
+        },
+        {
+          "$json.subTitle": {
+            $regex: searchText,
+            $options: "-i",
+          },
+        },
+      ],
+    },
+    sort: {
+      creationDate: -1,
+      title: 1
+    },
     skip: this.skipIndex * this.limit,
-    limit: this.limit,
-    fields: ["id", "title", "profileImgUrl", "subtitle", "description"],
+    limit: this.limit
   };
 
   Products.search(searchOptions).then((result) => {
+    let products = [];
     result.forEach((element) => {
       var t = new ListViewItem();
       t.id = element.id;
@@ -100,9 +136,15 @@ function getNextData(callback) {
       t.imageUrl = element.data.profileImgUrl;
       t.subTitle = element.data.subTitle;
       t.data = element.data;
-      listView.addItem(t);
+      if (!overwrite) {
+        listView.addItem(t);
+      } else {
+        products.push(t);
+      }
     });
-    console.log(result.length);
+    if (overwrite) {
+      listView.loadListViewItems(products);
+    }
     this.endReached = result.length < this.limit;
     callback();
   });

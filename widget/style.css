@@ -5,5 +5,60 @@
     padding-right: 1.5rem;
 }
 .listViewItem .listViewItemImg {
-    border-radius: 0 ;
+    border-radius: 0;
+}
+html[buildfire] {
+    padding-top: 0;
+}
+
+.icon {
+    color: #ff9500;
+}
+
+.search-card {
+    margin-top: 1rem;
+    margin-right: 1rem;
+    margin-left: 1rem;
+    margin-bottom: 1rem;
+    z-index: 1;
+    overflow: hidden;
+    -ms-transform: translate3d(0, 0, 0);
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+}
+
+.inner-search-container {
+    padding-left: 0.93rem;
+    padding-right: 0.93rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background: #ffffff14;
+}
+
+.cursor {
+    cursor: pointer;
+}
+
+input {
+    border: none;
+    padding: 0.7rem 0.5rem 0.7rem 0;
+    margin-left: 1rem;
+    font-size: 1rem;
+    width: 100%;
+    background: transparent;
+}
+
+input:focus {
+    outline: none;
+}
+
+.mdc-card {
+    border-radius: 4px;
+    background-color: #fff;
+    background-color: var(--mdc-theme-surface, #fff);
+    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.25), 0px 1px 2px rgba(0, 0, 0, 0.16);
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
 }
