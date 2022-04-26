@@ -91,13 +91,33 @@ function setupHandlers() {
   };
 
   buildfire.messaging.onReceivedMessage = (message) => {
-    if (message.openSubItemPage) {
-      fillSubItem(message.itemClicked);
+    console.log(message.id)
+    if(message.id) {
+      if(message.id == 1){
+        if(message.data == ""){
+          profileImg.src = "../../../styles/media/holder-1x1.png"
+        } else {
+          profileImg.src = message.data;
+        }
+      } else if(message.id = 2){
+        if(message.data == ""){
+          coverImg.src = "../../../styles/media/holder-16x9.png"
+        } else {
+          coverImg.src = message.data;
+        }
+      } else if(message.id = 3){
+        itemTitle.innerHTML = message.data;
+      }
     } else {
-      if (main.classList.contains("hidden")) {
-        clearSubItem();
+      if (message.openSubItemPage) {
+        fillSubItem(message.itemClicked);
+      } else {
+        if (main.classList.contains("hidden")) {
+          clearSubItem();
+        }
       }
     }
+   
   };
 
   buildfire.datastore.onUpdate((response) => {

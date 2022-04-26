@@ -48,6 +48,10 @@ function setupHandlers() {
         }
       );
       thumbnail.loadbackground(t.profileImage);
+      buildfire.messaging.sendMessageToWidget({
+        id: 1,
+        data : t.profileImage,
+      });
     }
 
 
@@ -62,17 +66,40 @@ function setupHandlers() {
         }
       );
       thumbnail2.loadbackground(t.coverImage);
+      buildfire.messaging.sendMessageToWidget({
+        id: 2,
+        data : t.coverImage,
+      });
     }
   };
 
   thumbnail.onDelete = (imageUrl) => {
     itemSaveBtn.disabled = true;
+    buildfire.messaging.sendMessageToWidget({
+      id: 1,
+      data:""
+    });
   };
   thumbnail2.onDelete = (imageUrl) => {
     itemSaveBtn.disabled = true;
+    buildfire.messaging.sendMessageToWidget({
+      id: 2,
+      data:""
+    });
+    
   };
+  let timer;
+
   itemTitle.addEventListener("keyup", function (event) {
     itemSaveBtn.disabled = checkSaveDisable();
+
+    clearTimeout(timer);
+    timer = setTimeout(()=>{
+      buildfire.messaging.sendMessageToWidget({
+        id: 3,
+        data: itemTitle.value,
+      });
+    }, 500)
   });
   searchItemText.addEventListener("keyup", function (event) {
     // Number 13 is the "Enter" key on the keyboard
@@ -98,6 +125,16 @@ function setupHandlers() {
       backToMain();
     }
   };
+
+  itemSubTitle.addEventListener("keyup", function (event) {
+      clearTimeout(timer);
+      timer = setTimeout(()=>{
+        buildfire.messaging.sendMessageToWidget({
+          id: 4,
+          data: itemSubTitle.value,
+        });
+      }, 500)
+  });
 }
 
 function fillSubItem(item) {
@@ -131,13 +168,19 @@ function initTinymce() {
       editor.on("keyup", function (e) {
         clearTimeout(timer);
         timer = setTimeout(() => {
-          // save();
+          buildfire.messaging.sendMessageToWidget({
+            id: 5,
+            data: tinymce.get("wysiwygContent").getContent(),
+          });
         }, 500);
       });
       editor.on("change", function (e) {
         clearTimeout(timer);
         timer = setTimeout(() => {
-          // save();
+          buildfire.messaging.sendMessageToWidget({
+            id: 5,
+            data: tinymce.get("wysiwygContent").getContent(),
+          });
         }, 500);
       });
     },
