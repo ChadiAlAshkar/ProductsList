@@ -23,7 +23,8 @@ function init() {
     "records",
     searchTableConfig,
     "emptyState",
-    "noDataSearch"
+    "noDataSearch",
+    "loading"
   );
   this.setupHandlers();
   this.initTinymce();
@@ -33,27 +34,32 @@ function init() {
 init();
 var profileImage = "";
 var coverImage = "";
+
 function setupHandlers() {
   let t = this;
 
   thumbnail.onChange = (imageUrl) => {
     itemSaveBtn.disabled = checkSaveDisable();
-    if(t.profileImage != imageUrl){
+    if (t.profileImage != imageUrl) {
       t.profileImage = buildfire.imageLib.cropImage(
-        imageUrl,
-        { size: "full_width", aspect: "1:1" }
+        imageUrl, {
+          size: "full_width",
+          aspect: "1:1"
+        }
       );
       thumbnail.loadbackground(t.profileImage);
     }
- 
+
 
   };
   thumbnail2.onChange = (imageUrl) => {
     itemSaveBtn.disabled = checkSaveDisable();
-    if(t.coverImage != imageUrl){
+    if (t.coverImage != imageUrl) {
       t.coverImage = buildfire.imageLib.cropImage(
-        imageUrl,
-        { size: "full_width", aspect: "16:9" }
+        imageUrl, {
+          size: "full_width",
+          aspect: "16:9"
+        }
       );
       thumbnail2.loadbackground(t.coverImage);
     }
@@ -101,7 +107,7 @@ function fillSubItem(item) {
   itemSubTitle.value = item.data.subTitle;
   tinymce.get("wysiwygContent").setContent(item.data.description);
   itemSaveBtn.disabled = checkSaveDisable();
-  
+
   editedProduct = item;
   main.classList.add("hidden");
   subpage.classList.remove("hidden");
@@ -139,8 +145,7 @@ function initTinymce() {
 }
 
 function openIntroductionPage() {
-  buildfire.navigation.navigateToTab(
-    {
+  buildfire.navigation.navigateToTab({
       tabTitle: "Introduction",
       deeplinkData: {},
     },

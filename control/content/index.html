@@ -51,8 +51,8 @@
       </div>
     </div>
 
-    <table id="searchResults" class="table table-bf"></table>
-    <div id="emptyState" class="well empty-state-lg" style="flex-direction: column">
+    <table id="searchResults" class="table table-bf hidden"></table>
+    <div id="emptyState" class="well empty-state-lg hidden" style="flex-direction: column">
       <h5 class="text-center" style="margin-bottom: 0px">
         You haven’t added anything yet.
       </h5>
@@ -63,9 +63,14 @@
         <span class="icon icon-plus margin-right-ten"></span>Add Sample Data
       </button>
     </div>
-    <div id="noDataSearch" class="well empty-state-lg">
+    <div id="noDataSearch" class="well empty-state-lg hidden">
       <h5 class="text-center" style="margin-bottom: 0px">
         No products found!
+      </h5>
+    </div>
+    <div id="loading" class="well empty-state-lg">
+      <h5 class="text-center" style="margin-bottom: 0px">
+        Loading...
       </h5>
     </div>
   </div>

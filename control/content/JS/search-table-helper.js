@@ -1,7 +1,7 @@
 class SearchTableHelper {
   productsLength = 0;
 
-  constructor(tableId, tag, config, emptyState, noDataSearch) {
+  constructor(tableId, tag, config, emptyState, noDataSearch, loading) {
     if (!config) throw "No config provided";
     if (!tableId) throw "No tableId provided";
     this.table = document.getElementById(tableId);
@@ -16,6 +16,12 @@ class SearchTableHelper {
     this.noDataSearch = document.getElementById(noDataSearch);
     if (!this.noDataSearch)
       throw "Cant find noDataSearch with ID that was provided";
+
+
+    if (!loading) throw "No loading provided";
+    this.loading = document.getElementById(loading);
+    if (!this.loading)
+      throw "Cant find loading with ID that was provided";
 
     this.config = config;
     this.tag = tag;
@@ -86,9 +92,11 @@ class SearchTableHelper {
   search(filter) {
     this.noDataSearch.classList.add("hidden");
     this.tbody.innerHTML = "";
-    ui.createElement("tr", this.tbody, '<td colspan="99"> searching...</td>', [
-      "loadingRow",
-    ]);
+    // ui.createElement("tr", this.tbody, '<td colspan="99"> searching...</td>', [
+    //   "loadingRow",
+    // ]);
+    this.table.classList.add("hidden");
+    this.loading.classList.remove("hidden");
     this.filter = filter;
     this._fetchPageOfData(this.filter, 0);
   }
@@ -126,14 +134,17 @@ class SearchTableHelper {
       .then((products) => {
         if (products.length > 0) {
           this.productsLength = products.length;
+          this.loading.classList.add("hidden");
           this.emptyState.classList.add("hidden");
           this.table.classList.remove("hidden");
           this.tbody.innerHTML = "";
+          this.loading.classList.add("hidden");
           products.forEach((p) => this.renderRow(p));
           this.endReached = results.length < pageSize;
         } else {
           this.tbody.innerHTML = "";
 
+          this.loading.classList.add("hidden");
           if (filter != undefined) {
             this.noDataSearch.classList.remove("hidden");
           }
