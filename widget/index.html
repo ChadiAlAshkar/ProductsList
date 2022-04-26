@@ -1,66 +1,65 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="../../../scripts/buildfire.js"></script>
-    <script src="../../../scripts/buildfire/services/notifications/pushNotifications.js"></script>
-    <script src="../../../scripts/buildfire/services/notifications/localNotifications.js"></script>
-    <script src="../../../scripts/buildfire/components/listView/listView.js"></script>
-    <script src="./common/helper/constants.js"></script>
-    <script src="./common/repository/localnotification.js"></script>
-    <link rel="stylesheet" href="../../../styles/components/listView.css" />
 
-    <link href="../../../scripts/owlCarousel/owlCarousel.css" rel="stylesheet" />
-    <link href="../../../../styles/helper.css" rel="stylesheet" />
-    <link href="../../../../styles/siteStyle.css" rel="stylesheet" />
-    <link href="../../../../styles/control/siteIcons-control.css" rel="stylesheet" />
-    <link href="../../../../styles/control/bf-base.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-    <link rel="stylesheet" href="style.css" />
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="../../../scripts/buildfire.js"></script>
+  <script src="../../../scripts/buildfire/services/notifications/pushNotifications.js"></script>
+  <script src="../../../scripts/buildfire/services/notifications/localNotifications.js"></script>
+  <script src="../../../scripts/buildfire/components/listView/listView.js"></script>
+  <script src="./common/helper/constants.js"></script>
+  <script src="./common/repository/localnotification.js"></script>
+  <link rel="stylesheet" href="../../../styles/components/listView.css" />
 
-    <!-- JS -->
-    <script src="../../../scripts/jquery/jquery-1.11.2.min.js"></script>
-    <script src="../../../scripts/owlCarousel/owlCarousel.js"></script>
-    <script src="../../../scripts/buildfire/components/carousel/carousel.js"></script>
-    <script src="../../../scripts/buildfire/components/drawer/drawer.js"></script>
+  <link href="../../../scripts/owlCarousel/owlCarousel.css" rel="stylesheet" />
+  <link href="../../../../styles/helper.css" rel="stylesheet" />
+  <link href="../../../../styles/siteStyle.css" rel="stylesheet" />
+  <link href="../../../../styles/control/siteIcons-control.css" rel="stylesheet" />
+  <link href="../../../../styles/control/bf-base.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+  <link rel="stylesheet" href="style.css" />
 
-    <script src="./common/controllers/introduction.js"></script>
-    <script src="./common/models/Introduction.js"></script>
-    <script src="./common/controllers/product.js"></script>
-    <script src="./common/models/product.js"></script>
-    <script src="./common/controllers/language.js"></script>
-    <script src="./common/models/language.js"></script>
-  </head>
+  <!-- JS -->
+  <script src="../../../scripts/jquery/jquery-1.11.2.min.js"></script>
+  <script src="../../../scripts/owlCarousel/owlCarousel.js"></script>
+  <script src="../../../scripts/buildfire/components/carousel/carousel.js"></script>
+  <script src="../../../scripts/buildfire/components/drawer/drawer.js"></script>
 
-  <body id="body">
-    <div id="main" class="hidden">
-      <div class="mdc-card search-card">
-        <div class="inner-search-container">
-          <span class="material-icons icon" id="searchIcon">search</span>
-          <input type="text" name="search" id="searchTxt" autocomplete="off" />
-          <span
-            class="material-icons icon cursor"
-            id="sortIcon"
-            onclick="openSortDrawer()"
-            >sort</span
-          >
-        </div>
+  <script src="./common/controllers/introduction.js"></script>
+  <script src="./common/models/Introduction.js"></script>
+  <script src="./common/controllers/product.js"></script>
+  <script src="./common/models/product.js"></script>
+  <script src="./common/controllers/language.js"></script>
+  <script src="./common/models/language.js"></script>
+</head>
+
+<body id="body">
+  <div id="main" class="hidden">
+    <div class="mdc-card search-card">
+      <div class="inner-search-container">
+        <span class="material-icons icon" id="searchIcon">search</span>
+        <input type="text" name="search" id="searchTxt" autocomplete="off" />
+        <span class="material-icons icon cursor" id="sortIcon" onclick="openSortDrawer()">sort</span>
       </div>
-      <div class="carousel" id="carousel"></div>
-
-      <div id="my_container_div"></div>
-      <div id="listViewContainer"></div>
     </div>
+    <div class="carousel" id="carousel"></div>
 
-    <div id="subpage" class="hidden">
-      <img id="coverImg" onclick="imagePreview(this.src)" />
-      <img id="profileImg" onclick="imagePreview(this.src)" />
-      <label id="itemTitle"></label>
-      <label id="itemSubTitle"></label>
-      <div id="my_sub_container_div"></div>
+    <div id="my_container_div"></div>
+    <div id="listViewContainer"></div>
+    <div id="emptyProds" class="hidden">
+      <img src="../../../pluginTester/media/ic_bookmark_empty.svg" />
     </div>
-    <script src="./JS/app.js"></script>
+  </div>
 
-    <script></script>
-  </body>
+  <div id="subpage" class="hidden">
+    <img id="coverImg" onclick="imagePreview(this.src)" />
+    <img id="profileImg" onclick="imagePreview(this.src)" />
+    <label id="itemTitle"></label>
+    <label id="itemSubTitle"></label>
+    <div id="my_sub_container_div"></div>
+  </div>
+  <script src="./JS/app.js"></script>
+
+</body>
+
 </html>

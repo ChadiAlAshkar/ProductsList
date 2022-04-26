@@ -88,7 +88,13 @@ function setupHandlers() {
     }
     if (response.tag == Constants.Collections.INTRODUCTION) {
       my_container_div.innerHTML = response.data.description;
-      viewer.loadItems(response.data.images);
+      if (listView.items.length == 0 && response.data.images.length == 0 && response.data.description == "") {
+        listViewContainer.classList.add("hidden");
+        emptyProds.classList.remove("hidden");
+      } else {
+        listViewContainer.classList.remove("hidden");
+        emptyProds.classList.add("hidden");
+      }
     }
     if (response.tag == Constants.Collections.LANGUAGE + "en-us") {
       t.config.lang = response;
@@ -154,6 +160,11 @@ function loadData() {
     searchTxt.setAttribute("placeholder", this.config.lang.data.search);
 
     listView.loadListViewItems(products);
+
+    if (results[1].length == 0 && results[0].data.images.length == 0 && results[0].data.description == "") {
+      listViewContainer.classList.add("hidden");
+      emptyProds.classList.remove("hidden");
+    }
     main.classList.remove("hidden")
   });
   let t = this;
@@ -170,8 +181,7 @@ function loadData() {
 function searchProducts(sort, searchText, overwrite, callback) {
   var searchOptions = {
     filter: {
-      $or: [
-        {
+      $or: [{
           "$json.title": {
             $regex: searchText,
             $options: "-i",
@@ -210,6 +220,23 @@ function searchProducts(sort, searchText, overwrite, callback) {
       listView.loadListViewItems(products);
     }
     this.config.endReached = result.length < this.config.limit;
+    if (carousel.classList.contains("hidden") && my_container_div.classList.contains("hidden")) {
+      if (this.config.skipIndex == 0 && result.length == 0) {
+        listViewContainer.classList.add("hidden");
+        emptyProds.classList.remove("hidden");
+      } else {
+        listViewContainer.classList.remove("hidden");
+        emptyProds.classList.add("hidden");
+      }
+    } else {
+      if (this.config.skipIndex == 0 && result.length == 0 && viewer.items.length == 0 && my_container_div.innerHTML == "") {
+        listViewContainer.classList.add("hidden");
+        emptyProds.classList.remove("hidden");
+      } else {
+        listViewContainer.classList.remove("hidden");
+        emptyProds.classList.add("hidden");
+      }
+    }
     callback();
   });
 }
@@ -227,10 +254,8 @@ function _fetchNextPage() {
 
 function openSortDrawer() {
   let t = this;
-  buildfire.components.drawer.open(
-    {
-      listItems: [
-        {
+  buildfire.components.drawer.open({
+      listItems: [{
           id: 1,
           text: this.config.lang.data.sortAsc,
         },
