@@ -14,9 +14,19 @@ var config = {
     title: 1,
   },
   lang: {},
+  appTheme: {}
 };
 
 function init() {
+  buildfire.appearance.getAppTheme((err, appTheme) => {
+    if (err) return console.error(err);
+    this.config.appTheme = appTheme.color;
+    document.getElementsByClassName('icon')[0].style.setProperty('color', appTheme.colors.icons, 'important');
+    document.getElementsByClassName('icon')[1].style.setProperty('color', appTheme.colors.icons, 'important');
+  
+  });
+
+
   this.loadData();
   this.setupHandlers();
 }
