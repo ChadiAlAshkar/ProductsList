@@ -88,6 +88,7 @@ function setupHandlers() {
     }
     if (response.tag == Constants.Collections.INTRODUCTION) {
       my_container_div.innerHTML = response.data.description;
+      viewer.loadItems(response.data.images);
       if (listView.items.length == 0 && response.data.images.length == 0 && response.data.description == "") {
         listViewContainer.classList.add("hidden");
         emptyProds.classList.remove("hidden");
