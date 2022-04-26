@@ -14,8 +14,8 @@ const searchTableConfig = {
     {
       header: "Title",
       data:
-        "${data.title.substring(0,20)}" +
-        "${data.title.length > 20 ? '...' : '' }",
+        "${data.title.substring(0,15)}" +
+        "${data.title.length > 15 ? '...' : '' }",
       type: "string",
       width: "",
       sortBy: "title",
@@ -23,8 +23,8 @@ const searchTableConfig = {
     {
       header: "Sub Title",
       data:
-        "${data.subTitle.substring(0,20)}" +
-        "${data.subTitle.length > 20 ? '...' : '' }",
+        "${data.subTitle.substring(0,15)}" +
+        "${data.subTitle.length > 15 ? '...' : '' }",
       type: "string",
       width: "",
       sortBy: "subTitle",

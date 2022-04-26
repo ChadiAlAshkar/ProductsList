@@ -64,6 +64,15 @@ function setupHandlers() {
     sendMessageToControl(true, productClicked);
   };
 
+  listViewContainer.onscroll = (e) => {
+    if (
+      (t.listViewContainer.scrollTop + t.listViewContainer.clientHeight) / t.listViewContainer.scrollHeight >
+      0.8
+    ) {
+      this._fetchNextPage();
+    }
+  };
+
   buildfire.navigation.onBackButtonClick = () => {
     if (main.classList.contains("hidden")) {
       clearSubItem();
@@ -174,16 +183,6 @@ function loadData() {
     }
     main.classList.remove("hidden")
   });
-  let t = this;
-  listViewContainer.onscroll = (e) => {
-    // console.log(t.listViewContainer.scrollTop / t.listViewContainer.scrollHeight)
-    if (
-      t.listViewContainer.scrollTop / t.listViewContainer.scrollHeight >
-      0.2
-    ) {
-      this._fetchNextPage();
-    }
-  };
 }
 
 function searchProducts(sort, searchText, overwrite, callback) {
