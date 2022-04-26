@@ -252,7 +252,6 @@ function _fetchNextPage() {
   if (this.config.fetchingNextPage) return;
   this.config.fetchingNextPage = true;
 
-  console.log(config.skipIndex, config.endReached)
   if (this.config.skipIndex > 0 && this.config.endReached) return;
   this.config.skipIndex++;
   this.searchProducts(this.config.defaultSort, "", false, () => {

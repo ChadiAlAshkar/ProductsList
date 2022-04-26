@@ -81,14 +81,19 @@ input:focus {
 #subpage {
     padding: 0 1rem;
 }
+
+label {
+    display: inline-block;
+}
+
 #itemTitle {
     font-style: normal;
     font-weight: 700;
     font-size: 24px;
     line-height: 29px;
     color: black;
-    margin-top: 3rem;
-    margin-bottom: 0.5rem;
+    margin-top: 3rem !important;
+    margin-bottom: 0.5rem !important;
 }
 
 #itemSubTitle {
@@ -104,4 +109,8 @@ input:focus {
     position: absolute;
     bottom: 10.75rem;
     left: 6.18rem;
+}
+
+.hidden {
+    display: none !important;
 }
