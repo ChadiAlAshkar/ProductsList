@@ -69,21 +69,8 @@ function setupCarouselHandlers() {
   };
 
   editor.onDeleteItem = (item, index) => {
-    buildfire.dialog.confirm({
-        title: "Are you sure?",
-        message: "Are you sure you want to delete this image?",
-        confirmButton: {
-          text: "Delete",
-          type: "danger",
-        },
-      },
-      (err, isConfirmed) => {
-        if (err) console.error(err);
-        if (isConfirmed) {
-          introduction.images.splice(index, 1);
-          save();
-        }
-      });
+    introduction.images.splice(index, 1);
+    save();
   };
 }
 
