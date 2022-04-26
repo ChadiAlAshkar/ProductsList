@@ -99,15 +99,20 @@ function setupHandlers() {
         } else {
           profileImg.src = message.data;
         }
-      } else if(message.id = 2){
+      } else if(message.id == 2){
         if(message.data == ""){
           coverImg.src = "../../../styles/media/holder-16x9.png"
         } else {
           coverImg.src = message.data;
         }
-      } else if(message.id = 3){
+      } else if(message.id == 3){
         itemTitle.innerHTML = message.data;
+      } else if(message.id == 4){
+        itemSubTitle.innerHTML = message.data;
+      }else if(message.id == 5){
+        wysiwygItemContent.innerHTML = message.data;
       }
+
     } else {
       if (message.openSubItemPage) {
         fillSubItem(message.itemClicked);
