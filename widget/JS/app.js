@@ -84,7 +84,11 @@ function setupHandlers() {
   buildfire.datastore.onUpdate((response) => {
     if (response.tag == Constants.Collections.PRODUCTS) {
       listView.clear();
-      t.searchProducts(t.config.defaultSort, "", false, () => {});
+      this.config.skipIndex = 0;
+      this.config.endReached = false;
+      t.searchProducts(t.config.defaultSort, "", false, () => {
+        this.config.fetchingNextPage = false;
+      });
     }
     if (response.tag == Constants.Collections.INTRODUCTION) {
       my_container_div.innerHTML = response.data.description;
@@ -115,7 +119,9 @@ function setupHandlers() {
     clearTimeout(timer);
     timer = setTimeout(() => {
       t.config.skipIndex = 0;
-      t.searchProducts(t.config.defaultSort, searchTxt.value, true, () => {});
+      t.searchProducts(t.config.defaultSort, searchTxt.value, true, () => {
+        this.config.fetchingNextPage = false;
+      });
     }, 500);
   });
 }
@@ -170,6 +176,7 @@ function loadData() {
   });
   let t = this;
   listViewContainer.onscroll = (e) => {
+    // console.log(t.listViewContainer.scrollTop / t.listViewContainer.scrollHeight)
     if (
       t.listViewContainer.scrollTop / t.listViewContainer.scrollHeight >
       0.2
@@ -246,6 +253,7 @@ function _fetchNextPage() {
   if (this.config.fetchingNextPage) return;
   this.config.fetchingNextPage = true;
 
+  console.log(config.skipIndex, config.endReached)
   if (this.config.skipIndex > 0 && this.config.endReached) return;
   this.config.skipIndex++;
   this.searchProducts(this.config.defaultSort, "", false, () => {
@@ -274,7 +282,9 @@ function openSortDrawer() {
         title: result.id,
         creationDate: -1,
       };
-      t.searchProducts(sort, "", true, () => {});
+      t.searchProducts(sort, "", true, () => {
+        this.config.fetchingNextPage = false;
+      });
     }
   );
 }
