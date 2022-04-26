@@ -239,8 +239,6 @@ function addProduct() {
   product.profileImgUrl = thumbnail.imageUrl;
   product.coverImgUrl = thumbnail2.imageUrl;
   product.subTitle = itemSubTitle.value;
-  console.log(thumbnail.imageUrl);
-  console.log(thumbnail2.imageUrl)
   return Products.insert(product);
 }
 

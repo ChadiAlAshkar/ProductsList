@@ -14,15 +14,27 @@ const dummyData = {
         if (results.readyState == 4 && results.status == 200) {
           let data = JSON.parse(results.responseText);
           data.forEach((row) => {
-            let r = {
+            let profImg = buildfire.imageLib.cropImage(
+              row.image, {
+                size: "full_width",
+                aspect: "1:1"
+              }
+            );
+            let coverImg = buildfire.imageLib.cropImage(
+              row.image, {
+                size: "full_width",
+                aspect: "16:9"
+              }
+            );
+            let prod = {
               title: row.title,
               subTitle: row.description,
               description: row.description,
               creationDate: new Date(),
-              profileImgUrl: row.image,
-              coverImgUrl: row.image,
+              profileImgUrl: profImg,
+              coverImgUrl: coverImg,
             };
-            records.push(r);
+            records.push(prod);
           });
           Products.bulkInsert(records)
             .then((result) => {
