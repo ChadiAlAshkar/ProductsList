@@ -32,18 +32,17 @@ function init() {
 
 init();
 var profileImage = "";
+var coverImage = "";
 function setupHandlers() {
   let t = this;
 
   thumbnail.onChange = (imageUrl) => {
     itemSaveBtn.disabled = checkSaveDisable();
-    console.log(profileImage)
-    console.log(imageUrl)
     if(t.profileImage != imageUrl){
-      t.profileImage = thumbnail.loadbackground(buildfire.imageLib.cropImage(
+      t.profileImage = buildfire.imageLib.cropImage(
         imageUrl,
-        { size: "full_width", aspect: "16:9" }
-      ));
+        { size: "full_width", aspect: "1:1" }
+      );
       thumbnail.loadbackground(t.profileImage);
     }
  
@@ -51,6 +50,13 @@ function setupHandlers() {
   };
   thumbnail2.onChange = (imageUrl) => {
     itemSaveBtn.disabled = checkSaveDisable();
+    if(t.coverImage != imageUrl){
+      t.coverImage = buildfire.imageLib.cropImage(
+        imageUrl,
+        { size: "full_width", aspect: "16:9" }
+      );
+      thumbnail2.loadbackground(t.coverImage);
+    }
   };
 
   thumbnail.onDelete = (imageUrl) => {
@@ -233,6 +239,8 @@ function addProduct() {
   product.profileImgUrl = thumbnail.imageUrl;
   product.coverImgUrl = thumbnail2.imageUrl;
   product.subTitle = itemSubTitle.value;
+  console.log(thumbnail.imageUrl);
+  console.log(thumbnail2.imageUrl)
   return Products.insert(product);
 }
 

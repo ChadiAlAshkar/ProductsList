@@ -56,6 +56,10 @@ function setupCarouselHandlers() {
 
   editor.onAddItems = (items) => {
     items.forEach((itm) => {
+      itm.iconUrl = buildfire.imageLib.cropImage(
+        itm.iconUrl,
+        { size: "full_width", aspect: "16:9" }
+      );
       introduction.images.push(itm);
       save();
     });
@@ -81,7 +85,6 @@ function reOrderCarousel(from, to) {
 
 function save() {
   introduction.description = tinymce.activeEditor.getContent();
-
   Introduction.save(introduction)
     .then((result) => {})
     .catch((err2) => {
