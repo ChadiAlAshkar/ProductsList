@@ -31,10 +31,23 @@ function init() {
 }
 
 init();
-
+var profileImage = "";
 function setupHandlers() {
+  let t = this;
+
   thumbnail.onChange = (imageUrl) => {
     itemSaveBtn.disabled = checkSaveDisable();
+    console.log(profileImage)
+    console.log(imageUrl)
+    if(t.profileImage != imageUrl){
+      t.profileImage = thumbnail.loadbackground(buildfire.imageLib.cropImage(
+        imageUrl,
+        { size: "full_width", aspect: "16:9" }
+      ));
+      thumbnail.loadbackground(t.profileImage);
+    }
+ 
+
   };
   thumbnail2.onChange = (imageUrl) => {
     itemSaveBtn.disabled = checkSaveDisable();
@@ -213,6 +226,7 @@ function updateProduct(product) {
 }
 
 function addProduct() {
+
   var product = new Product();
   product.title = itemTitle.value;
   product.description = tinymce.activeEditor.getContent();
