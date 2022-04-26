@@ -1,57 +1,39 @@
 let viewer = new buildfire.components.carousel.view(".carousel");
-let description = document.getElementById("my_container_div");
 let productClicked = null;
 const listView = new buildfire.components.listView("listViewContainer", {
   enableAddButton: false,
 });
 
-buildfire.navigation.onBackButtonClick = () => {
-  if (main.classList.contains("hidden")) {
-    productClicked = null;
-    itemTitle.innerHTML = "";
-    itemSubTitle.innerHTML = "";
-    main.classList.remove("hidden");
-    subpage.classList.add("hidden");
-    my_sub_container_div.innerHTML = "";
-    coverImg.src = null;
-    profileImg.src = null;
-    body.scrollTo(0, 0);
-
-    buildfire.messaging.sendMessageToControl({
-      openSub: false
-    });
-  }
+var config = {
+  skipIndex: 0,
+  limit: 10,
+  endReached: false,
+  fetchingNextPage: false,
+  defaultSort: {
+    creationDate: -1,
+    title: 1,
+  },
+  lang: {},
 };
 
-buildfire.messaging.onReceivedMessage = (message) => {
-  console.log("Message received", message);
-  if (message.openSub) {
-    productClicked = message.itemClicked;
-    itemTitle.innerHTML = message.itemClicked.data.title;
-    itemSubTitle.innerHTML = message.itemClicked.data.subTitle;
-    main.classList.add("hidden");
-    subpage.classList.remove("hidden");
-    my_sub_container_div.innerHTML = message.itemClicked.data.description;
-    coverImg.src = message.itemClicked.data.coverImgUrl;
-    profileImg.src = message.itemClicked.data.profileImgUrl;
+function init() {
+  this.loadData();
+  this.setupHandlers();
+}
 
-    body.scrollTo(0, 0);
-  } else {
-    if (main.classList.contains("hidden")) {
-      productClicked = null;
-      itemTitle.innerHTML = "";
-      itemSubTitle.innerHTML = "";
-      main.classList.remove("hidden");
-      subpage.classList.add("hidden");
-      my_sub_container_div.innerHTML = "";
-      coverImg.src = null;
-      profileImg.src = null;
-      body.scrollTo(0, 0);
-    }
-  }
-};
+function clearSubItem() {
+  productClicked = null;
+  itemTitle.innerHTML = "";
+  itemSubTitle.innerHTML = "";
+  main.classList.remove("hidden");
+  subpage.classList.add("hidden");
+  my_sub_container_div.innerHTML = "";
+  coverImg.src = null;
+  profileImg.src = null;
+  body.scrollTo(0, 0);
+}
 
-listView.onItemClicked = (item) => {
+function fillSubItem(item) {
   productClicked = item;
   itemTitle.innerHTML = item.data.title;
   itemSubTitle.innerHTML = item.data.subTitle;
@@ -60,21 +42,60 @@ listView.onItemClicked = (item) => {
   my_sub_container_div.innerHTML = item.data.description;
   coverImg.src = item.data.coverImgUrl;
   profileImg.src = item.data.profileImgUrl;
-
   body.scrollTo(0, 0);
+}
 
+function sendMessageToControl(isOpeningSubItemPage, item) {
   buildfire.messaging.sendMessageToControl({
-    openSub: true,
-    itemClicked: productClicked
+    openSubItemPage: isOpeningSubItemPage,
+    itemClicked: {
+      data: item.data,
+      id: item.id,
+    },
   });
-};
-let lang = {};
+}
 
-function init() {
-  this.getData();
-
+function setupHandlers() {
   let timer;
   let t = this;
+
+  listView.onItemClicked = (item) => {
+    fillSubItem(item);
+    sendMessageToControl(true, productClicked);
+  };
+
+  buildfire.navigation.onBackButtonClick = () => {
+    if (main.classList.contains("hidden")) {
+      clearSubItem();
+      sendMessageToControl(false, "");
+    }
+  };
+
+  buildfire.messaging.onReceivedMessage = (message) => {
+    if (message.openSubItemPage) {
+      fillSubItem(message.itemClicked);
+    } else {
+      if (main.classList.contains("hidden")) {
+        clearSubItem();
+      }
+    }
+  };
+
+  buildfire.datastore.onUpdate((response) => {
+    if (response.tag == Constants.Collections.PRODUCTS) {
+      listView.clear();
+      t.searchProducts(t.config.defaultSort, "", false, () => {});
+    }
+    if (response.tag == Constants.Collections.INTRODUCTION) {
+      my_container_div.innerHTML = response.data.description;
+      viewer.loadItems(response.data.images);
+    }
+    if (response.tag == Constants.Collections.LANGUAGE + "en-us") {
+      t.config.lang = response;
+      searchTxt.setAttribute("placeholder", t.config.lang.data.search);
+    }
+  });
+
   searchTxt.addEventListener("keyup", function (event) {
     if (searchTxt.value != "") {
       carousel.classList.add("hidden");
@@ -86,69 +107,27 @@ function init() {
     listView.clear();
     clearTimeout(timer);
     timer = setTimeout(() => {
-      console.log(1);
-      t.skipIndex = 0;
-      let sort = {
-        creationDate: -1,
-        title: 1,
-      };
-      t.search(sort, searchTxt.value, true, () => {});
+      t.config.skipIndex = 0;
+      t.searchProducts(t.config.defaultSort, searchTxt.value, true, () => {});
     }, 500);
   });
+}
 
-  buildfire.datastore.onUpdate((response) => {
-    if (response.tag == Constants.Collections.PRODUCTS) {
-      listView.clear();
-      let sort = {
-        creationDate: -1,
-        title: 1,
-      };
-      this.search(sort, "", false, () => {});
-    }
-    if (response.tag == Constants.Collections.INTRODUCTION) {
-      description.innerHTML = response.data.description;
-      viewer.loadItems(response.data.images);
-    }
-    if (response.tag == Constants.Collections.LANGUAGE + "en-us") {
-      this.lang = response;
-      searchTxt.setAttribute("placeholder", this.lang.data.search);
-    }
+function imagePreview(imageUrl) {
+  buildfire.imagePreviewer.show({
+    images: [imageUrl],
   });
 }
 
-function imagePreview(img) {
-  if (img == 1) {
-    buildfire.imagePreviewer.show({
-        images: [productClicked.data.coverImgUrl],
-      },
-      () => {
-        console.log("Image previewer closed");
-      }
-    );
-  } else {
-
-    buildfire.imagePreviewer.show({
-        images: [productClicked.data.profileImgUrl],
-      },
-      () => {
-        console.log("Image previewer closed");
-      }
-    );
-  }
-}
-
-skipIndex = 0;
-limit = 10;
-
-function getData() {
+function loadData() {
   var searchOptions = {
     filter: {},
     sort: {
       creationDate: -1,
       title: 1,
     },
-    skip: this.skipIndex,
-    limit: this.limit,
+    skip: this.config.skipIndex,
+    limit: this.config.limit,
   };
   var promise1 = Introduction.get();
   var promise2 = Products.search(searchOptions);
@@ -165,16 +144,17 @@ function getData() {
       t.data = element.data;
       products.push(t);
     });
-    if (results[1].length < this.limit) {
-      endReached = false;
+    if (results[1].length < this.config.limit) {
+      this.config.endReached = false;
     }
     viewer.loadItems(results[0].data.images);
-    description.innerHTML = results[0].data.description;
+    my_container_div.innerHTML = results[0].data.description;
 
-    this.lang = results[2];
-    searchTxt.setAttribute("placeholder", this.lang.data.search);
+    this.config.lang = results[2];
+    searchTxt.setAttribute("placeholder", this.config.lang.data.search);
 
     listView.loadListViewItems(products);
+    main.classList.remove("hidden")
   });
   let t = this;
   listViewContainer.onscroll = (e) => {
@@ -186,35 +166,12 @@ function getData() {
     }
   };
 }
-var endReached = false;
-var fetchingNextPage = false;
 
-function _fetchNextPage() {
-  if (this.fetchingNextPage) return;
-  this.fetchingNextPage = true;
-
-  getNextData(() => {
-    this.fetchingNextPage = false;
-  });
-}
-
-function getNextData(callback) {
-  if (this.skipIndex > 0 && this.endReached) return;
-  skipIndex++;
-
-  let sort = {
-    creationDate: -1,
-    title: 1,
-  };
-  this.search(sort, "", false, () => {
-    callback();
-  });
-}
-
-function search(sort, searchText, overwrite, callback) {
+function searchProducts(sort, searchText, overwrite, callback) {
   var searchOptions = {
     filter: {
-      $or: [{
+      $or: [
+        {
           "$json.title": {
             $regex: searchText,
             $options: "-i",
@@ -229,8 +186,8 @@ function search(sort, searchText, overwrite, callback) {
       ],
     },
     sort: sort,
-    skip: this.skipIndex * this.limit,
-    limit: this.limit,
+    skip: this.config.skipIndex * this.config.limit,
+    limit: this.config.limit,
   };
 
   Products.search(searchOptions).then((result) => {
@@ -252,21 +209,34 @@ function search(sort, searchText, overwrite, callback) {
     if (overwrite) {
       listView.loadListViewItems(products);
     }
-    this.endReached = result.length < this.limit;
+    this.config.endReached = result.length < this.config.limit;
     callback();
   });
 }
 
-function openSort() {
+function _fetchNextPage() {
+  if (this.config.fetchingNextPage) return;
+  this.config.fetchingNextPage = true;
+
+  if (this.config.skipIndex > 0 && this.config.endReached) return;
+  this.config.skipIndex++;
+  this.searchProducts(this.config.defaultSort, "", false, () => {
+    this.config.fetchingNextPage = false;
+  });
+}
+
+function openSortDrawer() {
   let t = this;
-  buildfire.components.drawer.open({
-      listItems: [{
+  buildfire.components.drawer.open(
+    {
+      listItems: [
+        {
           id: 1,
-          text: this.lang.data.sortAsc,
+          text: this.config.lang.data.sortAsc,
         },
         {
           id: -1,
-          text: this.lang.data.sortDesc,
+          text: this.config.lang.data.sortDesc,
         },
       ],
     },
@@ -278,7 +248,7 @@ function openSort() {
         title: result.id,
         creationDate: -1,
       };
-      t.search(sort, "", true, () => {});
+      t.searchProducts(sort, "", true, () => {});
     }
   );
 }

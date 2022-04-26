@@ -59,39 +59,44 @@ function setupHandlers() {
     }
   });
   searchTableHelper.onEditRow = (obj, tr) => {
-    thumbnail.loadbackground(obj.data.profileImgUrl);
-    thumbnail2.loadbackground(obj.data.coverImgUrl);
-    itemTitle.value = obj.data.title;
-    itemSubTitle.value = obj.data.subTitle;
-    tinymce.get("wysiwygContent").setContent(obj.data.description);
-    itemSaveBtn.disabled = checkSaveDisable();
-    mainDiv.classList.add("hidden");
-    subDiv.classList.remove("hidden");
-    editedProduct = obj;
-
+    fillSubItem(obj);
     buildfire.messaging.sendMessageToWidget({
-      openSub: true,
-      itemClicked: editedProduct
+      openSubItemPage: true,
+      itemClicked: editedProduct,
     });
   };
 
   buildfire.messaging.onReceivedMessage = (message) => {
-    console.log(message)
-    // if (message.openSub) {
-    //   thumbnail.loadbackground(message.itemClicked.data.profileImgUrl);
-    //   thumbnail2.loadbackground(message.itemClicked.data.coverImgUrl);
-    //   itemTitle.value = message.itemClicked.data.title;
-    //   itemSubTitle.value = message.itemClicked.data.subTitle;
-    //   tinymce.get("wysiwygContent").setContent(message.itemClicked.data.description);
-    //   itemSaveBtn.disabled = checkSaveDisable();
-    //   mainDiv.classList.add("hidden");
-    //   subDiv.classList.remove("hidden");
-    //   editedProduct = message.itemClicked;
-    // } else {
-    //   document.getElementById("mainDiv").classList.remove("hidden");
-    //   document.getElementById("subDiv").classList.add("hidden");
-    // }
+    if (message.openSubItemPage) {
+      fillSubItem(message.itemClicked);
+    } else {
+      backToMain();
+    }
   };
+}
+
+function fillSubItem(item) {
+  thumbnail.loadbackground(item.data.profileImgUrl);
+  thumbnail2.loadbackground(item.data.coverImgUrl);
+  itemTitle.value = item.data.title;
+  itemSubTitle.value = item.data.subTitle;
+  tinymce.get("wysiwygContent").setContent(item.data.description);
+  itemSaveBtn.disabled = checkSaveDisable();
+  
+  editedProduct = item;
+  main.classList.add("hidden");
+  subpage.classList.remove("hidden");
+}
+
+function initSubItemPage() {
+  thumbnail.clear();
+  thumbnail2.clear();
+  itemTitle.value = "";
+  itemSubTitle.value = "";
+  tinymce.get("wysiwygContent").setContent("");
+  itemSaveBtn.disabled = checkSaveDisable();
+  main.classList.add("hidden");
+  subpage.classList.remove("hidden");
 }
 
 function initTinymce() {
@@ -115,7 +120,8 @@ function initTinymce() {
 }
 
 function openIntroductionPage() {
-  buildfire.navigation.navigateToTab({
+  buildfire.navigation.navigateToTab(
+    {
       tabTitle: "Introduction",
       deeplinkData: {},
     },
@@ -127,21 +133,14 @@ function openIntroductionPage() {
 }
 
 function openSubItemPage() {
-  thumbnail.clear();
-  thumbnail2.clear();
-  itemTitle.value = "";
-  itemSubTitle.value = "";
-  tinymce.get("wysiwygContent").setContent("");
-  itemSaveBtn.disabled = checkSaveDisable();
-  mainDiv.classList.add("hidden");
-  subDiv.classList.remove("hidden");
+  initSubItemPage();
 }
 
 function backToMain() {
-  document.getElementById("mainDiv").classList.remove("hidden");
-  document.getElementById("subDiv").classList.add("hidden");
+  main.classList.remove("hidden");
+  subpage.classList.add("hidden");
   buildfire.messaging.sendMessageToWidget({
-    openSub: false
+    openSubItemPage: false,
   });
 }
 
