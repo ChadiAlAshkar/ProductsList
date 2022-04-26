@@ -91,8 +91,6 @@ function setupHandlers() {
   };
 
   buildfire.messaging.onReceivedMessage = (message) => {
-    console.log(message.id)
-    if(message.id) {
       if(message.id == 1){
         if(message.data == ""){
           profileImg.src = "../../../styles/media/holder-1x1.png"
@@ -111,17 +109,17 @@ function setupHandlers() {
         itemSubTitle.innerHTML = message.data;
       }else if(message.id == 5){
         wysiwygItemContent.innerHTML = message.data;
-      }
-
-    } else {
-      if (message.openSubItemPage) {
+      } else if (message.id == 6 ){
+        main.classList.add("hidden");
+        subpage.classList.remove("hidden");
+      } else if (message.id == 7){
         fillSubItem(message.itemClicked);
-      } else {
+
+      } else if(message.id == 8 ){
         if (main.classList.contains("hidden")) {
           clearSubItem();
         }
-      }
-    }
+      } 
    
   };
 

@@ -113,6 +113,7 @@ function setupHandlers() {
   searchTableHelper.onEditRow = (obj, tr) => {
     fillSubItem(obj);
     buildfire.messaging.sendMessageToWidget({
+      id: 7,
       openSubItemPage: true,
       itemClicked: editedProduct,
     });
@@ -201,12 +202,16 @@ function openIntroductionPage() {
 
 function openSubItemPage() {
   initSubItemPage();
+  buildfire.messaging.sendMessageToWidget({
+    id : 6,
+  });
 }
 
 function backToMain() {
   main.classList.remove("hidden");
   subpage.classList.add("hidden");
   buildfire.messaging.sendMessageToWidget({
+    id: 8,
     openSubItemPage: false,
   });
 }
