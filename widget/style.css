@@ -78,10 +78,6 @@ input:focus {
     box-shadow: 0 0.125rem 0.5rem rgb(150 150 150 / 20%);
 }
 
-#subpage {
-    padding: 0 1rem;
-}
-
 label {
     display: inline-block;
 }
@@ -94,6 +90,7 @@ label {
     color: black;
     margin-top: 3rem !important;
     margin-bottom: 0.5rem !important;
+    padding: 0 1rem;
 }
 
 #itemSubTitle {
@@ -103,6 +100,11 @@ label {
     line-height: 29px;
     color: black;
     margin-bottom: 1.5rem;
+    padding: 0 1rem;
+}
+
+#wysiwygItemContent{
+    padding: 0 1rem;
 }
 
 #emptyProds {

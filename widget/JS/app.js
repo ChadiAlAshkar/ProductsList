@@ -27,7 +27,7 @@ function clearSubItem() {
   itemSubTitle.innerHTML = "";
   main.classList.remove("hidden");
   subpage.classList.add("hidden");
-  my_sub_container_div.innerHTML = "";
+  wysiwygItemContent.innerHTML = "";
   coverImg.src = null;
   profileImg.src = null;
   body.scrollTo(0, 0);
@@ -39,7 +39,7 @@ function fillSubItem(item) {
   itemSubTitle.innerHTML = item.data.subTitle;
   main.classList.add("hidden");
   subpage.classList.remove("hidden");
-  my_sub_container_div.innerHTML = item.data.description;
+  wysiwygItemContent.innerHTML = item.data.description;
   coverImg.src = item.data.coverImgUrl;
   profileImg.src = item.data.profileImgUrl;
   body.scrollTo(0, 0);
@@ -100,7 +100,7 @@ function setupHandlers() {
       });
     }
     if (response.tag == Constants.Collections.INTRODUCTION) {
-      my_container_div.innerHTML = response.data.description;
+      wysiwygContent.innerHTML = response.data.description;
       viewer.loadItems(response.data.images);
       if (listView.items.length == 0 && response.data.images.length == 0 && response.data.description == "") {
         listViewContainer.classList.add("hidden");
@@ -119,10 +119,10 @@ function setupHandlers() {
   searchTxt.addEventListener("keyup", function (event) {
     if (searchTxt.value != "") {
       carousel.classList.add("hidden");
-      my_container_div.classList.add("hidden");
+      wysiwygContent.classList.add("hidden");
     } else {
       carousel.classList.remove("hidden");
-      my_container_div.classList.remove("hidden");
+      wysiwygContent.classList.remove("hidden");
     }
     listView.clear();
     clearTimeout(timer);
@@ -170,7 +170,7 @@ function loadData() {
       this.config.endReached = false;
     }
     viewer.loadItems(results[0].data.images);
-    my_container_div.innerHTML = results[0].data.description;
+    wysiwygContent.innerHTML = results[0].data.description;
 
     this.config.lang = results[2];
     searchTxt.setAttribute("placeholder", this.config.lang.data.search);
@@ -227,7 +227,7 @@ function searchProducts(sort, searchText, overwrite, callback) {
       listView.loadListViewItems(products);
     }
     this.config.endReached = result.length < this.config.limit;
-    if (carousel.classList.contains("hidden") && my_container_div.classList.contains("hidden")) {
+    if (carousel.classList.contains("hidden") && wysiwygContent.classList.contains("hidden")) {
       if (this.config.skipIndex == 0 && result.length == 0) {
         listViewContainer.classList.add("hidden");
         emptyProds.classList.remove("hidden");
@@ -236,7 +236,7 @@ function searchProducts(sort, searchText, overwrite, callback) {
         emptyProds.classList.add("hidden");
       }
     } else {
-      if (this.config.skipIndex == 0 && result.length == 0 && viewer.items.length == 0 && my_container_div.innerHTML == "") {
+      if (this.config.skipIndex == 0 && result.length == 0 && viewer.items.length == 0 && wysiwygContent.innerHTML == "") {
         listViewContainer.classList.add("hidden");
         emptyProds.classList.remove("hidden");
       } else {
