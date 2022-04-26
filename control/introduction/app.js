@@ -57,18 +57,33 @@ function setupCarouselHandlers() {
   editor.onAddItems = (items) => {
     items.forEach((itm) => {
       itm.iconUrl = buildfire.imageLib.cropImage(
-        itm.iconUrl,
-        { size: "full_width", aspect: "16:9" }
+        itm.iconUrl, {
+          size: "full_width",
+          aspect: "16:9"
+        }
       );
       introduction.images.push(itm);
-      save();
     });
+    save();
     changeDefaultDeleteIcon();
   };
 
   editor.onDeleteItem = (item, index) => {
-    introduction.images.splice(index, 1);
-    save();
+    buildfire.dialog.confirm({
+        title: "Are you sure?",
+        message: "Are you sure you want to delete this image?",
+        confirmButton: {
+          text: "Delete",
+          type: "danger",
+        },
+      },
+      (err, isConfirmed) => {
+        if (err) console.error(err);
+        if (isConfirmed) {
+          introduction.images.splice(index, 1);
+          save();
+        }
+      });
   };
 }
 
