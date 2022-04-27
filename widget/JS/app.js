@@ -14,7 +14,10 @@ var config = {
     title: 1,
   },
   lang: {},
-  appTheme: {}
+  appTheme: {},
+  
+  fillingCover : false,
+  fillingProfile : false
 };
 
 function buildSkeletonUI() {
@@ -71,12 +74,12 @@ function fillSubItem(item) {
   main.classList.add("hidden");
   subpage.classList.remove("hidden");
   wysiwygItemContent.innerHTML = item.data.description;
-  if (!fillingCover) {
-    fillingCover = true;
+  if (!this.config.fillingCover) {
+    this.config.fillingCover = true;
     this.animateImg(coverImgBody, item.data.coverImgUrl, 500)
   }
-  if (!fillingProfile) {
-    fillingProfile = true;
+  if (!this.config.fillingProfile) {
+    this.config.fillingProfile = true;
     this.animateImg(profileImgBody, item.data.profileImgUrl, 1000)
   }
   body.scrollTo(0, 0);
@@ -99,7 +102,8 @@ function animateImg(element, imgUrl , duration){
         iterations: 1
       }
     )
-    fillingProfile = false;
+    this.config.fillingProfile = false;
+    this.config.fillingCover = false
   }, duration);
 }
 
@@ -113,8 +117,6 @@ function sendMessageToControl(isOpeningSubItemPage, item) {
   });
 }
 
-fillingCover = false;
-fillingProfile = false;
 
 function setupHandlers() {
   let timer;
@@ -149,8 +151,8 @@ function setupHandlers() {
             if (message.data == "") {
               profileImgBody.src = "../../../styles/media/holder-1x1.png"
             } else {
-              if (!fillingProfile) {
-                fillingProfile = true;
+              if (!this.config.fillingProfile) {
+                this.config.fillingProfile = true;
                 this.animateImg(profileImgBody, message.data, 1000)
               }
             }
@@ -159,10 +161,9 @@ function setupHandlers() {
             if (message.data == "") {
               coverImgBody.src = "../../../styles/media/holder-16x9.png"
             } else {
-              if (!fillingCover) {
-                fillingCover = true;
+              if (!this.config.fillingCover) {
+                this.config.fillingCover = true;
                 this.animateImg(coverImgBody, message.data, 500)
-               
               }
             }
             break;
