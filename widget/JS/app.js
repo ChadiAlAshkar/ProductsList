@@ -23,7 +23,7 @@ function init() {
     this.config.appTheme = appTheme.color;
     document.getElementsByClassName('icon')[0].style.setProperty('color', appTheme.colors.icons, 'important');
     document.getElementsByClassName('icon')[1].style.setProperty('color', appTheme.colors.icons, 'important');
-  
+
   });
 
 
@@ -91,36 +91,47 @@ function setupHandlers() {
   };
 
   buildfire.messaging.onReceivedMessage = (message) => {
-      if(message.id == 1){
-        if(message.data == ""){
-          profileImg.src = "../../../styles/media/holder-1x1.png"
-        } else {
-          profileImg.src = message.data;
+    if (message) {
+      if (message.id) {
+        switch (message.id) {
+          case 1:
+            if (message.data == "") {
+              profileImg.src = "../../../styles/media/holder-1x1.png"
+            } else {
+              profileImg.src = message.data;
+            }
+            break;
+          case 2:
+            if (message.data == "") {
+              coverImg.src = "../../../styles/media/holder-16x9.png"
+            } else {
+              coverImg.src = message.data;
+            }
+            break;
+          case 3:
+            itemTitle.innerHTML = message.data;
+            break;
+          case 4:
+            itemSubTitle.innerHTML = message.data;
+            break;
+          case 5:
+            wysiwygItemContent.innerHTML = message.data;
+            break;
+          case 6:
+            main.classList.add("hidden");
+            subpage.classList.remove("hidden");
+            break;
+          case 7:
+            fillSubItem(message.itemClicked);
+            break;
+          case 8:
+            if (main.classList.contains("hidden")) {
+              clearSubItem();
+            }
+            break;
         }
-      } else if(message.id == 2){
-        if(message.data == ""){
-          coverImg.src = "../../../styles/media/holder-16x9.png"
-        } else {
-          coverImg.src = message.data;
-        }
-      } else if(message.id == 3){
-        itemTitle.innerHTML = message.data;
-      } else if(message.id == 4){
-        itemSubTitle.innerHTML = message.data;
-      }else if(message.id == 5){
-        wysiwygItemContent.innerHTML = message.data;
-      } else if (message.id == 6 ){
-        main.classList.add("hidden");
-        subpage.classList.remove("hidden");
-      } else if (message.id == 7){
-        fillSubItem(message.itemClicked);
-
-      } else if(message.id == 8 ){
-        if (main.classList.contains("hidden")) {
-          clearSubItem();
-        }
-      } 
-   
+      }
+    }
   };
 
   buildfire.datastore.onUpdate((response) => {
