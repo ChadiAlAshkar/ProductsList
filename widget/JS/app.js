@@ -19,6 +19,7 @@ var config = {
 
 function buildSkeletonUI() {
   ui.createElement('div', skeleton, "", ["carouselLoad", "loadColor"]);
+  ui.createElement('div', skeleton, "", ["user-card"]);
   for (var i = 0; i < 3; i++) {
     var itemLoadClass = "item1Load";
     if (i != 0) {
@@ -33,7 +34,7 @@ function buildSkeletonUI() {
 }
 
 function init() {
-  //  buildSkeletonUI();
+  buildSkeletonUI();
   buildfire.appearance.getAppTheme((err, appTheme) => {
     if (err) return console.error(err);
     this.config.appTheme = appTheme.color;
