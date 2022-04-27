@@ -142,30 +142,25 @@ label {
 .user-card {
     content: "";
     position: absolute;
-    left: 0%;
+    left: -60px;
     top: 0;
     height: 100%;
     width: 50px;
     background: white;
     animation-name: gradient-animation;
     animation-duration: 2s;
+    animation-delay: 1s;
     animation-iteration-count: infinite;
     filter: blur(5px);
-    z-index: 1000;
-  }
-/* .loadColor {
-    width: 100%;
-    background: linear-gradient(to right, #e2e2e2 25%, #d5d5d5 50%, #e2e2e2 100%);;
-    animation-name: gradient-animation;
-    animation-duration: 2s;
-    animation-iteration-count: infinite;
-    filter: blur(5px);
-} */
+    z-index: 1;
+}
+
 @keyframes gradient-animation {
-    from {
-      left: 0%;
+    0% {
+        left: 0%;
     }
-    to {
-      left: 100%;
+    30%,
+    100% {
+        left: 120%;
     }
-  }
+}
