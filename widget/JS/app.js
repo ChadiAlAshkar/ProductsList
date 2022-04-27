@@ -3,7 +3,7 @@ let productClicked = null;
 const listView = new buildfire.components.listView("listViewContainer", {
   enableAddButton: false,
 });
-
+var products = [];
 var config = {
   skipIndex: 0,
   limit: 10,
@@ -121,7 +121,6 @@ function sendMessageToControl(isOpeningSubItemPage, item) {
   });
 }
 
-let products = [];
 
 function setupHandlers() {
   let timer;
@@ -152,7 +151,7 @@ function setupHandlers() {
     if (message) {
       if (message.id) {
         switch (message.id) {
-          case Enum.messageID.profileImg:
+          case Enum.messageType.profileImg:
             if (message.data == "") {
               profileImgBody.src = "../../../styles/media/holder-1x1.png"
             } else {
@@ -162,7 +161,7 @@ function setupHandlers() {
               }
             }
             break;
-          case Enum.messageID.coverImg:
+          case Enum.messageType.coverImg:
             if (message.data == "") {
               coverImgBody.src = "../../../styles/media/holder-16x9.png"
             } else {
@@ -172,23 +171,23 @@ function setupHandlers() {
               }
             }
             break;
-          case Enum.messageID.title:
+          case Enum.messageType.title:
             itemTitle.innerHTML = message.data;
             break;
-          case Enum.messageID.subTitle:
+          case Enum.messageType.subTitle:
             itemSubTitle.innerHTML = message.data;
             break;
-          case Enum.messageID.description:
+          case Enum.messageType.description:
             wysiwygItemContent.innerHTML = message.data;
             break;
-          case Enum.messageID.newItem:
+          case Enum.messageType.newItem:
             main.classList.add("hidden");
             subpage.classList.remove("hidden");
             break;
-          case Enum.messageID.editItem:
+          case Enum.messageType.editItem:
             fillSubItem(message.itemClicked);
             break;
-          case Enum.messageID.closeItem:
+          case Enum.messageType.closeItem:
             if (main.classList.contains("hidden")) {
               clearSubItem();
             }

@@ -1,5 +1,5 @@
 class Enum {
-    static get messageID() {
+    static get messageType() {
         return {
             profileImg: "ProfileImage",
             coverImg: "CoverImage",

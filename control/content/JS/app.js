@@ -49,7 +49,7 @@ function setupHandlers() {
       );
       thumbnail.loadbackground(t.profileImage);
       buildfire.messaging.sendMessageToWidget({
-        id: Enum.messageID.profileImg,
+        id: Enum.messageType.profileImg,
         data: t.profileImage,
       });
     }
@@ -67,7 +67,7 @@ function setupHandlers() {
       );
       thumbnail2.loadbackground(t.coverImage);
       buildfire.messaging.sendMessageToWidget({
-        id: Enum.messageID.coverImg,
+        id: Enum.messageType.coverImg,
         data: t.coverImage,
       });
     }
@@ -76,14 +76,14 @@ function setupHandlers() {
   thumbnail.onDelete = (imageUrl) => {
     itemSaveBtn.disabled = true;
     buildfire.messaging.sendMessageToWidget({
-      id: Enum.messageID.profileImg,
+      id: Enum.messageType.profileImg,
       data: ""
     });
   };
   thumbnail2.onDelete = (imageUrl) => {
     itemSaveBtn.disabled = true;
     buildfire.messaging.sendMessageToWidget({
-      id: Enum.messageID.coverImg,
+      id: Enum.messageType.coverImg,
       data: ""
     });
 
@@ -96,7 +96,7 @@ function setupHandlers() {
     clearTimeout(timer);
     timer = setTimeout(() => {
       buildfire.messaging.sendMessageToWidget({
-        id: Enum.messageID.title,
+        id: Enum.messageType.title,
         data: itemTitle.value,
       });
     }, 500)
@@ -113,7 +113,7 @@ function setupHandlers() {
   searchTableHelper.onEditRow = (obj, tr) => {
     fillSubItem(obj);
     buildfire.messaging.sendMessageToWidget({
-      id: Enum.messageID.editItem,
+      id: Enum.messageType.editItem,
       openSubItemPage: true,
       itemClicked: editedProduct,
     });
@@ -131,7 +131,7 @@ function setupHandlers() {
     clearTimeout(timer);
     timer = setTimeout(() => {
       buildfire.messaging.sendMessageToWidget({
-        id: Enum.messageID.subTitle,
+        id: Enum.messageType.subTitle,
         data: itemSubTitle.value,
       });
     }, 500)
@@ -170,7 +170,7 @@ function initTinymce() {
         clearTimeout(timer);
         timer = setTimeout(() => {
           buildfire.messaging.sendMessageToWidget({
-            id: Enum.messageID.description,
+            id: Enum.messageType.description,
             data: tinymce.get("wysiwygContent").getContent(),
           });
         }, 500);
@@ -179,7 +179,7 @@ function initTinymce() {
         clearTimeout(timer);
         timer = setTimeout(() => {
           buildfire.messaging.sendMessageToWidget({
-            id: Enum.messageID.description,
+            id: Enum.messageType.description,
             data: tinymce.get("wysiwygContent").getContent(),
           });
         }, 500);
@@ -202,7 +202,7 @@ function openIntroductionPage() {
 function openSubItemPage() {
   initSubItemPage();
   buildfire.messaging.sendMessageToWidget({
-    id: Enum.messageID.newItem,
+    id: Enum.messageType.newItem,
   });
 }
 
@@ -210,7 +210,7 @@ function backToMain() {
   main.classList.remove("hidden");
   subpage.classList.add("hidden");
   buildfire.messaging.sendMessageToWidget({
-    id: Enum.messageID.closeItem,
+    id: Enum.messageType.closeItem,
     openSubItemPage: false,
   });
 }
