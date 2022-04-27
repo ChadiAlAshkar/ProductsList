@@ -73,49 +73,34 @@ function fillSubItem(item) {
   wysiwygItemContent.innerHTML = item.data.description;
   if (!fillingCover) {
     fillingCover = true;
-    setTimeout(() => {
-      coverImgBody.src = item.data.coverImgUrl;
-      coverImgBody.animate(
-        [{
-            opacity: .1
-          },
-          {
-            opacity: .5
-          },
-          {
-            opacity: 1
-          }
-        ], {
-          duration: 200,
-          iterations: 1
-        }
-      )
-      fillingCover = false;
-    }, 500);
+    this.animateImg(coverImgBody, item.data.coverImgUrl, 500)
   }
   if (!fillingProfile) {
     fillingProfile = true;
-    setTimeout(() => {
-      profileImgBody.src = item.data.profileImgUrl;
-      profileImgBody.animate(
-        [{
-            opacity: .1
-          },
-          {
-            opacity: .5
-          },
-          {
-            opacity: 1
-          }
-        ], {
-          duration: 200,
-          iterations: 1
-        }
-      )
-      fillingProfile = false;
-    }, 1000);
+    this.animateImg(profileImgBody, item.data.profileImgUrl, 1000)
   }
   body.scrollTo(0, 0);
+}
+function animateImg(element, imgUrl , duration){
+  setTimeout(() => {
+    element.src = imgUrl;
+    element.animate(
+      [{
+          opacity: .1
+        },
+        {
+          opacity: .5
+        },
+        {
+          opacity: 1
+        }
+      ], {
+        duration: 200,
+        iterations: 1
+      }
+    )
+    fillingProfile = false;
+  }, duration);
 }
 
 function sendMessageToControl(isOpeningSubItemPage, item) {
@@ -166,25 +151,7 @@ function setupHandlers() {
             } else {
               if (!fillingProfile) {
                 fillingProfile = true;
-                setTimeout(() => {
-                  profileImgBody.src = message.data;
-                  profileImgBody.animate(
-                    [{
-                        opacity: .1
-                      }, 
-                      {
-                        opacity: .5
-                      },
-                      {
-                        opacity: 1
-                      }
-                    ], {
-                      duration: 200,
-                      iterations: 1
-                    }
-                  )
-                  fillingProfile = false;
-                }, 1000);
+                this.animateImg(profileImgBody, message.data, 1000)
               }
             }
             break;
@@ -194,25 +161,8 @@ function setupHandlers() {
             } else {
               if (!fillingCover) {
                 fillingCover = true;
-                setTimeout(() => {
-                  coverImgBody.src = message.data;
-                  coverImgBody.animate(
-                    [{
-                        opacity: .1
-                      },
-                      {
-                        opacity: .5
-                      },
-                      {
-                        opacity: 1
-                      }
-                    ], {
-                      duration: 200,
-                      iterations: 1
-                    }
-                  )
-                  fillingCover = false;
-                }, 500);
+                this.animateImg(coverImgBody, message.data, 500)
+               
               }
             }
             break;
