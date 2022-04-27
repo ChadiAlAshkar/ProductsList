@@ -99,10 +99,9 @@ label {
     margin-bottom: 1.5rem;
     padding: 0 1rem;
     width: 100%;
-
 }
 
-#wysiwygItemContent{
+#wysiwygItemContent {
     width: 100%;
 
     padding: 0 1rem;
@@ -116,4 +115,27 @@ label {
 
 .hidden {
     display: none !important;
+}
+
+.carouselLoad {
+    min-height: 202px;
+    position: relative;
+    top: 0px;
+    left: 0px;
+    display: block;
+}
+
+.item1Load {
+    margin-top: 2.25rem;
+    min-height: 0;
+}
+
+.item2Load {
+    margin-top: 1.5rem;
+    min-height: 0;
+}
+
+.textLoad {
+    height: 1rem;
+    border-radius: 1rem;
 }

@@ -11,6 +11,7 @@
   <script src="../../../scripts/buildfire/components/listView/listView.js"></script>
   <script src="./common/helper/constants.js"></script>
   <script src="./common/helper/enum.js"></script>
+  <script src="./common/helper/ui.js"></script>
   <script src="./common/repository/localnotification.js"></script>
   <link rel="stylesheet" href="../../../styles/components/listView.css" />
 
@@ -39,7 +40,7 @@
 </head>
 
 <body id="body">
-  <div id="main" class="hidden">
+  <div id="main">
     <div class="mdc-card search-card">
       <div class="inner-search-container">
         <span class="material-icons icon" id="searchIcon">search</span>
@@ -47,17 +48,52 @@
         <span class="material-icons icon cursor" id="sortIcon" onclick="openSortDrawer()">sort</span>
       </div>
     </div>
-    <div class="carousel" id="carousel"></div>
 
-    <div id="wysiwygContent"></div>
-    <div id="listViewContainer"></div>
+    <div id="skeleton">
+      <!-- <div class="carouselLoad loadColor"></div>
+      <div class="item1Load listViewItem">
+        <div class="listViewItemImgContainer">
+          <div class="listViewItemImg loadColor">
+
+          </div>
+        </div>
+        <div class="listViewItemCopy ellipsis padded padded--m">
+          <div class="textLoad loadColor"></div>
+        </div>
+      </div>
+      <div class="item2Load listViewItem">
+        <div class="listViewItemImgContainer">
+          <div class="listViewItemImg loadColor">
+
+          </div>
+        </div>
+        <div class="listViewItemCopy ellipsis padded padded--m">
+          <div class="textLoad loadColor"></div>
+        </div>
+      </div>
+      <div class="item2Load listViewItem">
+        <div class="listViewItemImgContainer">
+          <div class="listViewItemImg loadColor">
+
+          </div>
+        </div>
+        <div class="listViewItemCopy ellipsis padded padded--m">
+          <div class="textLoad loadColor"></div>
+        </div>
+      </div> -->
+    </div>
+
+    <div class="carousel hidden" id="carousel"></div>
+
+    <div id="wysiwygContent" class="hidden"></div>
+    <div id="listViewContainer" class="hidden"></div>
     <div id="emptyProds" class="hidden">
       <img src="../../../pluginTester/media/ic_bookmark_empty.svg" />
     </div>
   </div>
 
   <div id="subpage" class="hidden">
-    <img id="coverImg" onclick="imagePreview(this.src)"/>
+    <img id="coverImg" onclick="imagePreview(this.src)" />
     <img id="profileImg" onclick="imagePreview(this.src)" />
     <label id="itemTitle"></label>
     <label id="itemSubTitle"></label>

@@ -17,13 +17,31 @@ var config = {
   appTheme: {}
 };
 
+function buildSkeletonUI() {
+  ui.createElement('div', skeleton, "", ["carouselLoad", "loadColor"]);
+  for (var i = 0; i < 3; i++) {
+    var itemLoadClass = "item1Load";
+    if (i != 0) {
+      itemLoadClass = "item2Load";
+    }
+    let listViewItemLoad = ui.createElement('div', skeleton, "", [itemLoadClass, "listViewItem"]);
+    let listViewItemImg = ui.createElement('div', listViewItemLoad, "", ["listViewItemImgContainer"]);
+    ui.createElement('div', listViewItemImg, "", ["listViewItemImg", "loadColor"]);
+    let listViewItemCopy = ui.createElement('div', listViewItemLoad, "", ["listViewItemCopy", "ellipsis", "padded", "padded--m"]);
+    ui.createElement('div', listViewItemCopy, "", ["textLoad", "loadColor"]);
+  }
+}
+
 function init() {
+  buildSkeletonUI();
   buildfire.appearance.getAppTheme((err, appTheme) => {
     if (err) return console.error(err);
     this.config.appTheme = appTheme.color;
     document.getElementsByClassName('icon')[0].style.setProperty('color', appTheme.colors.icons, 'important');
     document.getElementsByClassName('icon')[1].style.setProperty('color', appTheme.colors.icons, 'important');
-
+    for (var i = 0; i < document.getElementsByClassName('loadColor').length; i++) {
+      document.getElementsByClassName('loadColor')[i].style.setProperty('background', appTheme.colors.bodyText, 'important');
+    }
   });
 
 
@@ -225,7 +243,12 @@ function loadData() {
       listViewContainer.classList.add("hidden");
       emptyProds.classList.remove("hidden");
     }
-    main.classList.remove("hidden")
+    skeleton.classList.add("hidden");
+    main.classList.remove("hidden");
+    carousel.classList.remove("hidden");
+    wysiwygContent.classList.remove("hidden");
+    wysiwygContent.classList.remove("hidden");
+    listViewContainer.classList.remove("hidden");
   });
 }
 
