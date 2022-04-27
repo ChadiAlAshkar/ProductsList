@@ -69,7 +69,28 @@ function fillSubItem(item) {
   main.classList.add("hidden");
   subpage.classList.remove("hidden");
   wysiwygItemContent.innerHTML = item.data.description;
-  coverImg.src = item.data.coverImgUrl;
+  if (!fillingCover) {
+    fillingCover = true;
+    setTimeout(() => {
+      coverImg.src = item.data.coverImgUrl;
+      coverImg.animate(
+        [{
+            opacity: .1
+          },
+          {
+            opacity: .5
+          },
+          {
+            opacity: 1
+          }
+        ], {
+          duration: 200,
+          iterations: 1
+        }
+      )
+      fillingCover = false;
+    }, 500);
+  }
   profileImg.src = item.data.profileImgUrl;
   body.scrollTo(0, 0);
 }
@@ -83,6 +104,8 @@ function sendMessageToControl(isOpeningSubItemPage, item) {
     },
   });
 }
+
+fillingCover = false;
 
 function setupHandlers() {
   let timer;
@@ -124,7 +147,25 @@ function setupHandlers() {
             if (message.data == "") {
               coverImg.src = "../../../styles/media/holder-16x9.png"
             } else {
-              coverImg.src = message.data;
+              if (!fillingCover) {
+                fillingCover = true;
+                coverImg.src = message.data;
+                setTimeout(() => {
+                  coverImg.animate(
+                    [{
+                        opacity: .1
+                      },
+                      {
+                        opacity: 1
+                      }
+                    ], {
+                      duration: 150,
+                      iterations: 1
+                    }
+                  )
+                  fillingCover = false;
+                }, 1000);
+              }
             }
             break;
           case Enum.messageID.title:
