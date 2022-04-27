@@ -91,7 +91,28 @@ function fillSubItem(item) {
       fillingCover = false;
     }, 500);
   }
-  profileImg.src = item.data.profileImgUrl;
+  if (!fillingProfile) {
+    fillingProfile = true;
+    setTimeout(() => {
+      profileImg.src = item.data.profileImgUrl;
+      profileImg.animate(
+        [{
+            opacity: .1
+          },
+          {
+            opacity: .5
+          },
+          {
+            opacity: 1
+          }
+        ], {
+          duration: 200,
+          iterations: 1
+        }
+      )
+      fillingProfile = false;
+    }, 1000);
+  }
   body.scrollTo(0, 0);
 }
 
@@ -106,6 +127,7 @@ function sendMessageToControl(isOpeningSubItemPage, item) {
 }
 
 fillingCover = false;
+fillingProfile = false;
 
 function setupHandlers() {
   let timer;
@@ -140,7 +162,28 @@ function setupHandlers() {
             if (message.data == "") {
               profileImg.src = "../../../styles/media/holder-1x1.png"
             } else {
-              profileImg.src = message.data;
+              if (!fillingProfile) {
+                fillingProfile = true;
+                setTimeout(() => {
+                  profileImg.src = message.data;
+                  profileImg.animate(
+                    [{
+                        opacity: .1
+                      }, 
+                      {
+                        opacity: .5
+                      },
+                      {
+                        opacity: 1
+                      }
+                    ], {
+                      duration: 200,
+                      iterations: 1
+                    }
+                  )
+                  fillingProfile = false;
+                }, 1000);
+              }
             }
             break;
           case Enum.messageID.coverImg:
@@ -149,22 +192,25 @@ function setupHandlers() {
             } else {
               if (!fillingCover) {
                 fillingCover = true;
-                coverImg.src = message.data;
                 setTimeout(() => {
+                  coverImg.src = message.data;
                   coverImg.animate(
                     [{
                         opacity: .1
                       },
                       {
+                        opacity: .5
+                      },
+                      {
                         opacity: 1
                       }
                     ], {
-                      duration: 150,
+                      duration: 200,
                       iterations: 1
                     }
                   )
                   fillingCover = false;
-                }, 1000);
+                }, 500);
               }
             }
             break;
