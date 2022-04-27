@@ -225,6 +225,7 @@ function setupHandlers() {
   });
 
   searchTxt.addEventListener("keyup", function (event) {
+    clearTimeout(timer);
     if (searchTxt.value != "") {
       if (!carousel.classList.contains("hidden")) {
         products = [];
@@ -238,23 +239,20 @@ function setupHandlers() {
       for (var i = 0; i < document.getElementsByClassName('loadColor').length; i++) {
         document.getElementsByClassName('loadColor')[i].style.setProperty('background', t.config.appTheme.colors.bodyText, 'important');
       }
-      listView.clear();
-      clearTimeout(timer);
+    listView.clear();
       timer = setTimeout(() => {
         t.config.skipIndex = 0;
         t.searchProducts(t.config.defaultSort, searchTxt.value, true, () => {
           t.config.fetchingNextPage = false;
         });
       }, 500);
+
     } else {
       skeleton.classList.add("hidden");
       carousel.classList.remove("hidden");
       wysiwygContent.classList.remove("hidden");
       listView.clear();
-      console.log(listView.items)
-      console.log(products)
       listView.loadListViewItems(products);
-      console.log(listView.items)
     }
   });
 }
