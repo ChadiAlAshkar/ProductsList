@@ -216,6 +216,8 @@ function backToMain() {
 }
 
 function generateSampleData() {
+  emptyState.classList.add("hidden");
+  loading.classList.remove("hidden");
   dummyData
     .insertDummyRecords()
     .then((result) => {
