@@ -404,6 +404,12 @@ function openSortDrawer() {
       if (err) return console.error(err);
       buildfire.components.drawer.closeDrawer();
       listView.clear();
+      skeleton.innerHTML = "";
+      buildSkeletonUI(2);
+      skeleton.classList.remove("hidden");
+      for (var i = 0; i < document.getElementsByClassName('loadColor').length; i++) {
+        document.getElementsByClassName('loadColor')[i].style.setProperty('background', t.config.appTheme.colors.bodyText, 'important');
+      }
       let sort = {
         title: result.id,
         creationDate: -1,
