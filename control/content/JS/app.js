@@ -195,7 +195,6 @@ function openIntroductionPage() {
     },
     (err, res) => {
       if (err) return console.error(err); // `Content` tab was not found
-      console.log("NAVIGATION FINISHED");
     }
   );
 }

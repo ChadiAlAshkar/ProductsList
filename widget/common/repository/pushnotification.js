@@ -14,7 +14,7 @@ class PushNotification {
             (err, result) => {
               if (err) return console.error(err);
           
-              console.log("Push notification scheduled", result);
+              // console.log("Push notification scheduled", result);
             }
           );
     }
@@ -25,7 +25,7 @@ class PushNotification {
             (err, isCancelled) => {
               if (err) return console.error(err);
           
-              console.log("Notification cancelled", isCancelled);
+              // console.log("Notification cancelled", isCancelled);
             }
           );
     }
@@ -36,7 +36,7 @@ class PushNotification {
             (err, subscribed) => {
               if (err) return console.error(err);
           
-              console.log("User subscribed to group", subscribed);
+              // console.log("User subscribed to group", subscribed);
             }
           );
     }
@@ -46,7 +46,7 @@ class PushNotification {
         (err, unsubscribed) => {
           if (err) return console.error(err);
       
-          console.log("User unsubscribed from group", unsubscribed);
+          // console.log("User unsubscribed from group", unsubscribed);
         }
       );
     }

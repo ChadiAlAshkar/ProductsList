@@ -12,9 +12,9 @@ class LocalNotification {
       (err, hasPermissions) => {
         if (err) return console.error(err);
     
-        console.log(
-          hasPermissions ? "Permissions granted" : "Permissions not granted"
-        );
+        // console.log(
+        //   hasPermissions ? "Permissions granted" : "Permissions not granted"
+        // );
       }
     );
   }
@@ -24,9 +24,9 @@ class LocalNotification {
       (err, hasPermissions) => {
         if (err) return console.error(err);
 
-        console.log(
-          hasPermissions ? "Permissions granted" : "Permissions not granted"
-        );
+        // console.log(
+        //   hasPermissions ? "Permissions granted" : "Permissions not granted"
+        // );
       }
     );
   }
@@ -40,7 +40,7 @@ class LocalNotification {
       (err, result) => {
         if (err) return console.error(err);
 
-        console.log("Notification scheduled", result);
+        // console.log("Notification scheduled", result);
       }
     );
   }
@@ -56,7 +56,7 @@ class LocalNotification {
       (err, result) => {
         if (err) return console.error(err);
 
-        console.log("Notification sent", result);
+        // console.log("Notification sent", result);
       }
     );
   }
@@ -67,14 +67,14 @@ class LocalNotification {
       (err, result) => {
         if (err) return console.error(err);
 
-        console.log("Notificaition cancelled. Id: ", result.id);
+        // console.log("Notificaition cancelled. Id: ", result.id);
       }
     );
   }
 
   static onClick() {
     buildfire.notifications.localNotification.onClick = (data) => {
-      console.log("Notification clicked. Notification data is", data);
+      // console.log("Notification clicked. Notification data is", data);
     };
   }
 }

@@ -11,7 +11,6 @@ describe("Content", function () {
       it("should add new product", (done) => {
         Products.insert(product)
           .then((product) => {
-            console.log(product);
             done();
           })
           .catch((err) => {
@@ -31,7 +30,6 @@ describe("Content", function () {
         Products.search(searchOptions)
           .then((products) => {
             if (products.length >= 0) {
-              console.log(products[0]);
               products[0].data.title = "Updated";
               products[0].data.description = "UpdatedDesc";
               products[0].data.profileImgUrl =
@@ -47,7 +45,6 @@ describe("Content", function () {
                 creationDate: products[0].data.creationDate,
               })
                 .then((result) => {
-                  console.log(result);
                   done();
                 })
                 .catch((err) => {
@@ -78,7 +75,6 @@ describe("Content", function () {
             if (products.length >= 0) {
               Products.delete(products[0].id)
                 .then((result) => {
-                  console.log(result);
                   done();
                 })
                 .catch((err) => {

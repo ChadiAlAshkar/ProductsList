@@ -24,8 +24,8 @@ class Analytics {
     }, (err, result) => {
       if (err)
         console.error(err);
-      else
-        console.log(result);
+      // else
+      //   console.log(result);
     });
   }
 

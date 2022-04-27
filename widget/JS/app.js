@@ -224,7 +224,6 @@ function loadData() {
       t.title = element.data.title;
       t.description = element.data.subTitle;
       t.imageUrl = element.data.profileImgUrl;
-      // t.subTitle = element.data.subTitle;
       t.data = element.data;
       products.push(t);
     });
@@ -282,7 +281,6 @@ function searchProducts(sort, searchText, overwrite, callback) {
       t.title = element.data.title;
       t.description = element.data.subTitle;
       t.imageUrl = element.data.profileImgUrl;
-      // t.subTitle = element.data.subTitle;
       t.data = element.data;
       if (!overwrite) {
         listView.addItem(t);
