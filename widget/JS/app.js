@@ -94,37 +94,37 @@ function setupHandlers() {
     if (message) {
       if (message.id) {
         switch (message.id) {
-          case 1:
+          case Enum.messageID.profileImg:
             if (message.data == "") {
               profileImg.src = "../../../styles/media/holder-1x1.png"
             } else {
               profileImg.src = message.data;
             }
             break;
-          case 2:
+          case Enum.messageID.coverImg:
             if (message.data == "") {
               coverImg.src = "../../../styles/media/holder-16x9.png"
             } else {
               coverImg.src = message.data;
             }
             break;
-          case 3:
+          case Enum.messageID.title:
             itemTitle.innerHTML = message.data;
             break;
-          case 4:
+          case Enum.messageID.subTitle:
             itemSubTitle.innerHTML = message.data;
             break;
-          case 5:
+          case Enum.messageID.description:
             wysiwygItemContent.innerHTML = message.data;
             break;
-          case 6:
+          case Enum.messageID.newItem:
             main.classList.add("hidden");
             subpage.classList.remove("hidden");
             break;
-          case 7:
+          case Enum.messageID.editItem:
             fillSubItem(message.itemClicked);
             break;
-          case 8:
+          case Enum.messageID.closeItem:
             if (main.classList.contains("hidden")) {
               clearSubItem();
             }

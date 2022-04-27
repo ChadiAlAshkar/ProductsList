@@ -39,9 +39,9 @@ buildfire.services.Strings = class {
       if (err) {
         console.error(err);
       }
-      buildfire.messaging.sendMessageToWidget({
-        cmd: "refresh",
-      });
+      // buildfire.messaging.sendMessageToWidget({
+      //   cmd: "refresh",
+      // });
     });
   }
 
