@@ -33,7 +33,7 @@ function buildSkeletonUI() {
 }
 
 function init() {
-//  buildSkeletonUI();
+  //  buildSkeletonUI();
   buildfire.appearance.getAppTheme((err, appTheme) => {
     if (err) return console.error(err);
     this.config.appTheme = appTheme.color;
@@ -243,7 +243,7 @@ function loadData() {
       listViewContainer.classList.add("hidden");
       emptyProds.classList.remove("hidden");
     }
-   skeleton.classList.add("hidden");
+    skeleton.classList.add("hidden");
     main.classList.remove("hidden");
     carousel.classList.remove("hidden");
     wysiwygContent.classList.remove("hidden");
