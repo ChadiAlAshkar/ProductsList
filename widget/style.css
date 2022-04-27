@@ -159,6 +159,10 @@ label {
     z-index: 1;
 }
 
+#skeleton {
+    position: relative;
+}
+
 @keyframes gradient-animation {
     0% {
         left: 0%;
