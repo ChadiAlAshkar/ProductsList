@@ -12,7 +12,7 @@ class SearchTableHelper {
     if (!this.emptyState)
       throw "Cant find emptyState with ID that was provided";
 
-    if (!noDataSearch) throw "No emptyState provided";
+    if (!noDataSearch) throw "No noDataSearch provided";
     this.noDataSearch = document.getElementById(noDataSearch);
     if (!this.noDataSearch)
       throw "Cant find noDataSearch with ID that was provided";
@@ -92,10 +92,8 @@ class SearchTableHelper {
   search(filter) {
     this.noDataSearch.classList.add("hidden");
     this.tbody.innerHTML = "";
-    // ui.createElement("tr", this.tbody, '<td colspan="99"> searching...</td>', [
-    //   "loadingRow",
-    // ]);
     this.table.classList.add("hidden");
+    this.emptyState.classList.add("hidden");
     this.loading.classList.remove("hidden");
     this.filter = filter;
     this._fetchPageOfData(this.filter, 0);
@@ -143,8 +141,8 @@ class SearchTableHelper {
           this.endReached = results.length < pageSize;
         } else {
           this.tbody.innerHTML = "";
-
           this.loading.classList.add("hidden");
+          this.emptyState.classList.remove("hidden");
           if (filter != undefined) {
             this.noDataSearch.classList.remove("hidden");
           }

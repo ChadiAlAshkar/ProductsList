@@ -222,9 +222,9 @@ function loadData() {
       var t = new ListViewItem();
       t.id = element.id;
       t.title = element.data.title;
-      t.description = element.data.description;
+      t.description = element.data.subTitle;
       t.imageUrl = element.data.profileImgUrl;
-      t.subTitle = element.data.subTitle;
+      // t.subTitle = element.data.subTitle;
       t.data = element.data;
       products.push(t);
     });
@@ -280,9 +280,9 @@ function searchProducts(sort, searchText, overwrite, callback) {
       var t = new ListViewItem();
       t.id = element.id;
       t.title = element.data.title;
-      t.description = element.data.description;
+      t.description = element.data.subTitle;
       t.imageUrl = element.data.profileImgUrl;
-      t.subTitle = element.data.subTitle;
+      // t.subTitle = element.data.subTitle;
       t.data = element.data;
       if (!overwrite) {
         listView.addItem(t);
