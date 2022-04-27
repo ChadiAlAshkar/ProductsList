@@ -142,16 +142,15 @@ label {
 .user-card {
     content: "";
     position: absolute;
-    left: -60px;
+    left: 0px;
     top: 0;
     height: 100%;
-    width: 50px;
+    width: 10px;
     background: white;
     animation-name: gradient-animation;
     animation-duration: 2s;
-    animation-delay: 1s;
     animation-iteration-count: infinite;
-    filter: blur(5px);
+    filter: blur(30px);
     z-index: 1;
 }
 
@@ -159,7 +158,7 @@ label {
     0% {
         left: 0%;
     }
-    30%,
+    40%,
     100% {
         left: 120%;
     }
