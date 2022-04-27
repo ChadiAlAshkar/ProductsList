@@ -62,8 +62,13 @@
   </div>
 
   <div id="subpage" class="hidden">
-    <img id="coverImg" onclick="imagePreview(this.src)" />
-    <img id="profileImg" onclick="imagePreview(this.src)" />
+    <div id="coverImg">
+      <img id="coverImgBody" onclick="imagePreview(this.src)" />
+    </div>
+    <div id="profileImg">
+      <img id="profileImgBody" onclick="imagePreview(this.src)" />
+    </div>
+
     <label id="itemTitle"></label>
     <label id="itemSubTitle"></label>
     <div id="wysiwygItemContent"></div>

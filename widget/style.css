@@ -100,7 +100,9 @@ label {
     padding: 0 1rem;
     width: 100%;
 }
-
+#coverImgBody, #profileImgBody {
+    height: 100%;
+}
 #wysiwygItemContent {
     width: 100%;
 

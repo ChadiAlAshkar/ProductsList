@@ -43,6 +43,8 @@ function init() {
     for (var i = 0; i < document.getElementsByClassName('loadColor').length; i++) {
       document.getElementsByClassName('loadColor')[i].style.setProperty('background', appTheme.colors.bodyText, 'important');
     }
+    coverImg.style.backgroundColor = appTheme.colors.bodyText;
+    profileImg.style.backgroundColor = appTheme.colors.backgroundColor;
   });
 
 
@@ -57,8 +59,8 @@ function clearSubItem() {
   main.classList.remove("hidden");
   subpage.classList.add("hidden");
   wysiwygItemContent.innerHTML = "";
-  coverImg.src = null;
-  profileImg.src = null;
+  coverImgBody.src = '';
+  profileImgBody.src = '';
   body.scrollTo(0, 0);
 }
 
@@ -72,8 +74,8 @@ function fillSubItem(item) {
   if (!fillingCover) {
     fillingCover = true;
     setTimeout(() => {
-      coverImg.src = item.data.coverImgUrl;
-      coverImg.animate(
+      coverImgBody.src = item.data.coverImgUrl;
+      coverImgBody.animate(
         [{
             opacity: .1
           },
@@ -94,8 +96,8 @@ function fillSubItem(item) {
   if (!fillingProfile) {
     fillingProfile = true;
     setTimeout(() => {
-      profileImg.src = item.data.profileImgUrl;
-      profileImg.animate(
+      profileImgBody.src = item.data.profileImgUrl;
+      profileImgBody.animate(
         [{
             opacity: .1
           },
@@ -160,13 +162,13 @@ function setupHandlers() {
         switch (message.id) {
           case Enum.messageID.profileImg:
             if (message.data == "") {
-              profileImg.src = "../../../styles/media/holder-1x1.png"
+              profileImgBody.src = "../../../styles/media/holder-1x1.png"
             } else {
               if (!fillingProfile) {
                 fillingProfile = true;
                 setTimeout(() => {
-                  profileImg.src = message.data;
-                  profileImg.animate(
+                  profileImgBody.src = message.data;
+                  profileImgBody.animate(
                     [{
                         opacity: .1
                       }, 
@@ -188,13 +190,13 @@ function setupHandlers() {
             break;
           case Enum.messageID.coverImg:
             if (message.data == "") {
-              coverImg.src = "../../../styles/media/holder-16x9.png"
+              coverImgBody.src = "../../../styles/media/holder-16x9.png"
             } else {
               if (!fillingCover) {
                 fillingCover = true;
                 setTimeout(() => {
-                  coverImg.src = message.data;
-                  coverImg.animate(
+                  coverImgBody.src = message.data;
+                  coverImgBody.animate(
                     [{
                         opacity: .1
                       },
