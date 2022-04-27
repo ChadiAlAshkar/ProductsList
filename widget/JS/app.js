@@ -15,15 +15,17 @@ var config = {
   },
   lang: {},
   appTheme: {},
-  
-  fillingCover : false,
-  fillingProfile : false
+
+  fillingCover: false,
+  fillingProfile: false
 };
 
-function buildSkeletonUI() {
-  ui.createElement('div', skeleton, "", ["carouselLoad", "loadColor"]);
+function buildSkeletonUI(nb) {
+  if (nb == 1) {
+    ui.createElement('div', skeleton, "", ["carouselLoad", "loadColor"]);
+  }
   ui.createElement('div', skeleton, "", ["user-card"]);
-  for (var i = 0; i < 3; i++) {
+  for (var i = 0; i < 4; i++) {
     var itemLoadClass = "item1Load";
     if (i != 0) {
       itemLoadClass = "item2Load";
@@ -37,10 +39,11 @@ function buildSkeletonUI() {
 }
 
 function init() {
-  buildSkeletonUI();
+  buildSkeletonUI(1);
+  let t = this;
   buildfire.appearance.getAppTheme((err, appTheme) => {
     if (err) return console.error(err);
-    this.config.appTheme = appTheme.color;
+    this.config.appTheme = appTheme;
     document.getElementsByClassName('icon')[0].style.setProperty('color', appTheme.colors.icons, 'important');
     document.getElementsByClassName('icon')[1].style.setProperty('color', appTheme.colors.icons, 'important');
     for (var i = 0; i < document.getElementsByClassName('loadColor').length; i++) {
@@ -84,7 +87,8 @@ function fillSubItem(item) {
   }
   body.scrollTo(0, 0);
 }
-function animateImg(element, imgUrl , duration){
+
+function animateImg(element, imgUrl, duration) {
   setTimeout(() => {
     element.src = imgUrl;
     element.animate(
@@ -117,6 +121,7 @@ function sendMessageToControl(isOpeningSubItemPage, item) {
   });
 }
 
+let products = [];
 
 function setupHandlers() {
   let timer;
@@ -221,20 +226,36 @@ function setupHandlers() {
 
   searchTxt.addEventListener("keyup", function (event) {
     if (searchTxt.value != "") {
+      if (!carousel.classList.contains("hidden")) {
+        products = [];
+        products = listView.items;
+      }
       carousel.classList.add("hidden");
       wysiwygContent.classList.add("hidden");
+      skeleton.innerHTML = "";
+      buildSkeletonUI(2);
+      skeleton.classList.remove("hidden");
+      for (var i = 0; i < document.getElementsByClassName('loadColor').length; i++) {
+        document.getElementsByClassName('loadColor')[i].style.setProperty('background', t.config.appTheme.colors.bodyText, 'important');
+      }
+      listView.clear();
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        t.config.skipIndex = 0;
+        t.searchProducts(t.config.defaultSort, searchTxt.value, true, () => {
+          t.config.fetchingNextPage = false;
+        });
+      }, 500);
     } else {
+      skeleton.classList.add("hidden");
       carousel.classList.remove("hidden");
       wysiwygContent.classList.remove("hidden");
+      listView.clear();
+      console.log(listView.items)
+      console.log(products)
+      listView.loadListViewItems(products);
+      console.log(listView.items)
     }
-    listView.clear();
-    clearTimeout(timer);
-    timer = setTimeout(() => {
-      t.config.skipIndex = 0;
-      t.searchProducts(t.config.defaultSort, searchTxt.value, true, () => {
-        this.config.fetchingNextPage = false;
-      });
-    }, 500);
   });
 }
 
@@ -333,6 +354,7 @@ function searchProducts(sort, searchText, overwrite, callback) {
       listView.loadListViewItems(products);
     }
     this.config.endReached = result.length < this.config.limit;
+    skeleton.classList.add("hidden");
     if (carousel.classList.contains("hidden") && wysiwygContent.classList.contains("hidden")) {
       if (this.config.skipIndex == 0 && result.length == 0) {
         listViewContainer.classList.add("hidden");
