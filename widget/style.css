@@ -113,9 +113,10 @@ label {
 }
 
 #emptyProds, #emptyProds2 {
-    position: absolute;
-    bottom: 10.75rem;
-    left: 6.18rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
 }
 
 .hidden {
