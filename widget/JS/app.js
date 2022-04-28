@@ -166,9 +166,9 @@ function setupHandlers() {
     sendMessageToControl(true, productClicked);
   };
 
-  main.onscroll = (e) => {
+  mainItems.onscroll = (e) => {
     if (
-      (t.main.scrollTop + t.main.clientHeight) / t.main.scrollHeight >
+      (t.mainItems.scrollTop + t.mainItems.clientHeight) / t.mainItems.scrollHeight >
       0.8
     ) {
       this._fetchNextPage();
