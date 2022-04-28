@@ -27,8 +27,12 @@ function buildSkeletonUI(nb) {
   ui.createElement('div', skeleton, "", ["user-card"]);
   for (var i = 0; i < 4; i++) {
     var itemLoadClass = "item1Load";
-    if (i != 0) {
-      itemLoadClass = "item2Load";
+    if (nb == 1) {
+      if (i != 0) {
+        itemLoadClass = "item2Load";
+      }
+    } else {
+      itemLoadClass = "item3Load";
     }
     let listViewItemLoad = ui.createElement('div', skeleton, "", [itemLoadClass, "listViewItem"]);
     let listViewItemImg = ui.createElement('div', listViewItemLoad, "", ["listViewItemImgContainer"]);
@@ -233,12 +237,12 @@ function setupHandlers() {
       carousel.classList.add("hidden");
       wysiwygContent.classList.add("hidden");
       skeleton.innerHTML = "";
-      buildSkeletonUI(2);
+      buildSkeletonUI(3);
       skeleton.classList.remove("hidden");
       for (var i = 0; i < document.getElementsByClassName('loadColor').length; i++) {
         document.getElementsByClassName('loadColor')[i].style.setProperty('background', t.config.appTheme.colors.bodyText, 'important');
       }
-    listView.clear();
+      listView.clear();
       timer = setTimeout(() => {
         t.config.skipIndex = 0;
         t.searchProducts(t.config.defaultSort, searchTxt.value, true, () => {
