@@ -342,7 +342,6 @@ function loadData() {
     main.classList.remove("hidden");
     carousel.classList.remove("hidden");
     wysiwygContent.classList.remove("hidden");
-    wysiwygContent.classList.remove("hidden");
     listViewContainer.classList.remove("hidden");
   });
 }

@@ -150,6 +150,11 @@ label {
     height: 1rem;
     border-radius: 1rem;
 }
+
+.loadColor {
+    opacity: 0.2;
+}
+
 .user-card {
     content: "";
     position: absolute;
@@ -161,7 +166,7 @@ label {
     animation-name: gradient-animation;
     animation-duration: 2s;
     animation-iteration-count: infinite;
-    filter: blur(30px);
+    filter: blur(20px);
     z-index: 1;
 }
 
