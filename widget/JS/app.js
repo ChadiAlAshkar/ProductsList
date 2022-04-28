@@ -166,9 +166,9 @@ function setupHandlers() {
     sendMessageToControl(true, productClicked);
   };
 
-  listViewContainer.onscroll = (e) => {
+  main.onscroll = (e) => {
     if (
-      (t.listViewContainer.scrollTop + t.listViewContainer.clientHeight) / t.listViewContainer.scrollHeight >
+      (t.main.scrollTop + t.main.clientHeight) / t.main.scrollHeight >
       0.8
     ) {
       this._fetchNextPage();
