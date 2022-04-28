@@ -11,12 +11,17 @@
     width: 2.5rem;
 }
 
-.icon-pencil:hover {
+.custom-background:hover > .icon-pencil {
     color: var(--c-primary);
 }
-
-.icon-cross2:hover {
+.custom-background:hover > .icon-cross2 {
     color: var(--c-danger);
+}
+.custom-background:hover {
+    background-color: #F2F2F2 !important;
+    border-radius: 0.25rem;
+    width: 2.5rem;
+    height: 2.5rem;
 }
 
 .primaryColor {
