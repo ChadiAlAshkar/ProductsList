@@ -55,6 +55,9 @@ function init() {
     }
     coverImg.style.backgroundColor = appTheme.colors.bodyText;
     profileImg.style.backgroundColor = appTheme.colors.backgroundColor;
+    document.getElementById('searchTxt').style.setProperty("--c", appTheme.colors.bodyText);
+    document.getElementById('itemTitle').style.setProperty('color', appTheme.colors.headerText, 'important');
+    document.getElementById('itemSubTitle').style.setProperty('color', appTheme.colors.headerText, 'important');
   });
 
 
