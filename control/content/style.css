@@ -1,5 +1,16 @@
+.container {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+}
 .headerCell {
     padding: 15px 8px 13px;
+}
+
+.tableDiv {
+    overflow-x: hidden;
+    overflow-y: auto;
+    flex: 1 1 auto;
 }
 
 .imgStyle {
@@ -18,7 +29,7 @@
     color: var(--c-danger);
 }
 .custom-background:hover {
-    background-color: #F2F2F2 !important;
+    background-color: #f2f2f2 !important;
     border-radius: 0.25rem;
     width: 2.5rem;
     height: 2.5rem;
