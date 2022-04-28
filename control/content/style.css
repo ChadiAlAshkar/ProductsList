@@ -85,8 +85,8 @@ img {
     border-radius: 4px;
 }
 .icon-chevron-up, .icon-chevron-down {
-    display: none;
+    opacity: 0;
 }
 .headerCell:hover > .icon-chevron-down, .icon-chevron-up {
-    display: inline-block;
+    opacity: 1;
 }
