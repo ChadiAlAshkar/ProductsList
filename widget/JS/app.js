@@ -15,10 +15,16 @@ var config = {
   },
   lang: {},
   appTheme: {},
-
   fillingCover: false,
-  fillingProfile: false
+  fillingProfile: false,
+  skeletonItems: 4
 };
+function init() {
+  buildSkeletonUI(true, this.config.skeletonItems);
+  loadCustomCss();
+  loadData();
+  setupHandlers();
+}
 
 function buildSkeletonUI(showCarousel, nbOfItems) {
   if (showCarousel) {
@@ -42,9 +48,7 @@ function buildSkeletonUI(showCarousel, nbOfItems) {
   }
 }
 
-function init() {
-  buildSkeletonUI(true, 4);
-  let t = this;
+function loadCustomCss(){
   buildfire.appearance.getAppTheme((err, appTheme) => {
     if (err) return console.error(err);
     this.config.appTheme = appTheme;
@@ -60,9 +64,6 @@ function init() {
     document.getElementById('itemSubTitle').style.setProperty('color', appTheme.colors.headerText, 'important');
   });
 
-
-  this.loadData();
-  this.setupHandlers();
 }
 
 function clearSubItem() {
@@ -129,7 +130,6 @@ function sendMessageToControl(isOpeningSubItemPage, item) {
 }
 
 function checkIfItemDetailsEmpty() {
-  console.log(coverImgBody.src.endsWith('styles/media/holder-16x9.png'));
   if (
     itemTitle.innerHTML == "" &&
     itemSubTitle.innerHTML == "" &&
