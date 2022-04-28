@@ -6,10 +6,14 @@
 .headerCell {
     padding: 15px 8px 13px;
 }
+.headerCell:hover {
+    cursor: pointer
+}
 
 .tableDiv {
     overflow-x: hidden;
     overflow-y: auto;
+    
     flex: 1 1 auto;
 }
 
@@ -79,4 +83,10 @@ img {
 
 .imgStyle {
     border-radius: 4px;
+}
+.icon-chevron-up, .icon-chevron-down {
+    display: none;
+}
+.headerCell:hover > .icon-chevron-down, .icon-chevron-up {
+    display: inline-block;
 }
