@@ -115,7 +115,8 @@ function animateImg(element, imgUrl, duration) {
       }
     )
     this.config.fillingProfile = false;
-    this.config.fillingCover = false
+    this.config.fillingCover = false;
+    checkIfItemDetailsEmpty();
   }, duration);
 }
 
@@ -130,6 +131,8 @@ function sendMessageToControl(isOpeningSubItemPage, item) {
 }
 
 function checkIfItemDetailsEmpty() {
+  console.log(coverImgBody.src)
+  console.log(profileImgBody.src)
   if (
     itemTitle.innerHTML == "" &&
     itemSubTitle.innerHTML == "" &&
@@ -200,6 +203,7 @@ function setupHandlers() {
               if (!this.config.fillingCover) {
                 this.config.fillingCover = true;
                 this.animateImg(coverImgBody, message.data, 500)
+
               }
             }
             break;
