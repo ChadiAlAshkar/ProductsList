@@ -112,7 +112,7 @@ label {
     padding: 0 1rem;
 }
 
-#emptyProds {
+#emptyProds, #emptyProds2 {
     position: absolute;
     bottom: 10.75rem;
     left: 6.18rem;
