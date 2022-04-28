@@ -20,14 +20,14 @@ var config = {
   fillingProfile: false
 };
 
-function buildSkeletonUI(nb) {
-  if (nb == 1) {
+function buildSkeletonUI(showCarousel, nbOfItems) {
+  if (showCarousel) {
     ui.createElement('div', skeleton, "", ["carouselLoad", "loadColor"]);
   }
   ui.createElement('div', skeleton, "", ["user-card"]);
-  for (var i = 0; i < 4; i++) {
+  for (var i = 0; i < nbOfItems; i++) {
     var itemLoadClass = "item1Load";
-    if (nb == 1) {
+    if (showCarousel) {
       if (i != 0) {
         itemLoadClass = "item2Load";
       }
@@ -43,7 +43,7 @@ function buildSkeletonUI(nb) {
 }
 
 function init() {
-  buildSkeletonUI(1);
+  buildSkeletonUI(true, 4);
   let t = this;
   buildfire.appearance.getAppTheme((err, appTheme) => {
     if (err) return console.error(err);
@@ -206,7 +206,7 @@ function setupHandlers() {
       listView.clear();
       this.config.skipIndex = 0;
       this.config.endReached = false;
-      t.searchProducts(t.config.defaultSort, "", false, () => {
+      t.searchProducts(t.config.defaultSort, "", false, false, () => {
         this.config.fetchingNextPage = false;
       });
     }
@@ -237,7 +237,7 @@ function setupHandlers() {
       carousel.classList.add("hidden");
       wysiwygContent.classList.add("hidden");
       skeleton.innerHTML = "";
-      buildSkeletonUI(3);
+      buildSkeletonUI(false, 4);
       skeleton.classList.remove("hidden");
       for (var i = 0; i < document.getElementsByClassName('loadColor').length; i++) {
         document.getElementsByClassName('loadColor')[i].style.setProperty('background', t.config.appTheme.colors.bodyText, 'important');
@@ -245,7 +245,7 @@ function setupHandlers() {
       listView.clear();
       timer = setTimeout(() => {
         t.config.skipIndex = 0;
-        t.searchProducts(t.config.defaultSort, searchTxt.value, true, () => {
+        t.searchProducts(t.config.defaultSort, searchTxt.value, true, true, () => {
           t.config.fetchingNextPage = false;
         });
       }, 500);
@@ -314,7 +314,7 @@ function loadData() {
   });
 }
 
-function searchProducts(sort, searchText, overwrite, callback) {
+function searchProducts(sort, searchText, overwrite, fromSearchBar, callback) {
   var searchOptions = {
     filter: {
       $or: [{
@@ -336,6 +336,19 @@ function searchProducts(sort, searchText, overwrite, callback) {
     limit: this.config.limit,
   };
 
+  if (!fromSearchBar) {
+    skeleton.innerHTML = "";
+    if (this.config.skipIndex == 0) {
+      buildSkeletonUI(false, 4);
+    } else {
+      buildSkeletonUI(false, 1);
+    }
+
+    skeleton.classList.remove("hidden");
+    for (var i = 0; i < document.getElementsByClassName('loadColor').length; i++) {
+      document.getElementsByClassName('loadColor')[i].style.setProperty('background', this.config.appTheme.colors.bodyText, 'important');
+    }
+  }
   Products.search(searchOptions).then((result) => {
     let products = [];
     result.forEach((element) => {
@@ -383,7 +396,7 @@ function _fetchNextPage() {
 
   if (this.config.skipIndex > 0 && this.config.endReached) return;
   this.config.skipIndex++;
-  this.searchProducts(this.config.defaultSort, "", false, () => {
+  this.searchProducts(this.config.defaultSort, "", false, false, () => {
     this.config.fetchingNextPage = false;
   });
 }
@@ -405,17 +418,11 @@ function openSortDrawer() {
       if (err) return console.error(err);
       buildfire.components.drawer.closeDrawer();
       listView.clear();
-      skeleton.innerHTML = "";
-      buildSkeletonUI(2);
-      skeleton.classList.remove("hidden");
-      for (var i = 0; i < document.getElementsByClassName('loadColor').length; i++) {
-        document.getElementsByClassName('loadColor')[i].style.setProperty('background', t.config.appTheme.colors.bodyText, 'important');
-      }
       let sort = {
         title: result.id,
         creationDate: -1,
       };
-      t.searchProducts(sort, "", true, () => {
+      t.searchProducts(sort, "", true, false, () => {
         this.config.fetchingNextPage = false;
       });
     }
