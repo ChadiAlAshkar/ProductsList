@@ -231,14 +231,14 @@ class SearchTableHelper {
       let td = ui.createElement("td", tr, "", ["editColumn"]);
       let div = ui.createElement("div", td, "", ["pull-right"]);
       if (this.config.options.showEditButton) {
-        let btn = ui.createElement("button", div, "", ["btn", "bf-btn-icon"]);
+        let btn = ui.createElement("button", div, "", ["btn", "bf-btn-icon", "custom-background"]);
         btn.onclick = () => {
           t.onEditRow(obj, tr);
         };
         let span = ui.createElement("span", btn, "", ["icon", "icon-pencil"]);
       }
       if (this.config.options.showDeleteButton) {
-        let btn = ui.createElement("button", div, "", ["btn", "bf-btn-icon"]);
+        let btn = ui.createElement("button", div, "", ["btn", "bf-btn-icon", "custom-background"]);
         let span = ui.createElement("span", btn, "", ["icon", "icon-cross2"]);
         btn.onclick = () => {
           buildfire.dialog.confirm({
