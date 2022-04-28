@@ -125,16 +125,15 @@ function sendMessageToControl(isOpeningSubItemPage, item) {
   });
 }
 
-function checkIfItemDetailsEmpty(){
-  console.log("-----")
- console.log(itemTitle.innerHTML)
- console.log(itemSubTitle.innerHTML)
- console.log(wysiwygItemContent.innerHTML)
- console.log(coverImgBody.src)
- console.log(profileImgBody.src)
-  if( itemTitle.innerHTML == "" && itemSubTitle.innerHTML == "" && wysiwygItemContent.innerHTML == "" &&
-  coverImgBody.src == 'http://localhost:3030/styles/media/holder-16x9.png' && profileImgBody.src == 'http://localhost:3030/styles/media/holder-1x1.png' ){
-    console.log("fet bel id")
+function checkIfItemDetailsEmpty() {
+  console.log(coverImgBody.src.endsWith('styles/media/holder-16x9.png'));
+  if (
+    itemTitle.innerHTML == "" &&
+    itemSubTitle.innerHTML == "" &&
+    wysiwygItemContent.innerHTML == "" &&
+    coverImgBody.src.endsWith('styles/media/holder-16x9.png') &&
+    profileImgBody.src.endsWith('styles/media/holder-1x1.png')
+  ) {
     emptyProds2.classList.remove("hidden")
     coverImg.classList.add("hidden")
     profileImg.classList.add("hidden")
@@ -179,7 +178,7 @@ function setupHandlers() {
   buildfire.messaging.onReceivedMessage = (message) => {
     if (message) {
       if (message.id) {
-       
+
         switch (message.id) {
           case Enum.messageType.profileImg:
             if (message.data == "") {
