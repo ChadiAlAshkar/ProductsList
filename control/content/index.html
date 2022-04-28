@@ -26,7 +26,7 @@
   <link href="../../../../styles/control/bf-base.css" rel="stylesheet" />
 </head>
 
-<body>
+<body style="overflow: hidden;">
   <div id="main" class="container">
     <p class="info-note margin-bottom-twenty" style="font-size: 13px">
       You can create a list of items with images, actions and other details.
@@ -52,7 +52,11 @@
       </div>
     </div>
 
-    <table id="searchResults" class="table table-bf hidden"></table>
+    <div style="overflow-x: hidden;
+    overflow-y: auto;
+    max-height: 500px;">
+      <table id="searchResults" class="table table-bf hidden"></table>
+    </div>
     <div id="emptyState" class="well empty-state-lg hidden" style="flex-direction: column">
       <h5 class="text-center" style="margin-bottom: 0px">
         You haven’t added anything yet.
