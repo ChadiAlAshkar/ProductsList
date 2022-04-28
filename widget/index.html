@@ -40,9 +40,7 @@
 </head>
 
 <body id="body">
-  <div id="main" style="display: flex;
-  flex-flow: column;
-  height: 100%;">
+  <div id="main">
     <!-- <div class="mdc-card search-card">
       <div class="inner-search-container">
         <span class="material-icons icon" id="searchIcon">search</span>
@@ -50,17 +48,12 @@
         <span class="material-icons icon cursor" id="sortIcon" onclick="openSortDrawer()">sort</span>
       </div>
     </div> -->
-    <!-- <div class="mdc-card search-card"> -->
-    <div class="inner-search-container" style="position: absolute; top: 1rem; z-index: 999;
-      background-color: var(--mdc-theme-surface, #fff);
-      box-shadow: 0px 0px 2px rgb(0 0 0 / 25%), 0px 1px 2px rgb(0 0 0 / 16%); width: 100%; 
-      margin-left: 1px; margin-right: 1px;">
+    <div class="inner-search-container search-div" style="background-color: var(--mdc-theme-surface, #fff);">
       <span class="material-icons icon" id="searchIcon">search</span>
       <input type="search" name="search" id="searchTxt" autocomplete="off" />
       <span class="material-icons icon cursor" id="sortIcon" onclick="openSortDrawer()">sort</span>
     </div>
-    <!-- </div> -->
-    <div id="mainItems" style=" flex: 1 1 auto; overflow-y: auto;">
+    <div id="mainItems" style="flex: 1 1 auto; overflow-y: auto;">
       <div style="height: 2.625rem; margin-top: 1rem; margin-bottom: 1rem;"></div>
       <div class="carousel hidden" id="carousel"></div>
 
