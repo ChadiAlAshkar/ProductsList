@@ -112,7 +112,7 @@ label {
     padding: 0 1rem;
 }
 
-#emptyProds, #emptyProds2 {
+#emptyProds {
     display: flex;
     align-items: center;
     justify-content: center;

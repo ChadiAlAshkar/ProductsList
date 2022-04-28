@@ -134,14 +134,14 @@ function checkIfItemDetailsEmpty() {
     coverImgBody.src.endsWith('styles/media/holder-16x9.png') &&
     profileImgBody.src.endsWith('styles/media/holder-1x1.png')
   ) {
-    emptyProds2.classList.remove("hidden")
+    emptyProds.classList.remove("hidden")
     coverImg.classList.add("hidden")
     profileImg.classList.add("hidden")
     itemTitle.classList.add("hidden")
     itemSubTitle.classList.add("hidden")
     wysiwygItemContent.classList.add("hidden")
   } else {
-    emptyProds2.classList.add("hidden")
+    emptyProds.classList.add("hidden")
     coverImg.classList.remove("hidden")
     profileImg.classList.remove("hidden")
     itemTitle.classList.remove("hidden")
