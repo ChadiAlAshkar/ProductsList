@@ -40,7 +40,9 @@
 </head>
 
 <body id="body">
-  <div id="main">
+  <div id="main" style="display: flex;
+  flex-flow: column;
+  height: 100%;">
     <div class="mdc-card search-card">
       <div class="inner-search-container">
         <span class="material-icons icon" id="searchIcon">search</span>
@@ -48,7 +50,7 @@
         <span class="material-icons icon cursor" id="sortIcon" onclick="openSortDrawer()">sort</span>
       </div>
     </div>
-    <div id="mainItems" style="max-height: 100vh; overflow-y: auto;">
+    <div id="mainItems" style=" flex: 1 1 auto; overflow-y: auto;">
       <div class="carousel hidden" id="carousel"></div>
 
       <div id="wysiwygContent" class="hidden"></div>
