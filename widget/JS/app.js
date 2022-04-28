@@ -19,6 +19,7 @@ var config = {
   fillingProfile: false,
   skeletonItems: 4
 };
+
 function init() {
   buildSkeletonUI(true, this.config.skeletonItems);
   loadCustomCss();
@@ -48,7 +49,7 @@ function buildSkeletonUI(showCarousel, nbOfItems) {
   }
 }
 
-function loadCustomCss(){
+function loadCustomCss() {
   buildfire.appearance.getAppTheme((err, appTheme) => {
     if (err) return console.error(err);
     this.config.appTheme = appTheme;
@@ -300,6 +301,7 @@ function imagePreview(imageUrl) {
 }
 
 function loadData() {
+  listViewContainer.classList.remove('listViewContainer');
   var searchOptions = {
     filter: {},
     sort: {
@@ -428,6 +430,7 @@ function _fetchNextPage() {
 
   if (this.config.skipIndex > 0 && this.config.endReached) return;
   this.config.skipIndex++;
+  console.log(this.config.skipIndex)
   this.searchProducts(this.config.defaultSort, "", false, false, () => {
     this.config.fetchingNextPage = false;
   });

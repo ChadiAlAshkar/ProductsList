@@ -40,21 +40,23 @@
 </head>
 
 <body id="body">
-  <div id="main">
-    <div class="mdc-card search-card">
-      <div class="inner-search-container">
-        <span class="material-icons icon" id="searchIcon">search</span>
-        <input type="search" name="search" id="searchTxt" autocomplete="off" />
-        <span class="material-icons icon cursor" id="sortIcon" onclick="openSortDrawer()">sort</span>
+  <div id="scrollableDiv" style="height: 100vh;">
+    <div id="main">
+      <div class="mdc-card search-card">
+        <div class="inner-search-container">
+          <span class="material-icons icon" id="searchIcon">search</span>
+          <input type="search" name="search" id="searchTxt" autocomplete="off" />
+          <span class="material-icons icon cursor" id="sortIcon" onclick="openSortDrawer()">sort</span>
+        </div>
       </div>
-    </div>
 
-    <div class="carousel hidden" id="carousel"></div>
+      <div class="carousel hidden" id="carousel"></div>
 
-    <div id="wysiwygContent" class="hidden"></div>
-    <div id="listViewContainer" class="hidden"></div>
+      <div id="wysiwygContent" class="hidden"></div>
+      <div id="listViewContainer" class="hidden"></div>
 
-    <div id="skeleton">
+      <div id="skeleton">
+      </div>
     </div>
   </div>
 
