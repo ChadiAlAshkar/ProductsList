@@ -66,14 +66,16 @@
 .screens .screen.layouticon a {
     max-width: 11rem !important;
 }
-.thumbnail-picker > .item > .main > .screens > .screen > a {
+.thumbnail-picker > .item > .main > .screens > .screen  {
     width: 6rem;
     height: 7rem;
+    max-width: 6rem;
 }
 
-.thumbnail-picker2 > .item > .main > .screens > .screen > a {
+.thumbnail-picker2 > .item > .main > .screens > .screen {
     width: 10.6875rem;
     height: 7rem;
+    max-width: 10.6875rem;
 }
 
 img {

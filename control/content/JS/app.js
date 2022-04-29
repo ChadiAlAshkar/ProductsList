@@ -5,14 +5,14 @@ let timer;
 const thumbnail = new buildfire.components.images.thumbnail(
   ".thumbnail-picker", {
     title: " ",
-    dimensionsLabel: "600x600px",
+    dimensionsLabel: "Recommended: 600 x 600px",
     multiSelection: false,
   }
 );
 const thumbnail2 = new buildfire.components.images.thumbnail(
   ".thumbnail-picker2", {
     title: " ",
-    dimensionsLabel: "1200x675px",
+    dimensionsLabel: "Recommended: 1200 x 675px",
     multiSelection: false,
   }
 );
