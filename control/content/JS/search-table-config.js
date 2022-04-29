@@ -21,7 +21,7 @@ const searchTableConfig = {
       sortBy: "title",
     },
     {
-      header: "Sub Title",
+      header: "Subtitle",
       data:
         "${data.subTitle.substring(0,15)}" +
         "${data.subTitle.length > 15 ? '...' : '' }",
@@ -30,7 +30,7 @@ const searchTableConfig = {
       sortBy: "subTitle",
     },
     {
-      header: "Created On",
+      header: "Date Of Creation",
       data: "${ new Date(data.creationDate).toLocaleDateString('en-US', {month: 'short', day: 'numeric', year: 'numeric'})  }",
       type: "date",
       width: "",

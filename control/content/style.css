@@ -7,13 +7,13 @@
     padding: 15px 8px 13px;
 }
 .headerCell:hover {
-    cursor: pointer
+    cursor: pointer;
 }
 
 .tableDiv {
     overflow-x: hidden;
     overflow-y: auto;
-    
+
     flex: 1 1 auto;
 }
 
@@ -84,9 +84,21 @@ img {
 .imgStyle {
     border-radius: 4px;
 }
-.icon-chevron-up, .icon-chevron-down {
+.icon-chevron-up,
+.icon-chevron-down {
     opacity: 0;
+    margin-left: 0.5rem;
+    position: absolute;
 }
-.headerCell:hover > .icon-chevron-down, .icon-chevron-up {
+.headerCell:hover > .icon-chevron-down,
+.icon-chevron-up {
     opacity: 1;
+}
+
+.col1 {
+    padding-right: 0.75rem !important;
+}
+
+.col2 {
+    padding-left: 0 !important;
 }

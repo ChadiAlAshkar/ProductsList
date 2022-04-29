@@ -1,35 +1,37 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" />
 
-    <script src="../../../../scripts/buildfire.js"></script>
-    <script src="../../widget/common/models/Language.js"></script>
-    <script src="../../widget/common/controllers/language.js"></script>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
 
-    <script src="../../widget/common/helper/constants.js"></script>
-    <script src="../../widget/common/repository/stringsConfig.js"></script>
-    <script src="../../widget/common/repository/strings.js"></script>
-    <script src="js/stringsUI.js"></script>
-    <script src="../../widget/common/helper/ui.js"></script>
-    <link href="../../../../styles/control/bf-base.css" rel="stylesheet" />
-  </head>
+  <script src="../../../../scripts/buildfire.js"></script>
+  <script src="../../widget/common/models/Language.js"></script>
+  <script src="../../widget/common/controllers/language.js"></script>
 
-  <body>
-    <div id="stringsContainer" class="hidden"></div>
-    <script>
-      let strings;
+  <script src="../../widget/common/helper/constants.js"></script>
+  <script src="../../widget/common/repository/stringsConfig.js"></script>
+  <script src="../../widget/common/repository/strings.js"></script>
+  <script src="js/stringsUI.js"></script>
+  <script src="../../widget/common/helper/ui.js"></script>
+  <link href="../../../../styles/control/bf-base.css" rel="stylesheet" />
+</head>
 
-      function loadLanguage(lang) {
-        strings = new buildfire.services.Strings(lang, stringsConfig);
-        strings.init().then(() => {
-          stringsContainer.classList.remove("hidden");
-          strings.inject();
-        });
-        stringsUI.init("stringsContainer", strings, stringsConfig);
-      }
-      loadLanguage("en-US");
-    </script>
-  </body>
+<body class="slide-in">
+  <div id="stringsContainer" class="hidden"></div>
+  <script>
+    let strings;
+
+    function loadLanguage(lang) {
+      strings = new buildfire.services.Strings(lang, stringsConfig);
+      strings.init().then(() => {
+        stringsContainer.classList.remove("hidden");
+        strings.inject();
+      });
+      stringsUI.init("stringsContainer", strings, stringsConfig);
+    }
+    loadLanguage("en-US");
+  </script>
+</body>
+
 </html>
