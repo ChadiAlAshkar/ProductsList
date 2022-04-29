@@ -68,14 +68,20 @@
 }
 .thumbnail-picker > .item > .main > .screens > .screen  {
     width: 6rem;
-    height: 7rem;
+    height: 6rem;
     max-width: 6rem;
 }
 
 .thumbnail-picker2 > .item > .main > .screens > .screen {
     width: 10.6875rem;
-    height: 7rem;
+    height: 6rem;
     max-width: 10.6875rem;
+}
+
+.screens .screen.layouticon a,
+.screens .layoutgrid .layouticon{
+	height:6rem !important;
+	line-height:6.375rem !important;
 }
 
 img {
