@@ -84,6 +84,10 @@
 	line-height:6.375rem !important;
 }
 
+.screens .screen.layouticon a > img {
+	vertical-align: inherit;
+}
+
 img {
     width: inherit;
     height: inherit;
