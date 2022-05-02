@@ -18,6 +18,10 @@ const thumbnail2 = new buildfire.components.images.thumbnail(
 );
 
 function init() {
+  buildfire.messaging.sendMessageToWidget({
+    id: Enum.messageType.closeItem,
+    openSubItemPage: false,
+  });
   searchTableHelper = new SearchTableHelper(
     "searchResults",
     "records",

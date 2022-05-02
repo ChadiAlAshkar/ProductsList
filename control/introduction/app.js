@@ -2,6 +2,10 @@ let editor = new buildfire.components.carousel.editor(".carousel", []);
 let introduction;
 
 function init() {
+  buildfire.messaging.sendMessageToWidget({
+    id: Enum.messageType.closeItem,
+    openSubItemPage: false,
+  });
   Introduction.get()
     .then((result) => {
       if (result) {

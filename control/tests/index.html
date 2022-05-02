@@ -10,6 +10,7 @@
   <script src="https://unpkg.com/chai/chai.js"></script>
   <script src="https://unpkg.com/mocha/mocha.js"></script>
 
+  <script src="../../widget/common/helper/enum.js"></script>
   <script src="../../widget/common/models/Product.js"></script>
   <script src="../../widget/common/models/Introduction.js"></script>
   <script src="../../widget/common/models/Language.js"></script>
@@ -27,6 +28,10 @@
 <body>
   <div id="mocha"></div>
   <script>
+    buildfire.messaging.sendMessageToWidget({
+      id: Enum.messageType.closeItem,
+      openSubItemPage: false,
+    });
     mocha.setup("bdd");
     mocha.checkLeaks();
     mocha.run().globals(["FastClick"]);
