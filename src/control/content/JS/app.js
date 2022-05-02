@@ -1,3 +1,5 @@
+import buildfire from 'buildfire';
+
 let editedProduct = null;
 let searchTableHelper;
 let timer;
