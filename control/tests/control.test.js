@@ -4,8 +4,10 @@ describe("Content", function () {
       var product = new Product();
       product.title = "Test 1";
       product.description = "Test 1";
-      product.profileImgUrl = "https://alnnibitpo.cloudimg.io/v7/https://fakestoreapi.com/img/71HblAHs5xL._AC_UY879_-2.jpg?func=crop&width=1080&height=1080";
-      product.coverImgUrl = "https://alnnibitpo.cloudimg.io/v7/https://alnnibitpo.cloudimg.io/v7/https://fakestoreapi.com/img/71pWzhdJNwL._AC_UL640_QL65_ML3_.jpg?func=crop&width=1080&height=607&func=crop&width=1215&height=683";
+      product.profileImgUrl =
+        "https://alnnibitpo.cloudimg.io/v7/https://fakestoreapi.com/img/71HblAHs5xL._AC_UY879_-2.jpg?func=crop&width=1080&height=1080";
+      product.coverImgUrl =
+        "https://alnnibitpo.cloudimg.io/v7/https://alnnibitpo.cloudimg.io/v7/https://fakestoreapi.com/img/71pWzhdJNwL._AC_UL640_QL65_ML3_.jpg?func=crop&width=1080&height=607&func=crop&width=1215&height=683";
       product.subTitle = "Test Subtitle";
 
       it("should add new product", (done) => {
@@ -19,13 +21,33 @@ describe("Content", function () {
       });
     });
 
+    describe("#bulkInsert()", function () {
+      this.timeout(100000);
+      it("should insert dummy data", (done) => {
+        dummyData
+        .insertDummyRecords()
+        .then((result) => {
+          console.log(result);
+          done();
+        })
+        .catch((err) => {
+          done(err);
+        });
+      })
+    });
+
     describe("#insert Long Name()", function () {
       var product = new Product();
-      product.title = "Tet asdas dasdddddddddddsa dasdd adasdadadadst 1 Tet asdas dasdddddddddddsa dasdd adasdadadadst 1 Tet asdas dasdddddddddddsa dasdd adasdadadadst 1";
-      product.description = "Tet asdas dasdddddddddddsa dasdd adasdadadadst 1Tet asdas dasdddddddddddsa dasdd adasdadadadst 1Tet asdas dasdddddddddddsa dasdd adasdadadadst 1Tet asdas dasdddddddddddsa dasdd adasdadadadst 1Tet asdas dasdddddddddddsa dasdd adasdadadadst 1";
-      product.profileImgUrl = "https://alnnibitpo.cloudimg.io/v7/https://fakestoreapi.com/img/71HblAHs5xL._AC_UY879_-2.jpg?func=crop&width=1080&height=1080";
-      product.coverImgUrl = "https://alnnibitpo.cloudimg.io/v7/https://alnnibitpo.cloudimg.io/v7/https://fakestoreapi.com/img/71pWzhdJNwL._AC_UL640_QL65_ML3_.jpg?func=crop&width=1080&height=607&func=crop&width=1215&height=683";
-      product.subTitle = "Tet asdas dasdddddddddddsa dasdd adasdadadadst 1Tet asdas dasdddddddddddsa dasdd adasdadadadst 1Tet asdas dasdddddddddddsa dasdd adasdadadadst 1Tet asdas dasdddddddddddsa dasdd adasdadadadst 1Tet asdas dasdddddddddddsa dasdd adasdadadadst 1Tet asdas dasdddddddddddsa dasdd adasdadadadst 1Tet asdas dasdddddddddddsa dasdd adasdadadadst 1Tet asdas dasdddddddddddsa dasdd adasdadadadst 1Tet asdas dasdddddddddddsa dasdd adasdadadadst 1";
+      product.title =
+        "Tet asdas dasdddddddddddsa dasdd adasdadadadst 1 Tet asdas dasdddddddddddsa dasdd adasdadadadst 1 Tet asdas dasdddddddddddsa dasdd adasdadadadst 1";
+      product.description =
+        "Tet asdas dasdddddddddddsa dasdd adasdadadadst 1Tet asdas dasdddddddddddsa dasdd adasdadadadst 1Tet asdas dasdddddddddddsa dasdd adasdadadadst 1Tet asdas dasdddddddddddsa dasdd adasdadadadst 1Tet asdas dasdddddddddddsa dasdd adasdadadadst 1";
+      product.profileImgUrl =
+        "https://alnnibitpo.cloudimg.io/v7/https://fakestoreapi.com/img/71HblAHs5xL._AC_UY879_-2.jpg?func=crop&width=1080&height=1080";
+      product.coverImgUrl =
+        "https://alnnibitpo.cloudimg.io/v7/https://alnnibitpo.cloudimg.io/v7/https://fakestoreapi.com/img/71pWzhdJNwL._AC_UL640_QL65_ML3_.jpg?func=crop&width=1080&height=607&func=crop&width=1215&height=683";
+      product.subTitle =
+        "Tet asdas dasdddddddddddsa dasdd adasdadadadst 1Tet asdas dasdddddddddddsa dasdd adasdadadadst 1Tet asdas dasdddddddddddsa dasdd adasdadadadst 1Tet asdas dasdddddddddddsa dasdd adasdadadadst 1Tet asdas dasdddddddddddsa dasdd adasdadadadst 1Tet asdas dasdddddddddddsa dasdd adasdadadadst 1Tet asdas dasdddddddddddsa dasdd adasdadadadst 1Tet asdas dasdddddddddddsa dasdd adasdadadadst 1Tet asdas dasdddddddddddsa dasdd adasdadadadst 1";
 
       it("should add new product", (done) => {
         Products.insert(product)
@@ -51,14 +73,13 @@ describe("Content", function () {
             if (products.length >= 0) {
               var editedProduct = products[0].data;
 
-
               editedProduct.title = "Updated";
               editedProduct.description = "UpdatedDesc";
               editedProduct.profileImgUrl =
                 "https://alnnibitpo.cloudimg.io/v7/https://fakestoreapi.com/img/71HblAHs5xL._AC_UY879_-2.jpg?func=crop&width=1080&height=1080";
-                editedProduct.coverImgUrl = "https://alnnibitpo.cloudimg.io/v7/https://alnnibitpo.cloudimg.io/v7/https://fakestoreapi.com/img/71pWzhdJNwL._AC_UL640_QL65_ML3_.jpg?func=crop&width=1080&height=607&func=crop&width=1215&height=683";
-                editedProduct.subTitle = "UpdatedTitle";
-
+              editedProduct.coverImgUrl =
+                "https://alnnibitpo.cloudimg.io/v7/https://alnnibitpo.cloudimg.io/v7/https://fakestoreapi.com/img/71pWzhdJNwL._AC_UL640_QL65_ML3_.jpg?func=crop&width=1080&height=607&func=crop&width=1215&height=683";
+              editedProduct.subTitle = "UpdatedTitle";
 
               Products.update(products[0].id, {
                 title: editedProduct.title,
@@ -85,13 +106,13 @@ describe("Content", function () {
     });
   });
 
-
-describe("ProductsList", function () {
+  describe("ProductsList", function () {
     describe("#search()", function () {
       it("should search products with value Test 1", (done) => {
         var searchOptions = {
           filter: {
-            $or: [{
+            $or: [
+              {
                 "$json.title": {
                   $regex: "Test 1",
                   $options: "-i",
@@ -106,15 +127,16 @@ describe("ProductsList", function () {
             ],
           },
           sort: {
-             creationDate: -1,
-             title: 1},
+            creationDate: -1,
+            title: 1,
+          },
           skip: 0,
           limit: 1,
         };
         Products.search(searchOptions)
           .then((result) => {
-              console.log(result);
-              done();
+            console.log(result);
+            done();
           })
           .catch((err) => {
             done(err);
@@ -128,8 +150,7 @@ describe("ProductsList", function () {
       it("should delete product", (done) => {
         var searchOptions = {
           filter: {},
-          sort: { creationDate: -1,
-            title: 1},
+          sort: { creationDate: 1, title: 1 },
           skip: 0,
           limit: 1,
         };
@@ -166,7 +187,7 @@ describe("ProductsList", function () {
             if (products.length >= 0) {
               Products.getById(products[0].id)
                 .then((result) => {
-                  console.log(result)
+                  console.log(result);
                   done();
                 })
                 .catch((err) => {
@@ -253,7 +274,6 @@ describe("Language", function () {
         .catch((err) => {
           done(err);
         });
-      });
-     });
+    });
   });
- 
+});
