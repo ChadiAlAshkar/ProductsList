@@ -142,9 +142,10 @@ class SearchTableHelper {
         } else {
           this.tbody.innerHTML = "";
           this.loading.classList.add("hidden");
-          this.emptyState.classList.remove("hidden");
           if (filter != undefined) {
             this.noDataSearch.classList.remove("hidden");
+          } else {
+            this.emptyState.classList.remove("hidden");
           }
         }
       })
