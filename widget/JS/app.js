@@ -132,8 +132,6 @@ function sendMessageToControl(isOpeningSubItemPage, item) {
 }
 
 function checkIfItemDetailsEmpty() {
-  console.log(coverImgBody.src)
-  console.log(profileImgBody.src)
   if (
     itemTitle.innerHTML == "" &&
     itemSubTitle.innerHTML == "" &&
@@ -430,7 +428,6 @@ function _fetchNextPage() {
 
   if (this.config.skipIndex > 0 && this.config.endReached) return;
   this.config.skipIndex++;
-  console.log(this.config.skipIndex)
   this.searchProducts(this.config.defaultSort, "", false, false, () => {
     this.config.fetchingNextPage = false;
   });

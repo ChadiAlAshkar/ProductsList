@@ -207,6 +207,7 @@ function openSubItemPage() {
 }
 
 function backToMain() {
+  editedProduct = null;
   main.classList.remove("hidden");
   subpage.classList.add("hidden");
   buildfire.messaging.sendMessageToWidget({
@@ -286,7 +287,7 @@ function updateProduct(product) {
 }
 
 function addProduct() {
-
+  
   var product = new Product();
   product.title = itemTitle.value;
   product.description = tinymce.activeEditor.getContent();
