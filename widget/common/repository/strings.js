@@ -100,12 +100,11 @@ buildfire.services.Strings = class {
     if (!element) element = document;
     element.querySelectorAll("*[bfString]").forEach((e) => {
       let v = this.get(e.getAttribute("bfString"), enableVariables) || "";
-
       if (e.nodeName == "TEXTAREA") {
-        if (e.classList.contains("bfwysiwyg")) tinymce.get(e.id).setContent(v);
-        else e.innerHTML = v;
-      } else if (e.nodeName == "INPUT") e.value = v;
-      else e.innerHTML = v;
+        if (e.classList.contains("bfwysiwyg")) tinymce.get(e.id).setContent(v.value);
+        else e.innerHTML = v.value;
+      } else if (e.nodeName == "INPUT") e.value = v.value;
+      else e.innerHTML = v.value;
     });
   }
 
@@ -113,7 +112,8 @@ buildfire.services.Strings = class {
     var language = new LanguageItem();
     for (let sectionKey in this._data) {
       for (let labelKey in this._data[sectionKey]) {
-        language[labelKey] = this._data[sectionKey][labelKey].value;
+        language[labelKey].value = this._data[sectionKey][labelKey].value;
+        language[labelKey].defaultValue = this._data[sectionKey][labelKey].defaultValue;
       }
     }
     Language.save(language, this.collectionName)

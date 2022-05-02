@@ -255,7 +255,7 @@ function setupHandlers() {
     }
     if (response.tag == Constants.Collections.LANGUAGE + "en-us") {
       t.config.lang = response;
-      searchTxt.setAttribute("placeholder", t.config.lang.data.search);
+      searchTxt.setAttribute("placeholder", (t.config.lang.data.search.value != "" ? t.config.lang.data.search.value : t.config.lang.data.search.defaultValue));
     }
   });
 
@@ -330,7 +330,7 @@ function loadData() {
     wysiwygContent.innerHTML = results[0].data.description;
 
     this.config.lang = results[2];
-    searchTxt.setAttribute("placeholder", this.config.lang.data.search);
+    searchTxt.setAttribute("placeholder", (this.config.lang.data.search.value != "" ? this.config.lang.data.search.value : this.config.lang.data.search.defaultValue));
 
     listView.loadListViewItems(products);
 
@@ -438,11 +438,11 @@ function openSortDrawer() {
   buildfire.components.drawer.open({
       listItems: [{
           id: 1,
-          text: this.config.lang.data.sortAsc,
+          text: (this.config.lang.data.sortAsc.value != "" ? this.config.lang.data.sortAsc.value : this.config.lang.data.sortAsc.defaultValue),
         },
         {
           id: -1,
-          text: this.config.lang.data.sortDesc,
+          text: (this.config.lang.data.sortDesc.value != "" ? this.config.lang.data.sortDesc.value : this.config.lang.data.sortDesc.defaultValue),
         },
       ],
     },

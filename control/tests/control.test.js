@@ -25,14 +25,14 @@ describe("Content", function () {
       this.timeout(100000);
       it("should insert dummy data", (done) => {
         dummyData
-        .insertDummyRecords()
-        .then((result) => {
-          console.log(result);
-          done();
-        })
-        .catch((err) => {
-          done(err);
-        });
+          .insertDummyRecords()
+          .then((result) => {
+            console.log(result);
+            done();
+          })
+          .catch((err) => {
+            done(err);
+          });
       })
     });
 
@@ -82,13 +82,13 @@ describe("Content", function () {
               editedProduct.subTitle = "UpdatedTitle";
 
               Products.update(products[0].id, {
-                title: editedProduct.title,
-                description: editedProduct.description,
-                profileImgUrl: editedProduct.profileImgUrl,
-                coverImgUrl: editedProduct.coverImgUrl,
-                subTitle: editedProduct.subTitle,
-                creationDate: new Date(),
-              })
+                  title: editedProduct.title,
+                  description: editedProduct.description,
+                  profileImgUrl: editedProduct.profileImgUrl,
+                  coverImgUrl: editedProduct.coverImgUrl,
+                  subTitle: editedProduct.subTitle,
+                  creationDate: new Date(),
+                })
                 .then((result) => {
                   done();
                 })
@@ -111,8 +111,7 @@ describe("Content", function () {
       it("should search products with value Test 1", (done) => {
         var searchOptions = {
           filter: {
-            $or: [
-              {
+            $or: [{
                 "$json.title": {
                   $regex: "Test 1",
                   $options: "-i",
@@ -150,7 +149,10 @@ describe("Content", function () {
       it("should delete product", (done) => {
         var searchOptions = {
           filter: {},
-          sort: { creationDate: 1, title: 1 },
+          sort: {
+            creationDate: 1,
+            title: 1
+          },
           skip: 0,
           limit: 1,
         };
@@ -209,19 +211,16 @@ describe("Introduction", function () {
   describe("#Save", function () {
     var introduction = new IntroductionItem();
     introduction.description = "<h5>Test asdasdsa</h5>";
-    introduction.images = [
-      {
-        action: "noAction",
-        iconUrl:
-          "https://s3-us-west-2.amazonaws.com/imageserver.prod/1649774124364-0019321411895620644/945ae700-bcc4-11ec-a150-391c0afe6247.jpg",
-        title: "image",
-      },
-    ];
+    introduction.images = [{
+      action: "noAction",
+      iconUrl: "https://s3-us-west-2.amazonaws.com/imageserver.prod/1649774124364-0019321411895620644/945ae700-bcc4-11ec-a150-391c0afe6247.jpg",
+      title: "image",
+    }, ];
     it("Should save introduction", (done) => {
       Introduction.save({
-        description: introduction.description,
-        images: introduction.images,
-      })
+          description: introduction.description,
+          images: introduction.images,
+        })
         .then((result) => {
           done();
         })
@@ -248,9 +247,18 @@ describe("Introduction", function () {
 describe("Language", function () {
   describe("#Save", function () {
     var data = {
-      search: "SearchTTTTTTTTTt",
-      sortAsc: "Sort A-ZTTTTTT",
-      sortDesc: "Sort Z-ATTTTTT",
+      search: {
+        value: "SearchTTTTTTTTTt",
+        defaultValue: "Search"
+      },
+      sortAsc: {
+        value: "Sort A-ZTTTTTT",
+        defaultValue: "Sort A - Z"
+      },
+      sortDesc: {
+        value: "Sort Z-ATTTTTT",
+        defaultValue: "Sort Z - A"
+      },
     };
     var language = new LanguageItem(data);
 
