@@ -243,9 +243,6 @@ function saveItem() {
     .then(() => {
       this.init();
       this.backToMain();
-      if (isAddingProduct) {
-        Analytics.trackAction(Analytics.events.PRODUCT_CREATED);
-      }
     })
     .catch((err) => {
       console.error(err);
@@ -287,7 +284,7 @@ function updateProduct(product) {
 }
 
 function addProduct() {
-  
+
   var product = new Product();
   product.title = itemTitle.value;
   product.description = tinymce.activeEditor.getContent();

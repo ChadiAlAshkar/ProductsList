@@ -2,16 +2,12 @@ class Analytics {
 
   static get events() {
     return {
-      PRODUCT_CREATED: 'PRODUCT_CRETAED',
-      PRODUCT_OPENED: 'PRODUCT_OPENED',
-      PRODUCT_DELETED: 'PRODUCT_DELETED',
+      PRODUCT_VIEWED: 'PRODUCT_VIEWED'
     }
   }
 
   static init() {
-    this.registerEvent('Product Created', this.events.PRODUCT_CREATED, 'Occurs when a user creates a new Product', false);
-    this.registerEvent('Product Opened', this.events.PRODUCT_OPENED, 'Occurs when a user opens a Product', false);
-    this.registerEvent('Product Deleted', this.events.PRODUCT_DELETED, 'Occurs when a user deletes a Product', false);
+    this.registerEvent('Product Viewed', this.events.PRODUCT_VIEWED, 'Occurs when a user views a product', false);
   }
 
   static registerEvent(title, key, description, silentNotification) {

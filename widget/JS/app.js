@@ -161,6 +161,7 @@ function setupHandlers() {
 
   listView.onItemClicked = (item) => {
     fillSubItem(item);
+    Analytics.trackAction(Analytics.events.PRODUCT_VIEWED);
     sendMessageToControl(true, productClicked);
   };
 
