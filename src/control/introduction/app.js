@@ -1,4 +1,7 @@
 import IntroductionItem from "../../widget/common/models/introduction";
+import {
+  Introduction
+} from "../../widget/common/controllers/introduction";
 import Enum from '../../widget/common/helper/enum'
 let editor = new buildfire.components.carousel.editor(".carousel", []);
 let introduction;
