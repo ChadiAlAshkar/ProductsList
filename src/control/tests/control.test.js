@@ -1,3 +1,30 @@
+import buildfire from 'buildfire';
+import IntroductionItem from "../../widget/common/models/introduction";
+import {
+  Introduction
+} from "../../widget/common/controllers/introduction";
+import Product from "../../widget/common/models/product";
+import {
+  Products
+} from "../../widget/common/controllers/product";
+import LanguageItem from '../../widget/common/models/language';
+import Constants from '../../widget/common/helper/constants';
+import {
+  Language
+} from '../../widget/common/controllers/language';
+import {
+  dummyData
+} from '../content/JS/dummy-data';
+import Enum from '../../widget/common/helper/enum';
+
+buildfire.messaging.sendMessageToWidget({
+  id: Enum.messageType.closeItem,
+  openSubItemPage: false,
+});
+mocha.setup("bdd");
+mocha.checkLeaks();
+mocha.run().globals(["FastClick"]);
+
 describe("Content", function () {
   describe("ProductDetails", function () {
     describe("#insert()", function () {

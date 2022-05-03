@@ -18,6 +18,7 @@ const WebpackConfig = {
     // 'control/settings/settings': path.join(__dirname, '../src/control/settings/settings.js'),
     'control/introduction/app': path.join(__dirname, '../src/control/introduction/app.js'),
     'control/strings/JS/app': path.join(__dirname, '../src/control/strings/JS/app.js'),
+    'control/tests/control.test': path.join(__dirname, '../src/control/tests/control.test.js'),
     'widget/JS/app': path.join(__dirname, '../src/widget/JS/app.js'),
   },
 
@@ -32,8 +33,7 @@ const WebpackConfig = {
   },
 
   module: {
-    rules: [
-      {
+    rules: [{
         test: /\.js$/,
         exclude: /(node_modules|bower_components)/,
         use: {
@@ -54,28 +54,50 @@ const WebpackConfig = {
     new HtmlWebpackPlugin({
       filename: 'control/content/index.html',
       inject: true,
-      minify: { removeComments: true, collapseWhitespace: true },
+      minify: {
+        removeComments: true,
+        collapseWhitespace: true
+      },
       template: path.join(__dirname, '../src/control/content/index.html'),
       chunks: ['devServer', 'control/content/JS/app']
     }),
     new HtmlWebpackPlugin({
       filename: 'control/introduction/index.html',
       inject: true,
-      minify: { removeComments: true, collapseWhitespace: true },
+      minify: {
+        removeComments: true,
+        collapseWhitespace: true
+      },
       template: path.join(__dirname, '../src/control/introduction/index.html'),
-      chunks: ['devServer','control/introduction/app']
+      chunks: ['devServer', 'control/introduction/app']
     }),
     new HtmlWebpackPlugin({
       filename: 'control/strings/index.html',
       inject: true,
-      minify: { removeComments: true, collapseWhitespace: true },
+      minify: {
+        removeComments: true,
+        collapseWhitespace: true
+      },
       template: path.join(__dirname, '../src/control/strings/index.html'),
-      chunks: ['devServer','control/strings/JS/app']
+      chunks: ['devServer', 'control/strings/JS/app']
+    }),
+    new HtmlWebpackPlugin({
+      filename: 'control/tests/index.html',
+      inject: true,
+      minify: {
+        removeComments: true,
+        collapseWhitespace: true
+      },
+      template: path.join(__dirname, '../src/control/tests/index.html'),
+      chunks: ['devServer', 'control/tests/control.test']
     }),
     new HtmlWebpackPlugin({
       filename: 'widget/index.html',
       inject: true,
-      minify: { removeComments: true, collapseWhitespace: true },
+      minify: {
+        removeComments: true,
+        collapseWhitespace: true
+      },
       template: path.join(__dirname, '../src/widget/index.html'),
       chunks: ['devServer', 'widget/JS/app']
     }),
@@ -92,16 +114,16 @@ const WebpackConfig = {
       ignore: ['*.js', '*.html', '*.md']
     }),
     new CopyWebpackPlugin([{
-       from: path.join(__dirname, '../../../styles'),
-       to: path.join(__dirname, '../styles'),
-     }, {
-       from: path.join(__dirname, '../../../scripts'),
-       to: path.join(__dirname, '../scripts'),
-     }, {
-       from: path.join(__dirname, '../../../fonticons'),
-       to: path.join(__dirname, '../fonticons'),
-     },
-     {
+        from: path.join(__dirname, '../../../styles'),
+        to: path.join(__dirname, '../styles'),
+      }, {
+        from: path.join(__dirname, '../../../scripts'),
+        to: path.join(__dirname, '../scripts'),
+      }, {
+        from: path.join(__dirname, '../../../fonticons'),
+        to: path.join(__dirname, '../fonticons'),
+      },
+      {
         from: path.join(__dirname, '../../../fonts'),
         to: path.join(__dirname, '../fonts'),
       }
