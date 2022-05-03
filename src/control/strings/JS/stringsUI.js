@@ -1,3 +1,6 @@
+import {
+  ui
+} from '../../../widget/common/helper/ui'
 
 export const stringsUI = {
   container: null,
