@@ -6,7 +6,6 @@ const WebpackConfig = require('./webpack/dev.config');
 const compiler = webpack(WebpackConfig);
 
 const devServer = new WebpackDevServer(compiler, WebpackConfig.devServer);
-console.log(WebpackConfig)
 const { port, host } = WebpackConfig.devServer;
 devServer.listen(port, host, err => {
   if (err) return console.error(err);
