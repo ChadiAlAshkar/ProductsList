@@ -1,9 +1,20 @@
-import { ui } from '../common/helper/ui';
-import { Introduction } from '../common/controllers/introduction';
+import {
+  ui
+} from '../common/helper/ui';
+import {
+  Introduction
+} from '../common/controllers/introduction';
 import Constants from '../common/helper/constants'
-import { Products } from '../common/controllers/product'
-import { Language } from '../common/controllers/language'
+import {
+  Products
+} from '../common/controllers/product'
+import {
+  Language
+} from '../common/controllers/language'
 import Enum from '../common/helper/enum'
+import {
+  Analytics
+} from '../../widget/common/repository/analytics'
 let viewer = new buildfire.components.carousel.view(".carousel");
 let productClicked = null;
 const listView = new buildfire.components.listView("listViewContainer", {
@@ -164,6 +175,14 @@ function checkIfItemDetailsEmpty() {
 function setupHandlers() {
   let timer;
 
+  sortIcon.addEventListener('click', openSortDrawer);
+  coverImgBody.addEventListener('click', () => {
+    imagePreview(coverImgBody.src);
+  });
+  profileImgBody.addEventListener('click', () => {
+    imagePreview(profileImgBody.src);
+  });
+
   listView.onItemClicked = (item) => {
     fillSubItem(item);
     Analytics.trackAction(Analytics.events.PRODUCT_VIEWED);
@@ -298,6 +317,7 @@ function setupHandlers() {
 }
 
 function imagePreview(imageUrl) {
+  console.log(imageUrl)
   buildfire.imagePreviewer.show({
     images: [imageUrl],
   });

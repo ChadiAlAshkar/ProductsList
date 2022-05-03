@@ -1,4 +1,4 @@
-class Analytics {
+export class Analytics {
 
   static get events() {
     return {
