@@ -18,7 +18,7 @@ const WebpackConfig = {
     // 'control/settings/settings': path.join(__dirname, '../src/control/settings/settings.js'),
     'control/introduction/app': path.join(__dirname, '../src/control/introduction/app.js'),
     'control/strings/JS/app': path.join(__dirname, '../src/control/strings/JS/app.js'),
-    'control/tests/control.test': path.join(__dirname, '../src/control/tests/control.test.js'),
+    'control/tests/app.test': path.join(__dirname, '../src/control/tests/app.test.js'),
     'widget/JS/app': path.join(__dirname, '../src/widget/JS/app.js'),
   },
 
@@ -89,7 +89,7 @@ const WebpackConfig = {
         collapseWhitespace: true
       },
       template: path.join(__dirname, '../src/control/tests/index.html'),
-      chunks: ['devServer', 'control/tests/control.test']
+      chunks: ['devServer', 'control/tests/app.test']
     }),
     new HtmlWebpackPlugin({
       filename: 'widget/index.html',
