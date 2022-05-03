@@ -1,0 +1,118 @@
+.container {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+}
+.headerCell {
+    padding: 15px 8px 13px;
+}
+.headerCell:hover {
+    cursor: pointer;
+}
+
+.tableDiv {
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    flex: 1 1 auto;
+}
+
+.imgStyle {
+    width: inherit;
+    height: inherit;
+}
+
+.tdImageSize {
+    width: 2.5rem;
+}
+
+.custom-background:hover > .icon-pencil {
+    color: var(--c-primary);
+}
+.custom-background:hover > .icon-cross2 {
+    color: var(--c-danger);
+}
+.custom-background:hover {
+    background-color: #f2f2f2 !important;
+    border-radius: 0.25rem;
+    width: 2.5rem;
+    height: 2.5rem;
+}
+
+.primaryColor {
+    color: var(--c-primary);
+}
+
+.colBlack {
+    color: var(--c-info);
+}
+
+.icon:hover {
+    cursor: pointer;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.error-note {
+    color: var(--c-danger);
+    font-size: 12px;
+}
+.custom-thumbnail {
+    display: inline-block;
+}
+
+.screens .screen.layouticon a {
+    max-width: 11rem !important;
+}
+.thumbnail-picker > .item > .main > .screens > .screen  {
+    width: 6rem;
+    height: 6rem;
+    max-width: 6rem;
+}
+
+.thumbnail-picker2 > .item > .main > .screens > .screen {
+    width: 10.6875rem;
+    height: 6rem;
+    max-width: 10.6875rem;
+}
+
+.screens .screen.layouticon a,
+.screens .layoutgrid .layouticon{
+	height:6rem !important;
+	line-height:6.375rem !important;
+}
+
+.screens .screen.layouticon a > img {
+	vertical-align: inherit;
+}
+
+img {
+    width: inherit;
+    height: inherit;
+}
+
+.imgStyle {
+    border-radius: 4px;
+}
+.icon-chevron-up,
+.icon-chevron-down {
+    opacity: 0;
+}
+.headerCell:hover > .icon-chevron-down,
+.icon-chevron-up {
+    opacity: 1;
+}
+.col1 {
+    padding-right: 0.75rem !important;
+}
+.col2 {
+    padding-left: 0 !important;
+}
+
+#subpage {
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: calc(100% - 3rem);
+}
