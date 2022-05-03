@@ -243,7 +243,7 @@ function setupHandlers() {
       listView.clear();
       config.skipIndex = 0;
       config.endReached = false;
-      t.searchProducts(t.config.defaultSort, "", false, false, () => {
+      searchProducts(config.defaultSort, "", false, false, () => {
         config.fetchingNextPage = false;
       });
     }
@@ -259,8 +259,8 @@ function setupHandlers() {
       }
     }
     if (response.tag == Constants.Collections.LANGUAGE + "en-us") {
-      t.config.lang = response;
-      searchTxt.setAttribute("placeholder", (t.config.lang.data.search.value != "" ? t.config.lang.data.search.value : t.config.lang.data.search.defaultValue));
+      config.lang = response;
+      searchTxt.setAttribute("placeholder", (config.lang.data.search.value != "" ? config.lang.data.search.value : config.lang.data.search.defaultValue));
     }
   });
 
@@ -277,13 +277,13 @@ function setupHandlers() {
       buildSkeletonUI(false, 4);
       skeleton.classList.remove("hidden");
       for (var i = 0; i < document.getElementsByClassName('loadColor').length; i++) {
-        document.getElementsByClassName('loadColor')[i].style.setProperty('background', t.config.appTheme.colors.bodyText, 'important');
+        document.getElementsByClassName('loadColor')[i].style.setProperty('background', config.appTheme.colors.bodyText, 'important');
       }
       listView.clear();
       timer = setTimeout(() => {
-        t.config.skipIndex = 0;
-        t.searchProducts(t.config.defaultSort, searchTxt.value, true, true, () => {
-          t.config.fetchingNextPage = false;
+        config.skipIndex = 0;
+        searchProducts(config.defaultSort, searchTxt.value, true, true, () => {
+          config.fetchingNextPage = false;
         });
       }, 500);
 
@@ -439,7 +439,6 @@ function _fetchNextPage() {
 }
 
 function openSortDrawer() {
-  let t = this;
   buildfire.components.drawer.open({
       listItems: [{
           id: 1,
@@ -459,7 +458,7 @@ function openSortDrawer() {
         title: result.id,
         creationDate: -1,
       };
-      t.searchProducts(sort, "", true, false, () => {
+      searchProducts(sort, "", true, false, () => {
         config.fetchingNextPage = false;
       });
     }

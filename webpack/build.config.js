@@ -12,12 +12,12 @@ const WebpackConfig = {
 
   entry: {
     // Plugin entry points
-    'control/content/app': path.join(__dirname, '../src/control/content/JS/app.js'),
+    'control/content/JS/app': path.join(__dirname, '../src/control/content/JS/app.js'),
     // 'control/design/design': path.join(__dirname, '../src/control/design/design.js'),
     // 'control/settings/settings': path.join(__dirname, '../src/control/settings/settings.js'),
     'control/introduction/app': path.join(__dirname, '../src/control/introduction/app.js'),
     'control/strings/app': path.join(__dirname, '../src/control/strings/JS/app.js'),
-    'widget/widget': path.join(__dirname, '../src/widget/JS/app.js'),
+    'widget/JS/app': path.join(__dirname, '../src/widget/JS/app.js'),
   },
 
   output: {
@@ -58,7 +58,7 @@ const WebpackConfig = {
       inject: true,
       minify: { removeComments: true, collapseWhitespace: true },
       template: path.join(__dirname, '../src/control/content/index.html'),
-      chunks: ['control/content/app']
+      chunks: ['control/content/JS/app']
     }),
     new HtmlWebpackPlugin({
       filename: 'control/introduction/index.html',
@@ -79,7 +79,7 @@ const WebpackConfig = {
       inject: true,
       minify: { removeComments: true, collapseWhitespace: true },
       template: path.join(__dirname, '../src/widget/index.html'),
-      chunks: ['widget/widget']
+      chunks: ['widget/JS/app']
     }),
     new CopyWebpackPlugin([{
       from: path.join(__dirname, '../src/control'),

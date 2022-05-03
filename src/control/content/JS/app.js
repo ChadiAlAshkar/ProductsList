@@ -3,10 +3,11 @@ import Enum from '../../../widget/common/helper/enum';
 import SearchTableHelper from './search-table-helper';
 import {searchTableConfig} from './search-table-config';
 import { Products } from '../../../widget/common/controllers/product';
-
+import Product from '../../../widget/common/models/product'
 let editedProduct = null;
 let searchTableHelper;
 let timer;
+
 
 const thumbnail = new buildfire.components.images.thumbnail(
   ".thumbnail-picker", {
@@ -46,21 +47,25 @@ var profileImage = "";
 var coverImage = "";
 
 function setupHandlers() {
-  let t = this;
 
+  openSubItemPageBtn.addEventListener("click", openSubItemPage);
+  sampleDataBtn.addEventListener("click", generateSampleData)
+  itemSaveBtn.addEventListener("click", saveItem);
+  backToMainBtn.addEventListener("click", backToMain);
+  searchProductsBtn.addEventListener("click", searchProducts);
   thumbnail.onChange = (imageUrl) => {
     itemSaveBtn.disabled = checkSaveDisable();
-    if (t.profileImage != imageUrl) {
-      t.profileImage = buildfire.imageLib.cropImage(
+    if (profileImage != imageUrl) {
+      profileImage = buildfire.imageLib.cropImage(
         imageUrl, {
           size: "full_width",
           aspect: "1:1"
         }
       );
-      thumbnail.loadbackground(t.profileImage);
+      thumbnail.loadbackground(profileImage);
       buildfire.messaging.sendMessageToWidget({
         id: Enum.messageType.profileImg,
-        data: t.profileImage,
+        data: profileImage,
       });
     }
 
@@ -68,17 +73,17 @@ function setupHandlers() {
   };
   thumbnail2.onChange = (imageUrl) => {
     itemSaveBtn.disabled = checkSaveDisable();
-    if (t.coverImage != imageUrl) {
-      t.coverImage = buildfire.imageLib.cropImage(
+    if (coverImage != imageUrl) {
+      coverImage = buildfire.imageLib.cropImage(
         imageUrl, {
           size: "full_width",
           aspect: "16:9"
         }
       );
-      thumbnail2.loadbackground(t.coverImage);
+      thumbnail2.loadbackground(coverImage);
       buildfire.messaging.sendMessageToWidget({
         id: Enum.messageType.coverImg,
-        data: t.coverImage,
+        data: coverImage,
       });
     }
   };
@@ -209,7 +214,7 @@ function openIntroductionPage() {
   );
 }
 
-function openSubItemPage() {
+ function openSubItemPage() {
   initSubItemPage();
   buildfire.messaging.sendMessageToWidget({
     id: Enum.messageType.newItem,
@@ -243,16 +248,16 @@ function saveItem() {
   var $productSub;
   var isAddingProduct = false;
   if (editedProduct != null) {
-    $productSub = this.updateProduct(editedProduct);
+    $productSub = updateProduct(editedProduct);
   } else {
     isAddingProduct = true;
-    $productSub = this.addProduct();
+    $productSub = addProduct();
   }
 
   $productSub
     .then(() => {
-      this.init();
-      this.backToMain();
+      init();
+      backToMain();
     })
     .catch((err) => {
       console.error(err);

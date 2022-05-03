@@ -8,14 +8,6 @@
   <!-- <script src="../../widget/common/helper/ui.js"></script> -->
   <script src="../../../../../scripts/buildfire/services/notifications/pushNotifications.js"></script>
   <script src="../../../../../scripts/buildfire/components/images/thumbnail.js"></script>
-  <!-- <script src="../../widget/common/helper/constants.js"></script>
-  <script src="../../widget/common/helper/enum.js"></script> -->
-
-  <!-- <script src="../../widget/common/repository/pushnotification.js"></script>
-
-  <script src="../../widget/common/models/Product.js"></script>
-
-  <script src="../../widget/common/controllers/product.js"></script> -->
 
   <script src="../../../../../scripts/tinymce/tinymce.min.js"></script>
 
@@ -38,14 +30,14 @@
         <div class="input-group margin-bottom-twenty">
           <input type="text" id="searchItemText" class="form-control" placeholder="Search" />
           <span class="input-group-btn">
-            <button class="btn btn-info stretch margin-left-zero" onclick="searchProducts()">
+            <button class="btn btn-info stretch margin-left-zero" id="searchProductsBtn" >
               <span class="icon icon-magnifier"></span>
             </button>
           </span>
         </div>
       </div>
       <div class="col-md-3 col2">
-        <button class="btn btn-success stretch" onclick="openSubItemPage()">
+        <button class="btn btn-success stretch" id="openSubItemPageBtn">
           <span class="icon icon-plus margin-right-ten"></span>Add Item
         </button>
       </div>
@@ -61,7 +53,7 @@
       <h5 class="text-center" style="padding-bottom: 1.5rem">
         Add sample data to preview this feature.
       </h5>
-      <button class="btn btn-success" onclick="generateSampleData()">
+      <button class="btn btn-success" id="sampleDataBtn">
         <span class="icon icon-plus margin-right-ten"></span>Add Sample Data
       </button>
     </div>
@@ -112,13 +104,12 @@
     </div>
 
     <div class="bottom-actions">
-      <button class="btn btn-default" onclick="backToMain()">Cancel</button>
-      <button class="btn btn-success" onclick="saveItem()" id="itemSaveBtn">
+      <button class="btn btn-default" id="backToMainBtn" >Cancel</button>
+      <button class="btn btn-success" id="itemSaveBtn">
         Save
       </button>
     </div>
   </div>
-
   <!-- <script src="./JS/search-table-config.js"></script> -->
   <!-- <script src="./JS/search-table-helper.js"></script> -->
   <!-- <script src="./JS/dummy-data.js"></script> -->

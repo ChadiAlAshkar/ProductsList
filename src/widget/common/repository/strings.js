@@ -1,7 +1,7 @@
 import buildfire from 'buildfire'
 import LanguageItem  from '../models/language';
 import Constants from '../helper/constants';
-import Language  from '../controllers/language';
+import {Language}  from '../controllers/language';
 
 if (typeof buildfire == "undefined")
   throw "please add buildfire.js first to use BuildFire services";
