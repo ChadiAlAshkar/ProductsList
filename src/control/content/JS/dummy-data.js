@@ -1,4 +1,7 @@
-const dummyData = {
+import {
+  Products
+} from '../../../widget/common/controllers/product.js'
+export const dummyData = {
   fetchDummyRecords: () => {
     var r = new XMLHttpRequest();
     r.open("GET", `https://fakestoreapi.com/products?limit=5`, true);

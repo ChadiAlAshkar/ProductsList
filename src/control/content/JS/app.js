@@ -1,9 +1,16 @@
 import buildfire from 'buildfire';
 import Enum from '../../../widget/common/helper/enum';
 import SearchTableHelper from './search-table-helper';
-import {searchTableConfig} from './search-table-config';
-import { Products } from '../../../widget/common/controllers/product';
-import Product from '../../../widget/common/models/product'
+import {
+  searchTableConfig
+} from './search-table-config';
+import {
+  Products
+} from '../../../widget/common/controllers/product';
+import Product from '../../../widget/common/models/product';
+import {
+  dummyData
+} from '../JS/dummy-data.js';
 let editedProduct = null;
 let searchTableHelper;
 let timer;
@@ -214,7 +221,7 @@ function openIntroductionPage() {
   );
 }
 
- function openSubItemPage() {
+function openSubItemPage() {
   initSubItemPage();
   buildfire.messaging.sendMessageToWidget({
     id: Enum.messageType.newItem,
