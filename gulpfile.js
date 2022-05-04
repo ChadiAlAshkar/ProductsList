@@ -5,6 +5,8 @@ const {
     series
 } = require('gulp');
 
+const replace = require('gulp-replace');
+
 const htmlReplace = require('gulp-html-replace');
 const minHTML = require('gulp-htmlmin');
 const minCSS = require('gulp-csso');
@@ -151,6 +153,8 @@ function minifyHTML(){
             bundleJSFiles:"scripts.min.js?v=" + (new Date().getTime())
             ,bundleCSSFiles:"styles.min.css?v=" + (new Date().getTime())
         }))
+        .pipe(replace('../../release', '../../../release'))
+        .pipe(replace('src="../release', 'src="../../release'))
         /// then strip the html from any comments
         .pipe(minHTML({removeComments:true,collapseWhitespace:true}))
         /// write results to the 'build' folder
