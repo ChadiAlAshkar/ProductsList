@@ -22,5 +22,9 @@
     "gulp-concat": "^2.6.1",
     "gulp-sourcemaps": "^3.0.0",
     "gulp-terser": "^2.1.0"
+  },
+  "dependencies": {
+    "gulp-html-replace": "^1.6.2",
+    "gulp-htmlmin": "^5.0.1"
   }
 }

@@ -5,11 +5,24 @@ const {
     series
 } = require('gulp');
 
+const htmlReplace = require('gulp-html-replace');
+const minHTML = require('gulp-htmlmin');
+
+const destinationFolder = releaseFolder();
+
+function releaseFolder() {
+    var arr = __dirname.split("/");
+    var fldr = arr.pop();
+    arr.push(fldr + "/release");
+    return arr.join("/");
+}
+
 const sourcemaps = require('gulp-sourcemaps');
 const terser = require('gulp-terser');
 const concat = require('gulp-concat');
 
 function minifyContent() {
+    console.log(destinationFolder)
     return src(
             [
                 'control/content/JS/search-table-config.js',
@@ -23,7 +36,7 @@ function minifyContent() {
             toplevel: true
         }))
         .pipe(sourcemaps.write('./'))
-        .pipe(dest('dist/control/content'));
+        .pipe(dest(destinationFolder + '/control/content'));
 }
 
 function minifyIntro() {
@@ -34,7 +47,7 @@ function minifyIntro() {
             toplevel: true
         }))
         .pipe(sourcemaps.write('./'))
-        .pipe(dest('dist/control/introduction'));
+        .pipe(dest(destinationFolder + '/control/introduction'));
 }
 
 function minifyStrings() {
@@ -48,7 +61,7 @@ function minifyStrings() {
             toplevel: true
         }))
         .pipe(sourcemaps.write('./'))
-        .pipe(dest('dist/control/strings'));
+        .pipe(dest(destinationFolder + '/control/strings'));
 }
 
 function minifyWidget() {
@@ -61,7 +74,7 @@ function minifyWidget() {
             toplevel: true
         }))
         .pipe(sourcemaps.write('./'))
-        .pipe(dest('dist/widget'));
+        .pipe(dest(destinationFolder + '/widget'));
 }
 
 function minifyCommonW() {
@@ -88,7 +101,7 @@ function minifyCommonW() {
             toplevel: true
         }))
         .pipe(sourcemaps.write('./'))
-        .pipe(dest('dist/widget/common'));
+        .pipe(dest(destinationFolder + '/widget/common'));
 }
 
 function watchChanges() {
@@ -114,11 +127,68 @@ function watchChanges() {
     ], minifyCommonW);
 }
 
+function minifyControlHTML(){
+    return src(['control/content/*.html','control/introduction/*.html','control/strings/*.html', 'widget/*.html'],{base: '.'})
+    /// replace all the <!-- build:bundleJSFiles  --> comment bodies
+    /// with scripts.min.js with cache buster
+        .pipe(htmlReplace({
+            bundleJSFiles:"scripts.min.js?v=" + (new Date().getTime())
+            ,bundleCSSFiles:"styles.min.css?v=" + (new Date().getTime())
+        }))
+        /// then strip the html from any comments
+        .pipe(minHTML({removeComments:true,collapseWhitespace:true}))
+        /// write results to the 'build' folder
+        .pipe(dest(destinationFolder));
+};
+
+function watchJS() {
+    watch([
+        'control/content/JS/*.js',
+        'control/introduction/app.js',
+        'control/strings/JS/*.js',
+        'widget/JS/app.js',
+        'widget/common/models/product.js',
+        'widget/common/models/language.js',
+        'widget/common/models/introduction.js',
+        'widget/common/controllers/product.js',
+        'widget/common/controllers/language.js',
+        'widget/common/controllers/introduction.js',
+        'widget/common/helper/constants.js',
+        'widget/common/helper/enum.js',
+        'widget/common/helper/ui.js',
+        'widget/common/repository/analytics.js',
+        'widget/common/repository/localnotification.js',
+        'widget/common/repository/pushnotification.js',
+        'widget/common/repository/strings.js',
+        'widget/common/repository/stringsConfig.js'
+    ], minifyJS);
+}
+
+function minifyHTML() {
+    return src(['widget/**/*.html', 'widget/**/*.htm', 'control/**/*.html', 'control/**/*.htm'], {
+            base: '.'
+        })
+        /// replace all the <!-- build:bundleJSFiles  --> comment bodies
+        /// with scripts.min.js with cache buster
+        .pipe(htmlReplace({
+            bundleJSFiles: "scripts.min.js?v=" + (new Date().getTime()),
+            bundleCSSFiles: "styles.min.css?v=" + (new Date().getTime())
+        }))
+        /// then strip the html from any comments
+        .pipe(minHTML({
+            removeComments: true,
+            collapseWhitespace: true
+        }))
+        /// write results to the 'build' folder
+        .pipe(dest(destinationFolder));
+};
+
 exports.default = series([
     minifyContent,
     minifyIntro,
     minifyStrings,
     minifyWidget,
     minifyCommonW,
+    minifyControlHTML,
     watchChanges
 ]);
