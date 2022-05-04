@@ -31,7 +31,7 @@ function init() {
     "loading"
   );
   this.setupHandlers();
-  this.initTinymce();
+  initTinymce();
   searchTableHelper.search();
 }
 
@@ -41,6 +41,12 @@ var coverImage = "";
 
 function setupHandlers() {
   let t = this;
+
+  openSubItemPageBtn.addEventListener("click", openSubItemPage);
+  sampleDataBtn.addEventListener("click", generateSampleData)
+  itemSaveBtn.addEventListener("click", saveItem);
+  backToMainBtn.addEventListener("click", backToMain);
+  searchProductsBtn.addEventListener("click", searchProducts);
 
   thumbnail.onChange = (imageUrl) => {
     itemSaveBtn.disabled = checkSaveDisable();
@@ -237,16 +243,16 @@ function saveItem() {
   var $productSub;
   var isAddingProduct = false;
   if (editedProduct != null) {
-    $productSub = this.updateProduct(editedProduct);
+    $productSub = updateProduct(editedProduct);
   } else {
     isAddingProduct = true;
-    $productSub = this.addProduct();
+    $productSub = addProduct();
   }
 
   $productSub
     .then(() => {
-      this.init();
-      this.backToMain();
+      init();
+      backToMain();
     })
     .catch((err) => {
       console.error(err);

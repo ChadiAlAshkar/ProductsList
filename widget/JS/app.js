@@ -88,11 +88,11 @@ function fillSubItem(item) {
   wysiwygItemContent.innerHTML = item.data.description;
   if (!config.fillingCover) {
     config.fillingCover = true;
-    this.animateImg(coverImgBody, item.data.coverImgUrl, 500)
+    animateImg(coverImgBody, item.data.coverImgUrl, 500)
   }
   if (!config.fillingProfile) {
     config.fillingProfile = true;
-    this.animateImg(profileImgBody, item.data.profileImgUrl, 1000)
+    animateImg(profileImgBody, item.data.profileImgUrl, 1000)
   }
   body.scrollTo(0, 0);
 }
@@ -157,8 +157,14 @@ function checkIfItemDetailsEmpty() {
 
 function setupHandlers() {
   let timer;
-  let t = this;
 
+  sortIcon.addEventListener('click', openSortDrawer);
+  coverImgBody.addEventListener('click', () => {
+    imagePreview(coverImgBody.src);
+  });
+  profileImgBody.addEventListener('click', () => {
+    imagePreview(profileImgBody.src);
+  });
   listView.onItemClicked = (item) => {
     fillSubItem(item);
     Analytics.trackAction(Analytics.events.PRODUCT_VIEWED);
@@ -167,10 +173,10 @@ function setupHandlers() {
 
   mainItems.onscroll = (e) => {
     if (
-      (t.mainItems.scrollTop + t.mainItems.clientHeight) / t.mainItems.scrollHeight >
+      (mainItems.scrollTop + mainItems.clientHeight) / mainItems.scrollHeight >
       0.8
     ) {
-      this._fetchNextPage();
+      _fetchNextPage();
     }
   };
 
@@ -192,7 +198,7 @@ function setupHandlers() {
             } else {
               if (!config.fillingProfile) {
                 config.fillingProfile = true;
-                this.animateImg(profileImgBody, message.data, 1000)
+                animateImg(profileImgBody, message.data, 1000)
               }
             }
             break;
@@ -202,7 +208,7 @@ function setupHandlers() {
             } else {
               if (!config.fillingCover) {
                 config.fillingCover = true;
-                this.animateImg(coverImgBody, message.data, 500)
+                animateImg(coverImgBody, message.data, 500)
 
               }
             }
@@ -239,7 +245,7 @@ function setupHandlers() {
       listView.clear();
       config.skipIndex = 0;
       config.endReached = false;
-      t.searchProducts(t.config.defaultSort, "", false, false, () => {
+      searchProducts(config.defaultSort, "", false, false, () => {
         config.fetchingNextPage = false;
       });
     }
@@ -255,8 +261,8 @@ function setupHandlers() {
       }
     }
     if (response.tag == Constants.Collections.LANGUAGE + "en-us") {
-      t.config.lang = response;
-      searchTxt.setAttribute("placeholder", (t.config.lang.data.search.value != "" ? t.config.lang.data.search.value : t.config.lang.data.search.defaultValue));
+      config.lang = response;
+      searchTxt.setAttribute("placeholder", (config.lang.data.search.value != "" ? config.lang.data.search.value : config.lang.data.search.defaultValue));
     }
   });
 
@@ -273,13 +279,13 @@ function setupHandlers() {
       buildSkeletonUI(false, 4);
       skeleton.classList.remove("hidden");
       for (var i = 0; i < document.getElementsByClassName('loadColor').length; i++) {
-        document.getElementsByClassName('loadColor')[i].style.setProperty('background', t.config.appTheme.colors.bodyText, 'important');
+        document.getElementsByClassName('loadColor')[i].style.setProperty('background', config.appTheme.colors.bodyText, 'important');
       }
       listView.clear();
       timer = setTimeout(() => {
-        t.config.skipIndex = 0;
-        t.searchProducts(t.config.defaultSort, searchTxt.value, true, true, () => {
-          t.config.fetchingNextPage = false;
+        config.skipIndex = 0;
+        searchProducts(config.defaultSort, searchTxt.value, true, true, () => {
+          config.fetchingNextPage = false;
         });
       }, 500);
 
@@ -317,7 +323,7 @@ function loadData() {
     products = [];
     results[1].forEach((element) => {
       var t = new ListViewItem();
-      t.id = element.id;
+      t.id = element.id;  
       t.title = element.data.title;
       t.description = element.data.subTitle;
       t.imageUrl = element.data.profileImgUrl;
@@ -429,7 +435,7 @@ function _fetchNextPage() {
 
   if (config.skipIndex > 0 && config.endReached) return;
   config.skipIndex++;
-  this.searchProducts(config.defaultSort, "", false, false, () => {
+  searchProducts(config.defaultSort, "", false, false, () => {
     config.fetchingNextPage = false;
   });
 }
@@ -455,7 +461,7 @@ function openSortDrawer() {
         title: result.id,
         creationDate: -1,
       };
-      t.searchProducts(sort, "", true, false, () => {
+      searchProducts(sort, "", true, false, () => {
         config.fetchingNextPage = false;
       });
     }

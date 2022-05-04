@@ -53,7 +53,7 @@
     <div class="inner-search-container search-div" style="background-color: var(--mdc-theme-surface, #fff);">
       <span class="material-icons icon" id="searchIcon">search</span>
       <input type="search" name="search" id="searchTxt" autocomplete="off" />
-      <span class="material-icons icon cursor" id="sortIcon" onclick="openSortDrawer()">sort</span>
+      <span class="material-icons icon cursor" id="sortIcon">sort</span>
     </div>
     <div id="mainItems" style="flex: 1 1 auto; overflow-y: auto;">
       <div style="height: 2.625rem; margin-top: 1rem; margin-bottom: 1rem;"></div>
@@ -69,10 +69,10 @@
 
   <div id="subpage" class="hidden">
     <div id="coverImg">
-      <img id="coverImgBody" onclick="imagePreview(this.src)" />
+      <img id="coverImgBody" />
     </div>
     <div id="profileImg">
-      <img id="profileImgBody" onclick="imagePreview(this.src)" />
+      <img id="profileImgBody" />
     </div>
 
     <label id="itemTitle"></label>
