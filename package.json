@@ -24,6 +24,7 @@
     "gulp-terser": "^2.1.0"
   },
   "dependencies": {
+    "gulp-csso": "^4.0.1",
     "gulp-html-replace": "^1.6.2",
     "gulp-htmlmin": "^5.0.1"
   }

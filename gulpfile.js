@@ -7,6 +7,7 @@ const {
 
 const htmlReplace = require('gulp-html-replace');
 const minHTML = require('gulp-htmlmin');
+const minCSS = require('gulp-csso');
 
 const destinationFolder = releaseFolder();
 
@@ -77,6 +78,21 @@ function minifyWidget() {
         .pipe(dest(destinationFolder + '/widget'));
 }
 
+function minifyCSS(){
+    return src(['control/content/*.css','control/introduction/*.css','control/strings/*.css', 'widget/*.css'], {
+        base: '.'
+    })
+
+    /// minify the CSS contents
+        .pipe(minCSS())
+
+        ///merge
+        // .pipe(concat('styles.min.css'))
+
+        /// write result to the 'build' folder
+        .pipe(dest(destinationFolder))
+};
+
 function minifyCommonW() {
     return src(
             [
@@ -127,7 +143,7 @@ function watchChanges() {
     ], minifyCommonW);
 }
 
-function minifyControlHTML(){
+function minifyHTML(){
     return src(['control/content/*.html','control/introduction/*.html','control/strings/*.html', 'widget/*.html'],{base: '.'})
     /// replace all the <!-- build:bundleJSFiles  --> comment bodies
     /// with scripts.min.js with cache buster
@@ -164,31 +180,13 @@ function watchJS() {
     ], minifyJS);
 }
 
-function minifyHTML() {
-    return src(['widget/**/*.html', 'widget/**/*.htm', 'control/**/*.html', 'control/**/*.htm'], {
-            base: '.'
-        })
-        /// replace all the <!-- build:bundleJSFiles  --> comment bodies
-        /// with scripts.min.js with cache buster
-        .pipe(htmlReplace({
-            bundleJSFiles: "scripts.min.js?v=" + (new Date().getTime()),
-            bundleCSSFiles: "styles.min.css?v=" + (new Date().getTime())
-        }))
-        /// then strip the html from any comments
-        .pipe(minHTML({
-            removeComments: true,
-            collapseWhitespace: true
-        }))
-        /// write results to the 'build' folder
-        .pipe(dest(destinationFolder));
-};
-
 exports.default = series([
     minifyContent,
     minifyIntro,
     minifyStrings,
     minifyWidget,
     minifyCommonW,
-    minifyControlHTML,
+    minifyHTML,
+    minifyCSS,
     watchChanges
 ]);
