@@ -25,7 +25,6 @@ buildfire.services.Strings = class {
 
   set(prop, value) {
     if (!this._data) throw "Strings not ready";
-
     //prop For Example: ScreenOne.Search
     let props = prop.split(".");
     if (props.length != 2) throw "invalid string prop name";
@@ -74,7 +73,7 @@ buildfire.services.Strings = class {
         this.id = obj.id;
         for (let sectionKey in this._data) {
           for (let labelKey in obj.data) {
-            this._data[sectionKey][labelKey].value = obj.data[labelKey];
+            this._data[sectionKey][labelKey].value = obj.data[labelKey].value;
           }
         }
 
@@ -101,10 +100,10 @@ buildfire.services.Strings = class {
     element.querySelectorAll("*[bfString]").forEach((e) => {
       let v = this.get(e.getAttribute("bfString"), enableVariables) || "";
       if (e.nodeName == "TEXTAREA") {
-        if (e.classList.contains("bfwysiwyg")) tinymce.get(e.id).setContent(v.value);
-        else e.innerHTML = v.value;
-      } else if (e.nodeName == "INPUT") e.value = v.value;
-      else e.innerHTML = v.value;
+        if (e.classList.contains("bfwysiwyg")) tinymce.get(e.id).setContent(v);
+        else e.innerHTML = v;
+      } else if (e.nodeName == "INPUT") e.value = v;
+      else e.innerHTML = v;
     });
   }
 
