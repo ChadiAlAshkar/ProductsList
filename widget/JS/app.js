@@ -290,6 +290,14 @@ function setupHandlers() {
       }, 500);
 
     } else {
+      if(products.length > 0){
+        
+        listViewContainer.classList.remove("hidden");
+        emptyProds.classList.add("hidden");
+      } else {
+        listViewContainer.classList.add("hidden");
+        emptyProds.classList.remove("hidden");
+      }
       skeleton.classList.add("hidden");
       carousel.classList.remove("hidden");
       wysiwygContent.classList.remove("hidden");
