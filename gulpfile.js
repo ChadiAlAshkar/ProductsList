@@ -88,7 +88,7 @@ function minifyCommonW() {
             toplevel: true
         }))
         .pipe(sourcemaps.write('./'))
-        .pipe(dest('dist/control/content'));
+        .pipe(dest('dist/widget/common'));
 }
 
 function watchChanges() {
@@ -111,7 +111,7 @@ function watchChanges() {
         'widget/common/repository/pushnotification.js',
         'widget/common/repository/strings.js',
         'widget/common/repository/stringsConfig.js'
-    ]);
+    ], minifyCommonW);
 }
 
 exports.default = series([
@@ -119,5 +119,6 @@ exports.default = series([
     minifyIntro,
     minifyStrings,
     minifyWidget,
+    minifyCommonW,
     watchChanges
 ]);
