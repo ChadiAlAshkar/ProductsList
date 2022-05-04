@@ -21,7 +21,7 @@ var config = {
 };
 
 function init() {
-  buildSkeletonUI(true, this.config.skeletonItems);
+  buildSkeletonUI(true, config.skeletonItems);
   loadCustomCss();
   loadData();
   setupHandlers();
@@ -52,7 +52,7 @@ function buildSkeletonUI(showCarousel, nbOfItems) {
 function loadCustomCss() {
   buildfire.appearance.getAppTheme((err, appTheme) => {
     if (err) return console.error(err);
-    this.config.appTheme = appTheme;
+    config.appTheme = appTheme;
     document.getElementsByClassName('icon')[0].style.setProperty('color', appTheme.colors.icons, 'important');
     document.getElementsByClassName('icon')[1].style.setProperty('color', appTheme.colors.icons, 'important');
     for (var i = 0; i < document.getElementsByClassName('loadColor').length; i++) {
@@ -86,12 +86,12 @@ function fillSubItem(item) {
   main.classList.add("hidden");
   subpage.classList.remove("hidden");
   wysiwygItemContent.innerHTML = item.data.description;
-  if (!this.config.fillingCover) {
-    this.config.fillingCover = true;
+  if (!config.fillingCover) {
+    config.fillingCover = true;
     this.animateImg(coverImgBody, item.data.coverImgUrl, 500)
   }
-  if (!this.config.fillingProfile) {
-    this.config.fillingProfile = true;
+  if (!config.fillingProfile) {
+    config.fillingProfile = true;
     this.animateImg(profileImgBody, item.data.profileImgUrl, 1000)
   }
   body.scrollTo(0, 0);
@@ -115,8 +115,8 @@ function animateImg(element, imgUrl, duration) {
         iterations: 1
       }
     )
-    this.config.fillingProfile = false;
-    this.config.fillingCover = false;
+    config.fillingProfile = false;
+    config.fillingCover = false;
     checkIfItemDetailsEmpty();
   }, duration);
 }
@@ -190,8 +190,8 @@ function setupHandlers() {
             if (message.data == "") {
               profileImgBody.src = "../../../styles/media/holder-1x1.png"
             } else {
-              if (!this.config.fillingProfile) {
-                this.config.fillingProfile = true;
+              if (!config.fillingProfile) {
+                config.fillingProfile = true;
                 this.animateImg(profileImgBody, message.data, 1000)
               }
             }
@@ -200,8 +200,8 @@ function setupHandlers() {
             if (message.data == "") {
               coverImgBody.src = "../../../styles/media/holder-16x9.png"
             } else {
-              if (!this.config.fillingCover) {
-                this.config.fillingCover = true;
+              if (!config.fillingCover) {
+                config.fillingCover = true;
                 this.animateImg(coverImgBody, message.data, 500)
 
               }
@@ -237,10 +237,10 @@ function setupHandlers() {
   buildfire.datastore.onUpdate((response) => {
     if (response.tag == Constants.Collections.PRODUCTS) {
       listView.clear();
-      this.config.skipIndex = 0;
-      this.config.endReached = false;
+      config.skipIndex = 0;
+      config.endReached = false;
       t.searchProducts(t.config.defaultSort, "", false, false, () => {
-        this.config.fetchingNextPage = false;
+        config.fetchingNextPage = false;
       });
     }
     if (response.tag == Constants.Collections.INTRODUCTION) {
@@ -307,8 +307,8 @@ function loadData() {
       creationDate: -1,
       title: 1,
     },
-    skip: this.config.skipIndex,
-    limit: this.config.limit,
+    skip: config.skipIndex,
+    limit: config.limit,
   };
   var promise1 = Introduction.get();
   var promise2 = Products.search(searchOptions);
@@ -324,14 +324,14 @@ function loadData() {
       t.data = element.data;
       products.push(t);
     });
-    if (results[1].length < this.config.limit) {
-      this.config.endReached = false;
+    if (results[1].length < config.limit) {
+      config.endReached = false;
     }
     viewer.loadItems(results[0].data.images);
     wysiwygContent.innerHTML = results[0].data.description;
 
-    this.config.lang = results[2];
-    searchTxt.setAttribute("placeholder", (this.config.lang.data.search.value != "" ? this.config.lang.data.search.value : this.config.lang.data.search.defaultValue));
+    config.lang = results[2];
+    searchTxt.setAttribute("placeholder", (config.lang.data.search.value != "" ? config.lang.data.search.value : config.lang.data.search.defaultValue));
 
     listView.loadListViewItems(products);
 
@@ -365,13 +365,13 @@ function searchProducts(sort, searchText, overwrite, fromSearchBar, callback) {
       ],
     },
     sort: sort,
-    skip: this.config.skipIndex * this.config.limit,
-    limit: this.config.limit,
+    skip: config.skipIndex * config.limit,
+    limit: config.limit,
   };
 
   if (!fromSearchBar) {
     skeleton.innerHTML = "";
-    if (this.config.skipIndex == 0) {
+    if (config.skipIndex == 0) {
       buildSkeletonUI(false, 4);
     } else {
       buildSkeletonUI(false, 1);
@@ -379,7 +379,7 @@ function searchProducts(sort, searchText, overwrite, fromSearchBar, callback) {
 
     skeleton.classList.remove("hidden");
     for (var i = 0; i < document.getElementsByClassName('loadColor').length; i++) {
-      document.getElementsByClassName('loadColor')[i].style.setProperty('background', this.config.appTheme.colors.bodyText, 'important');
+      document.getElementsByClassName('loadColor')[i].style.setProperty('background', config.appTheme.colors.bodyText, 'important');
     }
   }
   Products.search(searchOptions).then((result) => {
@@ -400,10 +400,10 @@ function searchProducts(sort, searchText, overwrite, fromSearchBar, callback) {
     if (overwrite) {
       listView.loadListViewItems(products);
     }
-    this.config.endReached = result.length < this.config.limit;
+    config.endReached = result.length < config.limit;
     skeleton.classList.add("hidden");
     if (carousel.classList.contains("hidden") && wysiwygContent.classList.contains("hidden")) {
-      if (this.config.skipIndex == 0 && result.length == 0) {
+      if (config.skipIndex == 0 && result.length == 0) {
         listViewContainer.classList.add("hidden");
         emptyProds.classList.remove("hidden");
       } else {
@@ -411,7 +411,7 @@ function searchProducts(sort, searchText, overwrite, fromSearchBar, callback) {
         emptyProds.classList.add("hidden");
       }
     } else {
-      if (this.config.skipIndex == 0 && result.length == 0 && viewer.items.length == 0 && wysiwygContent.innerHTML == "") {
+      if (config.skipIndex == 0 && result.length == 0 && viewer.items.length == 0 && wysiwygContent.innerHTML == "") {
         listViewContainer.classList.add("hidden");
         emptyProds.classList.remove("hidden");
       } else {
@@ -424,13 +424,13 @@ function searchProducts(sort, searchText, overwrite, fromSearchBar, callback) {
 }
 
 function _fetchNextPage() {
-  if (this.config.fetchingNextPage) return;
-  this.config.fetchingNextPage = true;
+  if (config.fetchingNextPage) return;
+  config.fetchingNextPage = true;
 
-  if (this.config.skipIndex > 0 && this.config.endReached) return;
-  this.config.skipIndex++;
-  this.searchProducts(this.config.defaultSort, "", false, false, () => {
-    this.config.fetchingNextPage = false;
+  if (config.skipIndex > 0 && config.endReached) return;
+  config.skipIndex++;
+  this.searchProducts(config.defaultSort, "", false, false, () => {
+    config.fetchingNextPage = false;
   });
 }
 
@@ -439,11 +439,11 @@ function openSortDrawer() {
   buildfire.components.drawer.open({
       listItems: [{
           id: 1,
-          text: (this.config.lang.data.sortAsc.value != "" ? this.config.lang.data.sortAsc.value : this.config.lang.data.sortAsc.defaultValue),
+          text: (config.lang.data.sortAsc.value != "" ? config.lang.data.sortAsc.value : config.lang.data.sortAsc.defaultValue),
         },
         {
           id: -1,
-          text: (this.config.lang.data.sortDesc.value != "" ? this.config.lang.data.sortDesc.value : this.config.lang.data.sortDesc.defaultValue),
+          text: (config.lang.data.sortDesc.value != "" ? config.lang.data.sortDesc.value : config.lang.data.sortDesc.defaultValue),
         },
       ],
     },
@@ -456,7 +456,7 @@ function openSortDrawer() {
         creationDate: -1,
       };
       t.searchProducts(sort, "", true, false, () => {
-        this.config.fetchingNextPage = false;
+        config.fetchingNextPage = false;
       });
     }
   );
