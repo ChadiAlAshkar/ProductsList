@@ -34,5 +34,3 @@ class Analytics {
     buildfire.analytics.trackAction(key, metData);
   }
 }
-
-Analytics.init();
