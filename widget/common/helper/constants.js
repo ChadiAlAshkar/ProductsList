@@ -6,9 +6,9 @@ class Constants {
 
   static get Collections() {
     return {
-      PRODUCTS: "Products",
-      INTRODUCTION: "Introduction4",
-      LANGUAGE: "$bfLanguageSettings_",
+      PRODUCTS: "Products1",
+      INTRODUCTION: "Introduction41",
+      LANGUAGE: "$bfLanguageSettings1_",
     };
   }
 }

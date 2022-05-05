@@ -290,8 +290,8 @@ function setupHandlers() {
       }, 500);
 
     } else {
-      if(products.length > 0){
-        
+      if (products.length > 0) {
+
         listViewContainer.classList.remove("hidden");
         emptyProds.classList.add("hidden");
       } else {
@@ -329,36 +329,64 @@ function loadData() {
   var promise3 = Language.get(Constants.Collections.LANGUAGE + "en-us");
   Promise.all([promise1, promise2, promise3]).then((results) => {
     products = [];
-    results[1].forEach((element) => {
-      var t = new ListViewItem();
-      t.id = element.id;  
-      t.title = element.data.title;
-      t.description = element.data.subTitle;
-      t.imageUrl = element.data.profileImgUrl;
-      t.data = element.data;
-      products.push(t);
-    });
-    if (results[1].length < config.limit) {
-      config.endReached = false;
-    }
-    viewer.loadItems(results[0].data.images);
-    wysiwygContent.innerHTML = results[0].data.description;
+    if (results && results.length > 2) {
+      if (results[1] && results[1].length > 0) {
+        results[1].forEach((element) => {
+          var t = new ListViewItem();
+          t.id = element.id;
+          t.title = element.data.title;
+          t.description = element.data.subTitle;
+          t.imageUrl = element.data.profileImgUrl;
+          t.data = element.data;
+          products.push(t);
+        });
+        if (results[1].length < config.limit) {
+          config.endReached = false;
+        }
+        listView.loadListViewItems(products);
+      }
 
-    config.lang = results[2];
-    searchTxt.setAttribute("placeholder", (config.lang.data.search.value != "" ? config.lang.data.search.value : config.lang.data.search.defaultValue));
+      if (results[0] && results[0].data) {
+        if (results[0].data.images)
+          viewer.loadItems(results[0].data.images);
+        if (results[0].data.description)
+          wysiwygContent.innerHTML = results[0].data.description;
+      }
+      if (results[2] && !isEmpty(results[2].data)) {
+        config.lang = results[2];
+        searchTxt.setAttribute("placeholder", (config.lang.data.search.value != "" ? config.lang.data.search.value : config.lang.data.search.defaultValue));
+      }
 
-    listView.loadListViewItems(products);
+      if (
+        (!results[0] || results[0].data || results[0].data.images.length == 0) && 
+        (!results[1] || results[1].length == 0) && 
+        (!results[2] || isEmpty(results[2].data))) {
+        listViewContainer.classList.add("hidden");
+        emptyProds.classList.remove("hidden");
+      }
 
-    if (results[1].length == 0 && results[0].data.images.length == 0 && results[0].data.description == "") {
+    } else {
       listViewContainer.classList.add("hidden");
       emptyProds.classList.remove("hidden");
     }
+
     skeleton.classList.add("hidden");
     main.classList.remove("hidden");
     carousel.classList.remove("hidden");
     wysiwygContent.classList.remove("hidden");
     listViewContainer.classList.remove("hidden");
+
   });
+}
+
+function isEmpty(obj) {
+  for (var prop in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, prop)) {
+      return false;
+    }
+  }
+
+  return JSON.stringify(obj) === JSON.stringify({});
 }
 
 function searchProducts(sort, searchText, overwrite, fromSearchBar, callback) {
