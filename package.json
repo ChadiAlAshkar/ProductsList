@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "gulp-csso": "^4.0.1",
+    "gulp-gzip": "^1.4.2",
     "gulp-html-replace": "^1.6.2",
     "gulp-htmlmin": "^5.0.1"
   }

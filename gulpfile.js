@@ -5,6 +5,8 @@ const {
     series
 } = require('gulp');
 
+const gzip = require('gulp-gzip');
+
 const replace = require('gulp-replace');
 
 const htmlReplace = require('gulp-html-replace');
@@ -39,6 +41,7 @@ function minifyContent() {
             toplevel: true
         }))
         .pipe(sourcemaps.write('./'))
+        .pipe(gzip())
         .pipe(dest(destinationFolder + '/control/content'));
 }
 
@@ -50,6 +53,7 @@ function minifyIntro() {
             toplevel: true
         }))
         .pipe(sourcemaps.write('./'))
+        .pipe(gzip())
         .pipe(dest(destinationFolder + '/control/introduction'));
 }
 
@@ -64,6 +68,7 @@ function minifyStrings() {
             toplevel: true
         }))
         .pipe(sourcemaps.write('./'))
+        .pipe(gzip())
         .pipe(dest(destinationFolder + '/control/strings'));
 }
 
@@ -77,6 +82,7 @@ function minifyWidget() {
             toplevel: true
         }))
         .pipe(sourcemaps.write('./'))
+        .pipe(gzip())
         .pipe(dest(destinationFolder + '/widget'));
 }
 
@@ -92,6 +98,7 @@ function minifyCSS(){
         // .pipe(concat('styles.min.css'))
 
         /// write result to the 'build' folder
+        .pipe(gzip())
         .pipe(dest(destinationFolder))
 };
 
@@ -119,6 +126,7 @@ function minifyCommonW() {
             toplevel: true
         }))
         .pipe(sourcemaps.write('./'))
+        .pipe(gzip())
         .pipe(dest(destinationFolder + '/widget/common'));
 }
 
@@ -158,6 +166,7 @@ function minifyHTML(){
         /// then strip the html from any comments
         .pipe(minHTML({removeComments:true,collapseWhitespace:true}))
         /// write results to the 'build' folder
+        .pipe(gzip())
         .pipe(dest(destinationFolder));
 };
 
