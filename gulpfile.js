@@ -12,6 +12,7 @@ const replace = require('gulp-replace');
 const htmlReplace = require('gulp-html-replace');
 const minHTML = require('gulp-htmlmin');
 const minCSS = require('gulp-csso');
+const imagemin = require('gulp-imagemin');
 
 const destinationFolder = releaseFolder();
 
@@ -27,7 +28,6 @@ const terser = require('gulp-terser');
 const concat = require('gulp-concat');
 
 function minifyContent() {
-    console.log(destinationFolder)
     return src(
             [
                 'control/content/JS/search-table-config.js',
@@ -170,28 +170,23 @@ function minifyHTML(){
         .pipe(dest(destinationFolder));
 };
 
-function watchJS() {
-    watch([
-        'control/content/JS/*.js',
-        'control/introduction/app.js',
-        'control/strings/JS/*.js',
-        'widget/JS/app.js',
-        'widget/common/models/product.js',
-        'widget/common/models/language.js',
-        'widget/common/models/introduction.js',
-        'widget/common/controllers/product.js',
-        'widget/common/controllers/language.js',
-        'widget/common/controllers/introduction.js',
-        'widget/common/helper/constants.js',
-        'widget/common/helper/enum.js',
-        'widget/common/helper/ui.js',
-        'widget/common/repository/analytics.js',
-        'widget/common/repository/localnotification.js',
-        'widget/common/repository/pushnotification.js',
-        'widget/common/repository/strings.js',
-        'widget/common/repository/stringsConfig.js'
-    ], minifyJS);
+ function AddCommonFiles(){
+    return src(['resources/*','plugin.json'],{base: '.'})
+        .pipe(dest(destinationFolder ));
+};
+
+function AddImages(){
+        return src(['**/.images/**'],{base: '.'})
+        .pipe(imagemin())
+        .pipe(dest(destinationFolder ));
 }
+
+// gulp.task('images', function(){
+//     return gulp.src(['**/.images/**'],{base: '.'})
+//         .pipe(imagemin())
+//         .pipe(gulp.dest(destinationFolder ));
+// });
+
 
 exports.default = series([
     minifyContent,
@@ -201,5 +196,7 @@ exports.default = series([
     minifyCommonW,
     minifyHTML,
     minifyCSS,
+    AddCommonFiles,
+    AddImages,
     watchChanges
 ]);
