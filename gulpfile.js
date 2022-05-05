@@ -19,7 +19,7 @@ const destinationFolder = releaseFolder();
 function releaseFolder() {
     var arr = __dirname.split("/");
     var fldr = arr.pop();
-    arr.push(fldr + "/release");
+    arr.push(fldr + "_release");
     return arr.join("/");
 }
 
@@ -41,7 +41,7 @@ function minifyContent() {
             toplevel: true
         }))
         .pipe(sourcemaps.write('./'))
-        .pipe(gzip())
+        
         .pipe(dest(destinationFolder + '/control/content'));
 }
 
@@ -53,7 +53,7 @@ function minifyIntro() {
             toplevel: true
         }))
         .pipe(sourcemaps.write('./'))
-        .pipe(gzip())
+        
         .pipe(dest(destinationFolder + '/control/introduction'));
 }
 
@@ -68,7 +68,7 @@ function minifyStrings() {
             toplevel: true
         }))
         .pipe(sourcemaps.write('./'))
-        .pipe(gzip())
+        
         .pipe(dest(destinationFolder + '/control/strings'));
 }
 
@@ -82,7 +82,7 @@ function minifyWidget() {
             toplevel: true
         }))
         .pipe(sourcemaps.write('./'))
-        .pipe(gzip())
+        
         .pipe(dest(destinationFolder + '/widget'));
 }
 
@@ -98,7 +98,7 @@ function minifyCSS(){
         // .pipe(concat('styles.min.css'))
 
         /// write result to the 'build' folder
-        .pipe(gzip())
+        
         .pipe(dest(destinationFolder))
 };
 
@@ -126,7 +126,7 @@ function minifyCommonW() {
             toplevel: true
         }))
         .pipe(sourcemaps.write('./'))
-        .pipe(gzip())
+        
         .pipe(dest(destinationFolder + '/widget/common'));
 }
 
@@ -161,12 +161,12 @@ function minifyHTML(){
             bundleJSFiles:"scripts.min.js?v=" + (new Date().getTime())
             ,bundleCSSFiles:"styles.min.css?v=" + (new Date().getTime())
         }))
-        .pipe(replace('../../release', '../../../release'))
-        .pipe(replace('src="../release', 'src="../../release'))
+        // .pipe(replace('../../release', '../../../release'))
+        // .pipe(replace('src="../release', 'src="../../release'))
         /// then strip the html from any comments
         .pipe(minHTML({removeComments:true,collapseWhitespace:true}))
         /// write results to the 'build' folder
-        .pipe(gzip())
+        
         .pipe(dest(destinationFolder));
 };
 

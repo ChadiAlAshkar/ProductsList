@@ -1,7 +1,7 @@
 {
   "author": "BuildFire",
-  "pluginName": "Default Template",
-  "pluginDescription": "Bare bones plugin showing simple autonomy of a plugin",
+  "pluginName": "ProductsListTest",
+  "pluginDescription": "Testing a List Plugin",
   "supportEmail": "devSupport@buildfire.com",
   "control": {
     "content": {
@@ -17,10 +17,6 @@
       {
         "title": "Introduction",
         "url": "introduction/index.html"
-      },
-      {
-        "title": "Tests",
-        "url": "tests/index.html"
       },
       {
         "title": "Language",
