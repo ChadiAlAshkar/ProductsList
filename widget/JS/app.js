@@ -79,7 +79,9 @@ function clearSubItem() {
   body.scrollTo(0, 0);
 }
 
+
 function fillSubItem(item) {
+  buildfire.history.push("ProductDetails");
   productClicked = item;
   itemTitle.innerHTML = item.data.title;
   itemSubTitle.innerHTML = item.data.subTitle;
@@ -157,7 +159,12 @@ function checkIfItemDetailsEmpty() {
 
 function setupHandlers() {
   let timer;
-
+  buildfire.history.onPop((breadcrumb) => {
+    if (main.classList.contains("hidden")) {
+      clearSubItem();
+      sendMessageToControl(false, "");
+    }
+  });
   sortIcon.addEventListener('click', openSortDrawer);
   coverImgBody.addEventListener('click', () => {
     imagePreview(coverImgBody.src);
@@ -181,10 +188,8 @@ function setupHandlers() {
   };
 
   buildfire.navigation.onBackButtonClick = () => {
-    if (main.classList.contains("hidden")) {
-      clearSubItem();
-      sendMessageToControl(false, "");
-    }
+    buildfire.history.pop();
+  
   };
 
   buildfire.messaging.onReceivedMessage = (message) => {
