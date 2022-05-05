@@ -352,14 +352,40 @@ function loadData() {
         if (results[0].data.description)
           wysiwygContent.innerHTML = results[0].data.description;
       }
+
       if (results[2] && !isEmpty(results[2].data)) {
         config.lang = results[2];
-        searchTxt.setAttribute("placeholder", (config.lang.data.search.value != "" ? config.lang.data.search.value : config.lang.data.search.defaultValue));
+      } else {
+
+        let obj = {};
+        for (let sectionKey in stringsConfig) {
+          let section = (obj[sectionKey] = {});
+          for (let labelKey in stringsConfig[sectionKey].labels) {
+            section[labelKey] = {
+              defaultValue: stringsConfig[sectionKey].labels[labelKey].defaultValue,
+              required: stringsConfig[sectionKey].labels[labelKey].required,
+            };
+          }
+        }
+
+        var language = new LanguageItem();
+        for (let sectionKey in obj) {
+          for (let labelKey in obj[sectionKey]) {
+            language[labelKey].value = "";
+            language[labelKey].defaultValue = obj[sectionKey][labelKey].defaultValue;
+          }
+        }
+
+        config.lang = {
+          data: language
+        }
       }
 
+      searchTxt.setAttribute("placeholder", (config.lang.data.search.value != "" ? config.lang.data.search.value : config.lang.data.search.defaultValue));
+
       if (
-        (!results[0] || results[0].data || results[0].data.images.length == 0) && 
-        (!results[1] || results[1].length == 0) && 
+        (!results[0] || results[0].data || results[0].data.images.length == 0) &&
+        (!results[1] || results[1].length == 0) &&
         (!results[2] || isEmpty(results[2].data))) {
         listViewContainer.classList.add("hidden");
         emptyProds.classList.remove("hidden");
