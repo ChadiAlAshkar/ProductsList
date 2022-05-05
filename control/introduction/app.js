@@ -76,7 +76,26 @@ function setupCarouselHandlers() {
     introduction.images.splice(index, 1);
     save();
   };
+
+  buildfire.messaging.onReceivedMessage = (message) => {
+    console.log(message)
+    buildfire.navigation.navigateToTab({
+      tabTitle: "Content",
+      deeplinkData: {item: message.itemClicked},
+    },
+    (err, res) => {
+      if (err) return console.error(err); // `Content` tab was not found
+    }
+  );
+    // if (message.openSubItemPage) {
+    //   fillSubItem(message.itemClicked);
+    // } else {
+    //   backToMain();
+    // }
+  };
 }
+
+
 
 function reOrderCarousel(from, to) {
   // Delete the item from it's current position
