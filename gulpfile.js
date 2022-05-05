@@ -161,12 +161,16 @@ function minifyHTML(){
             bundleJSFiles:"scripts.min.js?v=" + (new Date().getTime())
             ,bundleCSSFiles:"styles.min.css?v=" + (new Date().getTime())
         }))
-        // .pipe(replace('../../release', '../../../release'))
-        // .pipe(replace('src="../release', 'src="../../release'))
+         .pipe(replace('src="../../../productsList_release/control/content/', 'src="./'))
+        .pipe(replace('src="../../../productsList_release/control/introduction/', 'src="./'))
+        .pipe(replace('src="../../../productsList_release/control/strings/', 'src="./'))
+        .pipe(replace('src="../../productsList_release/widget/common','src="./common'))
+        .pipe(replace('src="../../productsList_release/widget/main.js','src="./main.js'))
+        .pipe(replace('src="../../../productsList_release/widget/common/', 'src="../../widget/common/'))
         /// then strip the html from any comments
         .pipe(minHTML({removeComments:true,collapseWhitespace:true}))
         /// write results to the 'build' folder
-        
+         
         .pipe(dest(destinationFolder));
 };
 
@@ -180,13 +184,6 @@ function AddImages(){
         .pipe(imagemin())
         .pipe(dest(destinationFolder ));
 }
-
-// gulp.task('images', function(){
-//     return gulp.src(['**/.images/**'],{base: '.'})
-//         .pipe(imagemin())
-//         .pipe(gulp.dest(destinationFolder ));
-// });
-
 
 exports.default = series([
     minifyContent,
