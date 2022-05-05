@@ -41,7 +41,7 @@ function minifyContent() {
             toplevel: true
         }))
         .pipe(sourcemaps.write('./'))
-        
+
         .pipe(dest(destinationFolder + '/control/content'));
 }
 
@@ -53,7 +53,7 @@ function minifyIntro() {
             toplevel: true
         }))
         .pipe(sourcemaps.write('./'))
-        
+
         .pipe(dest(destinationFolder + '/control/introduction'));
 }
 
@@ -68,7 +68,7 @@ function minifyStrings() {
             toplevel: true
         }))
         .pipe(sourcemaps.write('./'))
-        
+
         .pipe(dest(destinationFolder + '/control/strings'));
 }
 
@@ -82,23 +82,23 @@ function minifyWidget() {
             toplevel: true
         }))
         .pipe(sourcemaps.write('./'))
-        
+
         .pipe(dest(destinationFolder + '/widget'));
 }
 
-function minifyCSS(){
-    return src(['control/content/*.css','control/introduction/*.css','control/strings/*.css', 'widget/*.css'], {
-        base: '.'
-    })
+function minifyCSS() {
+    return src(['control/content/*.css', 'control/introduction/*.css', 'control/strings/*.css', 'widget/*.css'], {
+            base: '.'
+        })
 
-    /// minify the CSS contents
+        /// minify the CSS contents
         .pipe(minCSS())
 
         ///merge
         // .pipe(concat('styles.min.css'))
 
         /// write result to the 'build' folder
-        
+
         .pipe(dest(destinationFolder))
 };
 
@@ -126,7 +126,7 @@ function minifyCommonW() {
             toplevel: true
         }))
         .pipe(sourcemaps.write('./'))
-        
+
         .pipe(dest(destinationFolder + '/widget/common'));
 }
 
@@ -151,38 +151,63 @@ function watchChanges() {
         'widget/common/repository/strings.js',
         'widget/common/repository/stringsConfig.js'
     ], minifyCommonW);
+    watch([,
+        'control/content/*.html',
+        'control/introduction/*.html',
+        'control/strings/*.html',
+        'widget/*.html'
+    ], minifyHTML);
+    watch([,
+        'control/content/*.css',
+        'control/introduction/*.css',
+        'control/strings/*.css',
+        'widget/*.css'
+    ], minifyCSS);
+    watch([
+        'resources/*', 
+        'plugin.json'
+    ], AddCommonFiles);
 }
 
-function minifyHTML(){
-    return src(['control/content/*.html','control/introduction/*.html','control/strings/*.html', 'widget/*.html'],{base: '.'})
-    /// replace all the <!-- build:bundleJSFiles  --> comment bodies
-    /// with scripts.min.js with cache buster
+function minifyHTML() {
+    return src(['control/content/*.html', 'control/introduction/*.html', 'control/strings/*.html', 'widget/*.html'], {
+            base: '.'
+        })
+        /// replace all the <!-- build:bundleJSFiles  --> comment bodies
+        /// with scripts.min.js with cache buster
         .pipe(htmlReplace({
-            bundleJSFiles:"scripts.min.js?v=" + (new Date().getTime())
-            ,bundleCSSFiles:"styles.min.css?v=" + (new Date().getTime())
+            bundleJSFiles: "scripts.min.js?v=" + (new Date().getTime()),
+            bundleCSSFiles: "styles.min.css?v=" + (new Date().getTime())
         }))
-         .pipe(replace('src="../../../productsList_release/control/content/', 'src="./'))
+        .pipe(replace('src="../../../productsList_release/control/content/', 'src="./'))
         .pipe(replace('src="../../../productsList_release/control/introduction/', 'src="./'))
         .pipe(replace('src="../../../productsList_release/control/strings/', 'src="./'))
-        .pipe(replace('src="../../productsList_release/widget/common','src="./common'))
-        .pipe(replace('src="../../productsList_release/widget/main.js','src="./main.js'))
+        .pipe(replace('src="../../productsList_release/widget/common', 'src="./common'))
+        .pipe(replace('src="../../productsList_release/widget/main.js', 'src="./main.js'))
         .pipe(replace('src="../../../productsList_release/widget/common/', 'src="../../widget/common/'))
         /// then strip the html from any comments
-        .pipe(minHTML({removeComments:true,collapseWhitespace:true}))
+        .pipe(minHTML({
+            removeComments: true,
+            collapseWhitespace: true
+        }))
         /// write results to the 'build' folder
-         
+
         .pipe(dest(destinationFolder));
 };
 
- function AddCommonFiles(){
-    return src(['resources/*','plugin.json'],{base: '.'})
-        .pipe(dest(destinationFolder ));
+function AddCommonFiles() {
+    return src(['resources/*', 'plugin.json'], {
+            base: '.'
+        })
+        .pipe(dest(destinationFolder));
 };
 
-function AddImages(){
-        return src(['**/.images/**'],{base: '.'})
+function AddImages() {
+    return src(['**/.images/**'], {
+            base: '.'
+        })
         .pipe(imagemin())
-        .pipe(dest(destinationFolder ));
+        .pipe(dest(destinationFolder));
 }
 
 exports.default = series([
