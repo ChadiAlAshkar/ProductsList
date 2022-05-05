@@ -25,18 +25,6 @@ function init() {
   loadCustomCss();
   loadData();
   setupHandlers();
-
-  buildfire.deeplink.getAllDeeplinks(null, (err, results) => {
-    if (err) return console.log(err);
-    if (results) {
-      console.log(
-        "ALL DEEPLINKS",
-        results.map((result) => console.log(result))
-
-      );
-      fillSubItem(results[0])
-    }
-  });
 }
 
 function buildSkeletonUI(showCarousel, nbOfItems) {
