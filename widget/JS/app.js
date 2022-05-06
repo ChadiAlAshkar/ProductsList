@@ -6,8 +6,10 @@ const listView = new buildfire.components.listView("listViewContainer", {
 var products = [];
 var config = {
   skipIndex: 0,
+  oldSkipIndex: 0,
   limit: 10,
   endReached: false,
+  oldEndReached: false,
   fetchingNextPage: false,
   defaultSort: {
     creationDate: -1,
@@ -189,7 +191,7 @@ function setupHandlers() {
 
   buildfire.navigation.onBackButtonClick = () => {
     buildfire.history.pop();
-  
+
   };
 
   buildfire.messaging.onReceivedMessage = (message) => {
@@ -288,7 +290,10 @@ function setupHandlers() {
       }
       listView.clear();
       timer = setTimeout(() => {
+        config.oldSkipIndex = config.skipIndex;
+        config.oldEndReached = config.endReached;
         config.skipIndex = 0;
+        config.endReached = false;
         searchProducts(config.defaultSort, searchTxt.value, true, true, () => {
           config.fetchingNextPage = false;
         });
@@ -306,6 +311,14 @@ function setupHandlers() {
       skeleton.classList.add("hidden");
       carousel.classList.remove("hidden");
       wysiwygContent.classList.remove("hidden");
+      config.skipIndex = config.oldSkipIndex;
+      config.endReached = config.oldEndReached;
+      config.fetchingNextPage = false;
+      config.defaultSort = {
+        creationDate: -1,
+        title: 1,
+      };
+      mainItems.scrollTo(0, 0);
       listView.clear();
       listView.loadListViewItems(products);
     }
@@ -499,7 +512,6 @@ function searchProducts(sort, searchText, overwrite, fromSearchBar, callback) {
 function _fetchNextPage() {
   if (config.fetchingNextPage) return;
   config.fetchingNextPage = true;
-
   if (config.skipIndex > 0 && config.endReached) return;
   config.skipIndex++;
   searchProducts(config.defaultSort, "", false, false, () => {
@@ -524,11 +536,12 @@ function openSortDrawer() {
       if (err) return console.error(err);
       buildfire.components.drawer.closeDrawer();
       listView.clear();
-      let sort = {
+      config.defaultSort = {
         title: result.id,
         creationDate: -1,
       };
-      searchProducts(sort, "", true, false, () => {
+      config.skipIndex = 0;
+      searchProducts(config.defaultSort, searchTxt.value, true, false, () => {
         config.fetchingNextPage = false;
       });
     }
