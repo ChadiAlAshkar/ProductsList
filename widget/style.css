@@ -112,6 +112,11 @@ label {
     padding: 0 1rem;
     width: 100%;
 }
+
+body {
+    height: 100% !important;
+}
+
 #coverImgBody,
 #profileImgBody {
     height: 100%;
