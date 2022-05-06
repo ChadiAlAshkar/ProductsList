@@ -283,6 +283,7 @@ function setupHandlers() {
       carousel.classList.add("hidden");
       wysiwygContent.classList.add("hidden");
       skeleton.innerHTML = "";
+      emptyProds.classList.add("hidden");
       buildSkeletonUI(false, 4);
       skeleton.classList.remove("hidden");
       for (var i = 0; i < document.getElementsByClassName('loadColor').length; i++) {
