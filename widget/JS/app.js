@@ -15,6 +15,14 @@ var config = {
     creationDate: -1,
     title: 1,
   },
+  sortAsc: {
+    title: 1,
+    creationDate: -1,
+  },
+  sortDesc: {
+    title: -1,
+    creationDate: -1,
+  },
   lang: {},
   appTheme: {},
   fillingCover: false,
@@ -315,10 +323,6 @@ function setupHandlers() {
       config.skipIndex = config.oldSkipIndex;
       config.endReached = config.oldEndReached;
       config.fetchingNextPage = false;
-      config.defaultSort = {
-        creationDate: -1,
-        title: 1,
-      };
       mainItems.scrollTo(0, 0);
       listView.clear();
       listView.loadListViewItems(products);
@@ -336,10 +340,7 @@ function loadData() {
   listViewContainer.classList.remove('listViewContainer');
   var searchOptions = {
     filter: {},
-    sort: {
-      creationDate: -1,
-      title: 1,
-    },
+    sort: config.defaultSort,
     skip: config.skipIndex,
     limit: config.limit,
   };
@@ -521,14 +522,13 @@ function _fetchNextPage() {
 }
 
 function openSortDrawer() {
-  let t = this;
   buildfire.components.drawer.open({
       listItems: [{
-          id: 1,
+          sort: config.sortAsc,
           text: (config.lang.data.sortAsc.value != "" ? config.lang.data.sortAsc.value : config.lang.data.sortAsc.defaultValue),
         },
         {
-          id: -1,
+          sort: config.sortDesc,
           text: (config.lang.data.sortDesc.value != "" ? config.lang.data.sortDesc.value : config.lang.data.sortDesc.defaultValue),
         },
       ],
@@ -537,12 +537,8 @@ function openSortDrawer() {
       if (err) return console.error(err);
       buildfire.components.drawer.closeDrawer();
       listView.clear();
-      config.defaultSort = {
-        title: result.id,
-        creationDate: -1,
-      };
       config.skipIndex = 0;
-      searchProducts(config.defaultSort, searchTxt.value, true, false, () => {
+      searchProducts(result.sort, searchTxt.value, true, false, () => {
         config.fetchingNextPage = false;
       });
     }

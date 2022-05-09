@@ -1,6 +1,8 @@
 let editedProduct = null;
 let searchTableHelper;
 let timer;
+var profileImage = "";
+var coverImage = "";
 
 const thumbnail = new buildfire.components.images.thumbnail(
   ".thumbnail-picker", {
@@ -37,8 +39,6 @@ function init() {
 }
 
 init();
-var profileImage = "";
-var coverImage = "";
 
 function setupHandlers() {
   let t = this;
@@ -242,11 +242,9 @@ function generateSampleData() {
 
 function saveItem() {
   var $productSub;
-  var isAddingProduct = false;
   if (editedProduct != null) {
     $productSub = updateProduct(editedProduct);
   } else {
-    isAddingProduct = true;
     $productSub = addProduct();
   }
 
