@@ -250,5 +250,6 @@ exports.default = series([
     minifyHTML,
     minifyCSS,
     AddCommonFiles,
-    AddImages
+    AddImages,
+    watchChanges
 ]);
