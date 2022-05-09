@@ -14,6 +14,8 @@ const Products = {
                 if (err) {
                     reject(err);
                 } else {
+                    console.log("HIIIII",result);
+                    Analytics.registerProdEvent(result.data.title, result.id);
                     resolve(result);
                 }
             });
@@ -67,6 +69,7 @@ const Products = {
                 if (err) {
                     reject(err);
                 } else {
+                    Analytics.registerProdEvent(result.data.title, result.id);
                     resolve(result);
                 }
             });

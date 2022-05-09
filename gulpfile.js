@@ -48,9 +48,9 @@ function lint(){
                 "error",
                 "always"
             ],
-            "no-console": [
-                "off"
-            ]
+            // "no-console": [
+            //     "off"
+            // ]
         }
     }))
     .pipe(eslint.format())
@@ -138,13 +138,13 @@ function minifyCommonW() {
                 'widget/common/models/product.js',
                 'widget/common/models/language.js',
                 'widget/common/models/introduction.js',
+                'widget/common/repository/analytics.js',
                 'widget/common/controllers/product.js',
                 'widget/common/controllers/language.js',
                 'widget/common/controllers/introduction.js',
                 'widget/common/helper/constants.js',
                 'widget/common/helper/enum.js',
                 'widget/common/helper/ui.js',
-                'widget/common/repository/analytics.js',
                 'widget/common/repository/localnotification.js',
                 'widget/common/repository/pushnotification.js',
                 'widget/common/repository/strings.js',

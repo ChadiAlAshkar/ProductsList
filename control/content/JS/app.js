@@ -34,7 +34,6 @@ function init() {
   );
   this.setupHandlers();
   initTinymce();
-  Analytics.init();
   searchTableHelper.search();
 }
 

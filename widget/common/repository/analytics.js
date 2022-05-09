@@ -1,16 +1,10 @@
 class Analytics {
 
-  static get events() {
-    return {
-      PRODUCT_VIEWED: 'PRODUCT_VIEWED'
-    };
+  static registerProdEvent(prodName, prodID) {
+    this.regEvent(prodName, prodID, 'Occurs when a user views product', false);
   }
 
-  static init() {
-    this.registerEvent('Product Viewed', this.events.PRODUCT_VIEWED, 'Occurs when a user views a product', false);
-  }
-
-  static registerEvent(title, key, description, silentNotification) {
+  static regEvent(title, key, description, silentNotification) {
     buildfire.analytics.registerEvent({
       title,
       key,
@@ -18,6 +12,7 @@ class Analytics {
     }, {
       silentNotification
     }, (err, result) => {
+      console.log(result);
       if (err)
         console.error(err);
       // else
