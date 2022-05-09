@@ -27,6 +27,36 @@ const sourcemaps = require('gulp-sourcemaps');
 const terser = require('gulp-terser');
 const concat = require('gulp-concat');
 
+
+const eslint = require('gulp-eslint');
+
+function lint(){
+    return src(['widget/**/*.js', 'control/**/*.js'])
+    .pipe(eslint({
+        "env": {
+            "browser": true,
+            "es6": true,
+        },
+        "parser": "@babel/eslint-parser",
+        "extends": "eslint:recommended",
+        "parserOptions": {
+            "requireConfigFile": false,
+            "sourceType": "module",
+        },
+        "rules": {
+            "semi": [
+                "error",
+                "always"
+            ],
+            "no-console": [
+                "off"
+            ]
+        }
+    }))
+    .pipe(eslint.format())
+    .pipe(eslint.failAfterError());
+}
+
 function minifyContent() {
     return src(
             [
@@ -211,6 +241,7 @@ function AddImages() {
 }
 
 exports.default = series([
+    lint,
     minifyContent,
     minifyIntro,
     minifyStrings,
@@ -219,6 +250,5 @@ exports.default = series([
     minifyHTML,
     minifyCSS,
     AddCommonFiles,
-    AddImages,
-    watchChanges
+    AddImages
 ]);

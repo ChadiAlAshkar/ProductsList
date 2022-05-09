@@ -33,7 +33,7 @@ describe("Content", function () {
           .catch((err) => {
             done(err);
           });
-      })
+      });
     });
 
     describe("#insert Long Name()", function () {

@@ -55,7 +55,7 @@ describe("Models", function () {
         };
         Products.search(searchOptions)
           .then((products) => {
-            console.log(products)
+            console.log(products);
             done();
           })
           .catch((err) => {

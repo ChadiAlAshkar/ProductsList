@@ -78,7 +78,7 @@ function setupCarouselHandlers() {
   };
 
   buildfire.messaging.onReceivedMessage = (message) => {
-    console.log(message)
+    console.log(message);
     buildfire.navigation.navigateToTab({
       tabTitle: "Content",
       deeplinkData: {item: message.itemClicked},

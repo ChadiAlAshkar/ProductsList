@@ -9,6 +9,6 @@ class Enum {
             newItem: "NewItem",
             editItem: "EditItem",
             closeItem: "CloseItem"
-        }
+        };
     }
 }

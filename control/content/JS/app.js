@@ -44,7 +44,7 @@ function setupHandlers() {
   let t = this;
 
   openSubItemPageBtn.addEventListener("click", openSubItemPage);
-  sampleDataBtn.addEventListener("click", generateSampleData)
+  sampleDataBtn.addEventListener("click", generateSampleData);
   itemSaveBtn.addEventListener("click", saveItem);
   backToMainBtn.addEventListener("click", backToMain);
   searchProductsBtn.addEventListener("click", searchProducts);
@@ -110,7 +110,7 @@ function setupHandlers() {
         id: Enum.messageType.title,
         data: itemTitle.value,
       });
-    }, 500)
+    }, 500);
   });
   searchItemText.addEventListener("keyup", function (event) {
     // Number 13 is the "Enter" key on the keyboard
@@ -145,7 +145,7 @@ function setupHandlers() {
         id: Enum.messageType.subTitle,
         data: itemSubTitle.value,
       });
-    }, 500)
+    }, 500);
   });
 }
 

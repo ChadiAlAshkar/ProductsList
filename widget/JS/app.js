@@ -92,11 +92,11 @@ function fillSubItem(item) {
   wysiwygItemContent.innerHTML = item.data.description;
   if (!config.fillingCover) {
     config.fillingCover = true;
-    animateImg(coverImgBody, item.data.coverImgUrl, 500)
+    animateImg(coverImgBody, item.data.coverImgUrl, 500);
   }
   if (!config.fillingProfile) {
     config.fillingProfile = true;
-    animateImg(profileImgBody, item.data.profileImgUrl, 1000)
+    animateImg(profileImgBody, item.data.profileImgUrl, 1000);
   }
   body.scrollTo(0, 0);
 }
@@ -118,7 +118,7 @@ function animateImg(element, imgUrl, duration) {
         duration: 200,
         iterations: 1
       }
-    )
+    );
     config.fillingProfile = false;
     config.fillingCover = false;
     checkIfItemDetailsEmpty();
@@ -143,19 +143,19 @@ function checkIfItemDetailsEmpty() {
     coverImgBody.src.endsWith('styles/media/holder-16x9.png') &&
     profileImgBody.src.endsWith('styles/media/holder-1x1.png')
   ) {
-    emptyProds2.classList.remove("hidden")
-    coverImg.classList.add("hidden")
-    profileImg.classList.add("hidden")
-    itemTitle.classList.add("hidden")
-    itemSubTitle.classList.add("hidden")
-    wysiwygItemContent.classList.add("hidden")
+    emptyProds2.classList.remove("hidden");
+    coverImg.classList.add("hidden");
+    profileImg.classList.add("hidden");
+    itemTitle.classList.add("hidden");
+    itemSubTitle.classList.add("hidden");
+    wysiwygItemContent.classList.add("hidden");
   } else {
-    emptyProds2.classList.add("hidden")
-    coverImg.classList.remove("hidden")
-    profileImg.classList.remove("hidden")
-    itemTitle.classList.remove("hidden")
-    itemSubTitle.classList.remove("hidden")
-    wysiwygItemContent.classList.remove("hidden")
+    emptyProds2.classList.add("hidden");
+    coverImg.classList.remove("hidden");
+    profileImg.classList.remove("hidden");
+    itemTitle.classList.remove("hidden");
+    itemSubTitle.classList.remove("hidden");
+    wysiwygItemContent.classList.remove("hidden");
   }
 }
 
@@ -201,21 +201,21 @@ function setupHandlers() {
         switch (message.id) {
           case Enum.messageType.profileImg:
             if (message.data == "") {
-              profileImgBody.src = "../../../styles/media/holder-1x1.png"
+              profileImgBody.src = "../../../styles/media/holder-1x1.png";
             } else {
               if (!config.fillingProfile) {
                 config.fillingProfile = true;
-                animateImg(profileImgBody, message.data, 1000)
+                animateImg(profileImgBody, message.data, 1000);
               }
             }
             break;
           case Enum.messageType.coverImg:
             if (message.data == "") {
-              coverImgBody.src = "../../../styles/media/holder-16x9.png"
+              coverImgBody.src = "../../../styles/media/holder-16x9.png";
             } else {
               if (!config.fillingCover) {
                 config.fillingCover = true;
-                animateImg(coverImgBody, message.data, 500)
+                animateImg(coverImgBody, message.data, 500);
 
               }
             }
@@ -397,7 +397,7 @@ function loadData() {
 
         config.lang = {
           data: language
-        }
+        };
       }
 
       searchTxt.setAttribute("placeholder", (config.lang.data.search.value != "" ? config.lang.data.search.value : config.lang.data.search.defaultValue));

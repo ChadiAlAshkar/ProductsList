@@ -3,7 +3,7 @@ class Analytics {
   static get events() {
     return {
       PRODUCT_VIEWED: 'PRODUCT_VIEWED'
-    }
+    };
   }
 
   static init() {
