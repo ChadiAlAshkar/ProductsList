@@ -19,6 +19,14 @@ class Analytics {
     });
   }
 
+  static unRegEvent(key) {
+    buildfire.analytics.unregisterEvent(key, (err, res) => {
+      console.log(res);
+      if (err)
+        console.error(err);
+    });
+  }
+
   static trackAction(key, aggregationValue) {
     let metData = {};
     if (aggregationValue) {

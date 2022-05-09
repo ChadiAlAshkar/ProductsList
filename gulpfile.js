@@ -48,9 +48,9 @@ function lint(){
                 "error",
                 "always"
             ],
-            // "no-console": [
-            //     "off"
-            // ]
+            "no-console": [
+                "off"
+            ]
         }
     }))
     .pipe(eslint.format())
