@@ -17,11 +17,9 @@ class SearchTableHelper {
     if (!this.noDataSearch)
       throw "Cant find noDataSearch with ID that was provided";
 
-
     if (!loading) throw "No loading provided";
     this.loading = document.getElementById(loading);
-    if (!this.loading)
-      throw "Cant find loading with ID that was provided";
+    if (!this.loading) throw "Cant find loading with ID that was provided";
 
     this.config = config;
     this.tag = tag;
@@ -116,7 +114,7 @@ class SearchTableHelper {
     if (Object.keys(this.sort).length === 0) {
       this.sort = {
         creationDate: -1,
-        title: 1
+        title: 1,
       };
     }
 
@@ -172,7 +170,8 @@ class SearchTableHelper {
       let classes = [];
       if (colConfig.type == "date") classes = ["text-center"];
       else if (colConfig.type == "number") classes = ["text-right"];
-      else if (colConfig.type == "Image") {} else classes = ["text-left"];
+      else if (colConfig.type == "Image") {
+      } else classes = ["text-left"];
       var td;
       if (colConfig.type == "command") {
         td = ui.createElement(
@@ -231,18 +230,47 @@ class SearchTableHelper {
     ) {
       let td = ui.createElement("td", tr, "", ["editColumn"]);
       let div = ui.createElement("div", td, "", ["pull-right"]);
+      let btnAnalytics = ui.createElement("button", div, "", [
+        "btn",
+        "bf-btn-icon",
+        "custom-background",
+      ]);
+      let spanAnalytics = ui.createElement("span", btnAnalytics, "", [
+        "icon",
+        "icon-chart-growth",
+      ]);
+      btnAnalytics.onclick = () => {
+        buildfire.navigation.navigateToTab(
+          {
+            tabTitle: "Analytics",
+            deeplinkData: { id: obj.id },
+          },
+          (err, res) => {
+            if (err) return console.error(err); // `Content` tab was not found
+          }
+        );
+      };
       if (this.config.options.showEditButton) {
-        let btn = ui.createElement("button", div, "", ["btn", "bf-btn-icon", "custom-background"]);
+        let btn = ui.createElement("button", div, "", [
+          "btn",
+          "bf-btn-icon",
+          "custom-background",
+        ]);
         btn.onclick = () => {
           t.onEditRow(obj, tr);
         };
         let span = ui.createElement("span", btn, "", ["icon", "icon-pencil"]);
       }
       if (this.config.options.showDeleteButton) {
-        let btn = ui.createElement("button", div, "", ["btn", "bf-btn-icon", "custom-background"]);
+        let btn = ui.createElement("button", div, "", [
+          "btn",
+          "bf-btn-icon",
+          "custom-background",
+        ]);
         let span = ui.createElement("span", btn, "", ["icon", "icon-cross2"]);
         btn.onclick = () => {
-          buildfire.dialog.confirm({
+          buildfire.dialog.confirm(
+            {
               title: "Are you sure?",
               message: "Are you sure you want to delete this product?",
               confirmButton: {
