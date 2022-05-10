@@ -29,6 +29,9 @@
 .custom-background:hover > .icon-pencil {
     color: var(--c-primary);
 }
+.custom-background:hover > .icon-chart-growth {
+    color: var(--c-primary);
+}
 .custom-background:hover > .icon-cross2 {
     color: var(--c-danger);
 }

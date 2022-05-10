@@ -226,11 +226,19 @@ class SearchTableHelper {
     let t = this;
 
     if (
+      this.config.options.showAnalyticsButton ||
       this.config.options.showEditButton ||
       this.config.options.showDeleteButton
     ) {
       let td = ui.createElement("td", tr, "", ["editColumn"]);
       let div = ui.createElement("div", td, "", ["pull-right"]);
+      if (this.config.options.showAnalyticsButton) {
+        let btn = ui.createElement("button", div, "", ["btn", "bf-btn-icon", "custom-background"]);
+        btn.onclick = () => {
+          t.onAnalyticsClicked(obj, tr);
+        };
+        let span = ui.createElement("span", btn, "", ["icon", "icon-chart-growth"]);
+      }
       if (this.config.options.showEditButton) {
         let btn = ui.createElement("button", div, "", ["btn", "bf-btn-icon", "custom-background"]);
         btn.onclick = () => {
@@ -281,6 +289,10 @@ class SearchTableHelper {
   onRowAdded(obj, tr) {}
 
   onEditRow(obj, tr) {}
+
+  onAnalyticsClicked(obj, tr) {
+    // console.log(obj)
+  }
 
   onRowDeleted(obj, tr) {
     this.productsLength -= 1;

@@ -1,10 +1,10 @@
 const searchTableConfig = {
   options: {
+    showAnalyticsButton: true,
     showEditButton: true,
     showDeleteButton: true,
   },
-  columns: [
-    {
+  columns: [{
       header: "",
       data: "${data.profileImgUrl}",
       type: "Image",
@@ -13,8 +13,7 @@ const searchTableConfig = {
     },
     {
       header: "Title",
-      data:
-        "${data.title.substring(0,15)}" +
+      data: "${data.title.substring(0,15)}" +
         "${data.title.length > 15 ? '...' : '' }",
       type: "string",
       width: "",
@@ -22,8 +21,7 @@ const searchTableConfig = {
     },
     {
       header: "Subtitle",
-      data:
-        "${data.subTitle.substring(0,15)}" +
+      data: "${data.subTitle.substring(0,15)}" +
         "${data.subTitle.length > 15 ? '...' : '' }",
       type: "string",
       width: "",
