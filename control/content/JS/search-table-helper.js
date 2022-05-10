@@ -263,8 +263,8 @@ class SearchTableHelper {
         btn.onclick = () => {
           buildfire.dialog.confirm(
             {
-              title: "Are you sure?",
-              message: "Are you sure you want to delete this product?",
+              title: "Delete Item",
+              message: `Are you sure you want to delete ${obj.data.title} item?`,
               confirmButton: {
                 text: "Delete",
                 type: "danger",
