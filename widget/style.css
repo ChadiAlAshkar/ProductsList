@@ -192,6 +192,18 @@ body {
     position: relative;
 }
 
+.action_Items_Container {
+    text-align: right;
+    top: 10.813rem;
+    position: absolute;
+    right: 0.5rem;
+    color: white;
+}
+.action_Items_Container span:nth-child(2){
+    padding-left:0.5rem;
+    padding-right:0.5rem;
+}
+
 @keyframes gradient-animation {
     0% {
         left: 0%;
