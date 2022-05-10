@@ -176,7 +176,7 @@ function setupHandlers() {
     }
   });
   sortIcon.addEventListener('click', openSortDrawer);
-  coverImgBody.addEventListener('click', () => {
+  gradientDiv.addEventListener('click', () => {
     imagePreview(coverImgBody.src);
   });
   profileImgBody.addEventListener('click', () => {
@@ -186,6 +186,27 @@ function setupHandlers() {
     fillSubItem(item);
     Analytics.trackAction(item.id);
     sendMessageToControl(true, productClicked);
+  };
+
+  listView.onItemActionClicked = item => {
+    if (item.action.icon == 'icon glyphicon glyphicon-star') {
+      item.action.icon = 'icon glyphicon glyphicon-star-empty';
+      item.update();
+      for (var i = 0; i < document.getElementsByClassName('glyphicon').length; i++) {
+        document.getElementsByClassName('glyphicon')[i].style.setProperty('color', config.appTheme.colors.icons, 'important');
+      }
+    } else {
+      item.action.icon = 'icon glyphicon glyphicon-star';
+      item.update();
+      for (var i = 0; i < document.getElementsByClassName('glyphicon').length; i++) {
+        document.getElementsByClassName('glyphicon')[i].style.setProperty('color', config.appTheme.colors.icons, 'important');
+      }
+    }
+    // Favorites.add(item.data.userId, () => {
+    //   item.data.isFavorite = true;
+    //   item.action.icon = 'icon glyphicon glyphicon-star';
+    //   item.update();
+    // });
   };
 
   mainItems.onscroll = (e) => {
@@ -358,12 +379,18 @@ function loadData() {
           t.description = element.data.subTitle;
           t.imageUrl = element.data.profileImgUrl;
           t.data = element.data;
+          t.action = {
+            icon: "icon glyphicon glyphicon-star-empty"
+          }
           products.push(t);
         });
         if (results[1].length < config.limit) {
           config.endReached = false;
         }
         listView.loadListViewItems(products);
+        for (var i = 0; i < document.getElementsByClassName('glyphicon').length; i++) {
+          document.getElementsByClassName('glyphicon')[i].style.setProperty('color', config.appTheme.colors.icons, 'important');
+        }
       }
 
       if (results[0] && results[0].data) {
