@@ -381,7 +381,7 @@ function loadData() {
           t.data = element.data;
           t.action = {
             icon: "icon glyphicon glyphicon-star-empty"
-          }
+          };
           products.push(t);
         });
         if (results[1].length < config.limit) {
