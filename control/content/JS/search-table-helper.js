@@ -240,15 +240,7 @@ class SearchTableHelper {
         "icon-chart-growth",
       ]);
       btnAnalytics.onclick = () => {
-        buildfire.navigation.navigateToTab(
-          {
-            tabTitle: "Analytics",
-            deeplinkData: { id: obj.id },
-          },
-          (err, res) => {
-            if (err) return console.error(err); // `Content` tab was not found
-          }
-        );
+        buildfire.analytics.showReports({ eventKey: obj.id });
       };
       if (this.config.options.showEditButton) {
         let btn = ui.createElement("button", div, "", [
