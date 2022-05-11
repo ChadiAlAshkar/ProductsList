@@ -208,20 +208,16 @@ function setupHandlers() {
         item.data.isFavorite = false;
         item.action.icon = "icon glyphicon glyphicon-star-empty";
         item.update();
+        Products.update(item.id, {title: item.data.title, subTitle: item.data.subTitle, description: item.data.description, profileImgUrl: item.data.profileImgUrl, coverImgUrl: item.data.coverImgUrl, creationDate: item.data.creationDate, isFavorite: false});
         console.log(item);
-        // document.getElementsByClassName("glyphicon")
-        // [3].style.setProperty(
-        //   "color",
-        //   config.appTheme.colors.icons,
-        //   "important"
-        // );
       });
     } else {
       Bookmark.add( {id: item.id, title: item.data.title, icon: item.action.icon}, (err, res) => {
-        if(err) return console.error(err)
+        if(err) return console.error(err);
         item.data.isFavorite = true;
         item.action.icon = "icon glyphicon glyphicon-star";
         item.update();
+        Products.update(item.id, {title: item.data.title, subTitle: item.data.subTitle, description: item.data.description, profileImgUrl: item.data.profileImgUrl, coverImgUrl: item.data.coverImgUrl, creationDate: item.data.creationDate, isFavorite: true});
       });
     }
   };
@@ -428,8 +424,8 @@ function loadData() {
           t.description = element.data.subTitle;
           t.imageUrl = element.data.profileImgUrl;
           t.data = element.data;
-          if(element.data.isFavorite) t.action = { icon: "icon glyphicon glyphicon-star" };
-          else t.action = { icon: "icon glyphicon glyphicon-star-empty" }
+          if(!element.data.isFavorite) t.action = { icon: "icon glyphicon glyphicon-star-empty" };
+      else t.action = { icon: "icon glyphicon glyphicon-star" };
           products.push(t);
         });
         if (results[1].length < config.limit) {
@@ -580,7 +576,8 @@ function searchProducts(sort, searchText, overwrite, fromSearchBar, callback) {
       t.description = element.data.subTitle;
       t.imageUrl = element.data.profileImgUrl;
       t.data = element.data;
-      t.action = { icon: "icon glyphicon glyphicon-star" };
+      if(!element.data.isFavorite) t.action = { icon: "icon glyphicon glyphicon-star-empty" };
+      else t.action = { icon: "icon glyphicon glyphicon-star" };
       if (!overwrite) {
         listView.addItem(t);
       } else {

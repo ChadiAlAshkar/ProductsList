@@ -9,8 +9,8 @@ class Bookmark {
     static delete(bookmarkId, callback) {
         buildfire.bookmarks.delete(bookmarkId, (err, res)=> {
             if(err) return callback(err, null);
-            callback(null, res)
-        }) 
+            callback(null, res);
+        });
     }
     
 }
