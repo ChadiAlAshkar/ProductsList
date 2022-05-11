@@ -226,9 +226,9 @@ input[type="search"]::-webkit-search-results-decoration {
 }
 
 .glyphicon-star-empty {
-    color: var(--c-primary);
+    color: var(--bf-theme-icons);
 }
 
 .glyphicon-star {
-    color: var(--c-primary);
+    color: var(--bf-theme-icons);
 }
