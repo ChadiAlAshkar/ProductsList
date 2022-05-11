@@ -36,7 +36,7 @@ build/Release
 node_modules/
 jspm_packages/
 dist/
-productsList_release/
+ProductsList_release/
 
 # TypeScript v1 declaration files
 typings/
