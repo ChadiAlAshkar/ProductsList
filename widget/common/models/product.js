@@ -7,6 +7,5 @@ class Product {
     this.profileImgUrl = data.profileImgUrl || "";
     this.coverImgUrl = data.coverImgUrl || "";
     this.creationDate = data.creationDate || new Date();
-    this.isFavorite = data.isFavorite || false;
   }
 }

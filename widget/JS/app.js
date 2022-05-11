@@ -200,31 +200,14 @@ function checkIfItemDetailsEmpty() {
   }
 }
 
+
+
 function setupHandlers() {
   let timer;
   listView.onItemActionClicked = (item) => {
-    if (item.data.isFavorite) {
-      Bookmark.delete(item.id, (err, res) => {
-        item.data.isFavorite = false;
-        item.action.icon = "icon glyphicon glyphicon-star-empty";
-        item.update();
-        console.log(item);
-        // document.getElementsByClassName("glyphicon")
-        // [3].style.setProperty(
-        //   "color",
-        //   config.appTheme.colors.icons,
-        //   "important"
-        // );
-      });
-    } else {
-      Bookmark.add( {id: item.id, title: item.data.title, icon: item.action.icon}, (err, res) => {
-        if(err) return console.error(err)
-        item.data.isFavorite = true;
-        item.action.icon = "icon glyphicon glyphicon-star";
-        item.update();
-      });
-    }
+    updateProductBookmard(item)
   };
+
   buildfire.history.onPop((breadcrumb) => {
     if (main.classList.contains("hidden")) {
       clearSubItem();
@@ -400,6 +383,20 @@ function setupHandlers() {
   });
 }
 
+function updateProductBookmard(item){
+  if ((JSON.stringify(item.action.icon)).includes("empty")){
+    Bookmark.add( {id: item.id, title: item.data.title, icon: item.action.icon}, () => {
+      item.action.icon = "icon glyphicon glyphicon-star";
+      item.update();
+    });
+  } else {
+    Bookmark.delete(item.id, () => {
+      item.action.icon = "icon glyphicon glyphicon-star-empty";
+      item.update();
+    });
+  }
+}
+
 function imagePreview(imageUrl) {
   buildfire.imagePreviewer.show({
     images: [imageUrl],
@@ -421,21 +418,40 @@ function loadData() {
     products = [];
     if (results && results.length > 2) {
       if (results[1] && results[1].length > 0) {
-        results[1].forEach((element) => {
-          var t = new ListViewItem();
-          t.id = element.id;
-          t.title = element.data.title;
-          t.description = element.data.subTitle;
-          t.imageUrl = element.data.profileImgUrl;
-          t.data = element.data;
-          if(element.data.isFavorite) t.action = { icon: "icon glyphicon glyphicon-star" };
-          else t.action = { icon: "icon glyphicon glyphicon-star-empty" }
-          products.push(t);
+
+        buildfire.bookmarks.getAll((err, bookmarks) => {
+          if (err) return console.error(err);
+          results[1].forEach((element) => {
+            var t = new ListViewItem();
+            t.id = element.id;
+            t.title = element.data.title;
+            t.description = element.data.subTitle;
+            t.imageUrl = element.data.profileImgUrl;
+            t.data = element.data;
+            let isProductBookmardExist = false;
+            for (let i = 0; i < bookmarks.length; i++) {
+              if (bookmarks[i].id == element.id) {
+                isProductBookmardExist = true;
+                break;
+              }
+            }
+            if (isProductBookmardExist) {
+              t.action = {
+                icon: "icon glyphicon glyphicon-star"
+              };
+            } else {
+              t.action = {
+                icon: "icon glyphicon glyphicon-star-empty"
+              };
+            }
+            products.push(t);
+          });
+          if (results[1].length < config.limit) {
+            config.endReached = false;
+          }
+          listView.loadListViewItems(products);
         });
-        if (results[1].length < config.limit) {
-          config.endReached = false;
-        }
-        listView.loadListViewItems(products);
+
       }
       for (
         var i = 0;
