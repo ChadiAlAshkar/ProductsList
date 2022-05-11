@@ -106,15 +106,18 @@ function setStarColor() {
   // let fillStars = document.getElementsByClassName('glyphicon-star');
   // let emptyStars = document.getElementsByClassName('glyphicon-star-empty');
 
-  // for (var i = 0; i < fillStars.length; i++) {
-  //   fillStars[i].classList = [];
-  //   fillStars[i].classList.add(['material-icons', 'icon', 'cursor']);
-
-  //   fillStars[i].innerHTML = 'star';
+  // for (let item of emptyStars) {
+  //   console.log(item);
+  //   item.classList = []
+  //   item.classList.add("material-icons", "icon");
+  //   item.innerHTML = 'star_border';
   // }
-  // for (var i = 0; i < emptyStars.length; i++) {
-  //   // emptyStars[i].className = "material-icons icon cursor glyphicon";
-  //   emptyStars[i].innerHTML = '<span class="material-icons icon cursor">star_border</span>';
+
+  // for (let item of fillStars) {
+  //   console.log(item);
+  //   item.classList = []
+  //   item.classList.add("material-icons", "icon");
+  //   item.innerHTML = 'star';
   // }
 
   for (var i = 0; i < document.getElementsByClassName('glyphicon').length; i++) {
@@ -277,35 +280,45 @@ function setupHandlers() {
   };
 
   listView.onItemActionClicked = item => {
-    if (item.action.icon == 'icon glyphicon glyphicon-star') {
-      buildfire.bookmarks.delete(item.id, () => {
-        console.log("Bookmark deleted successfully");
-        item.action.icon = 'icon glyphicon glyphicon-star-empty';
-        item.update();
-        setStarColor();
-      });
-    } else {
-      console.log(item);
-      buildfire.bookmarks.add({
-          id: item.id,
-          title: item.data.title,
-          icon: item.data.profileImgUrl
-          // payload: {
-          //   data: {
-          //     myData: "Hello World"
-          //   },
-          // },
-        },
-        (err, bookmark) => {
-          if (err) return console.error(err);
+    buildfire.auth.getCurrentUser((err, user) => {
+      if (err) return console.error(err);
 
-          console.log("Bookmark ", bookmark);
-          item.action.icon = 'icon glyphicon glyphicon-star';
-          item.update();
-          setStarColor();
+      if (!user) {
+        buildfire.auth.login({}, (err, user) => {
+          console.log(err, user);
+        });
+      } else {
+        if (item.action.icon == 'icon glyphicon glyphicon-star') {
+          buildfire.bookmarks.delete(item.id, () => {
+            console.log("Bookmark deleted successfully");
+            item.action.icon = 'icon glyphicon glyphicon-star-empty';
+            item.update();
+            setStarColor();
+          });
+        } else {
+          console.log(item);
+          buildfire.bookmarks.add({
+              id: item.id,
+              title: item.data.title,
+              icon: item.data.profileImgUrl
+              // payload: {
+              //   data: {
+              //     myData: "Hello World"
+              //   },
+              // },
+            },
+            (err, bookmark) => {
+              if (err) return console.error(err);
+
+              console.log("Bookmark ", bookmark);
+              item.action.icon = 'icon glyphicon glyphicon-star';
+              item.update();
+              setStarColor();
+            }
+          );
         }
-      );
-    }
+      }
+    });
     // Favorites.add(item.data.userId, () => {
     //   item.data.isFavorite = true;
     //   item.action.icon = 'icon glyphicon glyphicon-star';
@@ -454,6 +467,49 @@ function setupHandlers() {
       setStarColor();
     }
   });
+
+  buildfire.auth.onLogin((user) => {
+    buildfire.bookmarks.getAll((err, bookmarks) => {
+      if (err) return console.error(err);
+
+      listView.items.forEach(item => {
+        let found = false;
+        for (let i = 0; i < bookmarks.length; i++) {
+          if (bookmarks[i].id == item.id) {
+            found = true;
+            break;
+          }
+        }
+        if (found) {
+          item.action = {
+            icon: "icon glyphicon glyphicon-star"
+          };
+        } else {
+          item.action = {
+            icon: "icon glyphicon glyphicon-star-empty"
+          };
+        }
+      });
+
+      var products = listView.items;
+      listView.clear();
+      listView.loadListViewItems(products);
+      setStarColor();
+    });
+  }, true);
+
+  buildfire.auth.onLogout(() => {
+    listView.items.forEach(item => {
+      item.action = {
+        icon: "icon glyphicon glyphicon-star-empty"
+      };
+    });
+
+    var products = listView.items;
+    listView.clear();
+    listView.loadListViewItems(products);
+    setStarColor();
+  }, false);
 }
 
 function imagePreview(imageUrl) {
