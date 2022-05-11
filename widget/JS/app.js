@@ -190,17 +190,37 @@ function setupHandlers() {
 
   listView.onItemActionClicked = item => {
     if (item.action.icon == 'icon glyphicon glyphicon-star') {
-      item.action.icon = 'icon glyphicon glyphicon-star-empty';
-      item.update();
-      for (var i = 0; i < document.getElementsByClassName('glyphicon').length; i++) {
-        document.getElementsByClassName('glyphicon')[i].style.setProperty('color', config.appTheme.colors.icons, 'important');
-      }
+      buildfire.bookmarks.delete(item.id, () => {
+        console.log("Bookmark deleted successfully");
+        item.action.icon = 'icon glyphicon glyphicon-star-empty';
+        item.update();
+        for (var i = 0; i < document.getElementsByClassName('glyphicon').length; i++) {
+          document.getElementsByClassName('glyphicon')[i].style.setProperty('color', config.appTheme.colors.icons, 'important');
+        }
+      });
     } else {
-      item.action.icon = 'icon glyphicon glyphicon-star';
-      item.update();
-      for (var i = 0; i < document.getElementsByClassName('glyphicon').length; i++) {
-        document.getElementsByClassName('glyphicon')[i].style.setProperty('color', config.appTheme.colors.icons, 'important');
-      }
+      console.log(item)
+      buildfire.bookmarks.add({
+          id: item.id,
+          title: item.data.title,
+          icon: item.data.profileImgUrl
+          // payload: {
+          //   data: {
+          //     myData: "Hello World"
+          //   },
+          // },
+        },
+        (err, bookmark) => {
+          if (err) return console.error(err);
+
+          console.log("Bookmark ", bookmark);
+          item.action.icon = 'icon glyphicon glyphicon-star';
+          item.update();
+          for (var i = 0; i < document.getElementsByClassName('glyphicon').length; i++) {
+            document.getElementsByClassName('glyphicon')[i].style.setProperty('color', config.appTheme.colors.icons, 'important');
+          }
+        }
+      );
     }
     // Favorites.add(item.data.userId, () => {
     //   item.data.isFavorite = true;
@@ -372,25 +392,44 @@ function loadData() {
     products = [];
     if (results && results.length > 2) {
       if (results[1] && results[1].length > 0) {
-        results[1].forEach((element) => {
-          var t = new ListViewItem();
-          t.id = element.id;
-          t.title = element.data.title;
-          t.description = element.data.subTitle;
-          t.imageUrl = element.data.profileImgUrl;
-          t.data = element.data;
-          t.action = {
-            icon: "icon glyphicon glyphicon-star-empty"
-          };
-          products.push(t);
+
+        buildfire.bookmarks.getAll((err, bookmarks) => {
+          if (err) return console.error(err);
+          results[1].forEach((element) => {
+
+            var t = new ListViewItem();
+            t.id = element.id;
+            t.title = element.data.title;
+            t.description = element.data.subTitle;
+            t.imageUrl = element.data.profileImgUrl;
+            t.data = element.data;
+            let found = false;
+            for (let i = 0; i < bookmarks.length; i++) {
+              if (bookmarks[i].id == element.id) {
+                found = true;
+                break;
+              }
+            }
+            if (found) {
+              t.action = {
+                icon: "icon glyphicon glyphicon-star"
+              };
+            } else {
+              t.action = {
+                icon: "icon glyphicon glyphicon-star-empty"
+              };
+            }
+            products.push(t);
+          });
+          if (results[1].length < config.limit) {
+            config.endReached = false;
+          }
+          listView.loadListViewItems(products);
+          for (var i = 0; i < document.getElementsByClassName('glyphicon').length; i++) {
+            document.getElementsByClassName('glyphicon')[i].style.setProperty('color', config.appTheme.colors.icons, 'important');
+          }
         });
-        if (results[1].length < config.limit) {
-          config.endReached = false;
-        }
-        listView.loadListViewItems(products);
-        for (var i = 0; i < document.getElementsByClassName('glyphicon').length; i++) {
-          document.getElementsByClassName('glyphicon')[i].style.setProperty('color', config.appTheme.colors.icons, 'important');
-        }
+
       }
 
       if (results[0] && results[0].data) {
@@ -437,7 +476,6 @@ function loadData() {
         listViewContainer.classList.add("hidden");
         emptyProds.classList.remove("hidden");
       }
-
     } else {
       listViewContainer.classList.add("hidden");
       emptyProds.classList.remove("hidden");
