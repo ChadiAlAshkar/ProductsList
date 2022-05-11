@@ -32,7 +32,7 @@ const dummyData = {
               description: row.description,
               creationDate: new Date(),
               profileImgUrl: profImg,
-              coverImgUrl: coverImg,
+              coverImgUrl: coverImg
             };
             records.push(prod);
           });
