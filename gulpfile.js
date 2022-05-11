@@ -44,10 +44,6 @@ function lint(){
             "sourceType": "module",
         },
         "rules": {
-            "semi": [
-                "error",
-                "always"
-            ],
             "no-console": [
                 "off"
             ]
