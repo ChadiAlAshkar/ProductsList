@@ -24,6 +24,11 @@ var config = {
     creationDate: -1,
   },
   lang: {},
+  settings: new SettingsItem({
+    bookmarks: false,
+    notes: false,
+    sharing: false
+  }),
   appTheme: {},
   fillingCover: false,
   fillingProfile: false,
@@ -134,44 +139,53 @@ function fillSubItem(item) {
     itemTitle.innerHTML = item.data.title;
     itemSubTitle.innerHTML = item.data.subTitle;
 
-    let shareIcon = ui.createElement('span', action, "share", ["material-icons", "icon", "iconsDet"]);
-    ui.createElement('span', action, "note", ["material-icons", "icon", "iconsDet"]);
-
-    shareIcon.addEventListener("click", ()=>{
-      buildfire.deeplink.generateUrl({
-        data: { videoId: "9Q-4sZF0_CE" },
-      },
-        (err, result) => {
-          if (err) {
-            console.error(err);
-          } else {
-            console.log(result.url);
+    if (config.settings.sharing) {
+      let shareIcon = ui.createElement('span', action, "share", ["material-icons", "icon", "iconsDet"]);
+      shareIcon.addEventListener("click", () => {
+        buildfire.deeplink.generateUrl({
+            data: {
+              videoId: "9Q-4sZF0_CE"
+            },
+          },
+          (err, result) => {
+            if (err) {
+              console.error(err);
+            } else {
+              console.log(result.url);
+            }
           }
+        );
+      })
+      shareIcon.setAttribute("id", "shareIcn");
+    }
+
+    if (config.settings.notes) {
+      let notes = ui.createElement('span', action, "note", ["material-icons", "icon", "iconsDet"]);
+      notes.setAttribute("id", "noteIcn");
+    }
+    if (config.settings.bookmarks) {
+      let found = false;
+      for (let i = 0; i < bookmarks.length; i++) {
+        if (bookmarks[i].id == item.id) {
+          found = true;
+          break;
         }
-      );
-    })
-
-    let found = false;
-    for (let i = 0; i < bookmarks.length; i++) {
-      if (bookmarks[i].id == item.id) {
-        found = true;
-        break;
       }
-    }
-    let bookmrk;
-    if (found) {
-      bookmrk = ui.createElement('span', action, "star", ["material-icons", "icon", "iconsDet"]);
-      finalStarState = "icon glyphicon glyphicon-star";
-    } else {
-      bookmrk = ui.createElement('span', action, "star_outline", ["material-icons", "icon", "iconsDet"]);
-      finalStarState = "icon glyphicon glyphicon-star-empty";
-    }
+      let bookmrk;
+      if (found) {
+        bookmrk = ui.createElement('span', action, "star", ["material-icons", "icon", "iconsDet"]);
+        finalStarState = "icon glyphicon glyphicon-star";
+      } else {
+        bookmrk = ui.createElement('span', action, "star_outline", ["material-icons", "icon", "iconsDet"]);
+        finalStarState = "icon glyphicon glyphicon-star-empty";
+      }
 
-    bookmrk.setAttribute("id", "starIcon");
+      bookmrk.setAttribute("id", "starIcon");
 
-    bookmrk.addEventListener('click', () => {
-      addBookmark(item, bookmrk);
-    });
+      bookmrk.addEventListener('click', () => {
+        addBookmark(item, bookmrk);
+      });
+    }
 
     main.classList.add("hidden");
     subpage.classList.remove("hidden");
@@ -443,6 +457,118 @@ function setupHandlers() {
       config.lang = response;
       searchTxt.setAttribute("placeholder", (config.lang.data.search.value != "" ? config.lang.data.search.value : config.lang.data.search.defaultValue));
     }
+    if (response.tag == Constants.Collections.SETTINGS) {
+      if (config.settings.bookmarks && !response.data.bookmarks) {
+        listView.items.forEach(itm => {
+          itm.action = null;
+        });
+        var products = listView.items;
+        listView.clear();
+        listView.loadListViewItems(products);
+
+        if (productClicked) {
+          if (starIcon) {
+            starIcon.innerHTML = "";
+          }
+        }
+      } else if (!config.settings.bookmarks && response.data.bookmarks) {
+        buildfire.auth.getCurrentUser((err, user) => {
+          if (err) return console.error(err);
+
+          if (!user) {
+            listView.items.forEach(itm => {
+              itm.action = {
+                icon: "icon glyphicon glyphicon-star-empty"
+              };
+            });
+            var products = listView.items;
+            listView.clear();
+            listView.loadListViewItems(products);
+            setStarColor();
+
+            if (productClicked) {
+              starIcon.innerHTML = "star_outline";
+              finalStarState = "icon glyphicon glyphicon-star-empty";
+            }
+          } else {
+            buildfire.bookmarks.getAll((err, bookmarks) => {
+              if (err) return console.error(err);
+
+              listView.items.forEach(item => {
+                let found = false;
+                for (let i = 0; i < bookmarks.length; i++) {
+                  if (bookmarks[i].id == item.id) {
+                    found = true;
+                    break;
+                  }
+                }
+                if (found) {
+                  item.action = {
+                    icon: "icon glyphicon glyphicon-star"
+                  };
+                } else {
+                  item.action = {
+                    icon: "icon glyphicon glyphicon-star-empty"
+                  };
+                }
+              });
+
+              var products = listView.items;
+              listView.clear();
+              listView.loadListViewItems(products);
+              setStarColor();
+
+              if (productClicked) {
+                let found1 = false;
+                for (let i = 0; i < bookmarks.length; i++) {
+                  if (bookmarks[i].id == productClicked.id) {
+                    found1 = true;
+                    break;
+                  }
+                }
+
+                if (found1) {
+                  starIcon.innerHTML = "star";
+                  finalStarState = "icon glyphicon glyphicon-star";
+                } else {
+                  starIcon.innerHTML = "star_outline";
+                  finalStarState = "icon glyphicon glyphicon-star-empty";
+                }
+              }
+            });
+          }
+        });
+      }
+
+      if (config.settings.notes && !response.data.notes) {
+        if (productClicked) {
+          if (noteIcn) {
+            noteIcn.innerHTML = "";
+          }
+        }
+      } else if (!config.settings.notes && response.data.notes) {
+        if (productClicked) {
+          if (noteIcn) {
+            noteIcn.innerHTML = "note";
+          }
+        }
+      }
+
+      if (config.settings.sharing && !response.data.sharing) {
+        if (productClicked) {
+          if (shareIcn) {
+            shareIcn.innerHTML = "";
+          }
+        }
+      } else if (!config.settings.sharing && response.data.sharing) {
+        if (productClicked) {
+          if (shareIcn) {
+            shareIcn.innerHTML = "share";
+          }
+        }
+      }
+      config.settings = response.data;
+    }
   });
 
   searchTxt.addEventListener("keyup", function (event) {
@@ -578,9 +704,15 @@ function loadData() {
   var promise1 = Introduction.get();
   var promise2 = Products.search(searchOptions);
   var promise3 = Language.get(Constants.Collections.LANGUAGE + "en-us");
-  Promise.all([promise1, promise2, promise3]).then((results) => {
+  var promise4 = Settings.get();
+  Promise.all([promise1, promise2, promise3, promise4]).then((results) => {
     products = [];
-    if (results && results.length > 2) {
+    if (results && results.length > 3) {
+
+      if (results[3] && results[3].data) {
+        config.settings = results[3].data;
+      }
+
       if (results[1] && results[1].length > 0) {
 
         buildfire.bookmarks.getAll((err, bookmarks) => {
@@ -593,21 +725,23 @@ function loadData() {
             t.description = element.data.subTitle;
             t.imageUrl = element.data.profileImgUrl;
             t.data = element.data;
-            let found = false;
-            for (let i = 0; i < bookmarks.length; i++) {
-              if (bookmarks[i].id == element.id) {
-                found = true;
-                break;
+            if (config.settings.bookmarks) {
+              let found = false;
+              for (let i = 0; i < bookmarks.length; i++) {
+                if (bookmarks[i].id == element.id) {
+                  found = true;
+                  break;
+                }
               }
-            }
-            if (found) {
-              t.action = {
-                icon: "icon glyphicon glyphicon-star"
-              };
-            } else {
-              t.action = {
-                icon: "icon glyphicon glyphicon-star-empty"
-              };
+              if (found) {
+                t.action = {
+                  icon: "icon glyphicon glyphicon-star"
+                };
+              } else {
+                t.action = {
+                  icon: "icon glyphicon glyphicon-star-empty"
+                };
+              }
             }
             products.push(t);
           });
