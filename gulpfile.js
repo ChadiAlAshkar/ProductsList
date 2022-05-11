@@ -131,7 +131,7 @@ function minifyWidget() {
 }
 
 function minifyCSS() {
-    return src(['control/content/*.css', 'control/introduction/*.css', 'control/strings/*.css', 'widget/*.css'], {
+    return src(['control/content/*.css', 'control/introduction/*.css', 'control/strings/*.css','control/settings/*.css', 'widget/*.css'], {
             base: '.'
         })
 
@@ -219,7 +219,7 @@ function watchChanges() {
 }
 
 function minifyHTML() {
-    return src(['control/content/*.html', 'control/introduction/*.html', 'control/strings/*.html', 'widget/*.html'], {
+    return src(['control/content/*.html', 'control/introduction/*.html', 'control/strings/*.html', 'control/settings/*.html', 'widget/*.html'], {
             base: '.'
         })
         /// replace all the <!-- build:bundleJSFiles  --> comment bodies
@@ -231,6 +231,7 @@ function minifyHTML() {
         .pipe(replace('src="../../../productsList_release/control/content/', 'src="./'))
         .pipe(replace('src="../../../productsList_release/control/introduction/', 'src="./'))
         .pipe(replace('src="../../../productsList_release/control/strings/', 'src="./'))
+        .pipe(replace('src="../../../productsList_release/control/settings/', 'src="./'))
         .pipe(replace('src="../../productsList_release/widget/common', 'src="./common'))
         .pipe(replace('src="../../productsList_release/widget/main.js', 'src="./main.js'))
         .pipe(replace('src="../../../productsList_release/widget/common/', 'src="../../widget/common/'))
