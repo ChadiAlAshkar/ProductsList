@@ -134,8 +134,22 @@ function fillSubItem(item) {
     itemTitle.innerHTML = item.data.title;
     itemSubTitle.innerHTML = item.data.subTitle;
 
-    ui.createElement('span', action, "share", ["material-icons", "icon", "iconsDet"]);
+    let shareIcon = ui.createElement('span', action, "share", ["material-icons", "icon", "iconsDet"]);
     ui.createElement('span', action, "note", ["material-icons", "icon", "iconsDet"]);
+
+    shareIcon.addEventListener("click", ()=>{
+      buildfire.deeplink.generateUrl({
+        data: { videoId: "9Q-4sZF0_CE" },
+      },
+        (err, result) => {
+          if (err) {
+            console.error(err);
+          } else {
+            console.log(result.url);
+          }
+        }
+      );
+    })
 
     let found = false;
     for (let i = 0; i < bookmarks.length; i++) {
