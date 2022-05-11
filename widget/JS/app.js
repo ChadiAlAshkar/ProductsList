@@ -574,22 +574,42 @@ function searchProducts(sort, searchText, overwrite, fromSearchBar, callback) {
     }
   }
   Products.search(searchOptions).then((result) => {
+
     let products = [];
     result.forEach((element) => {
-      var t = new ListViewItem();
-      t.id = element.id;
-      t.title = element.data.title;
-      t.description = element.data.subTitle;
-      t.imageUrl = element.data.profileImgUrl;
-      t.data = element.data;
-      if(!element.data.isFavorite) t.action = { icon: "icon glyphicon glyphicon-star-empty" };
-      else t.action = { icon: "icon glyphicon glyphicon-star" };
-      if (!overwrite) {
-        listView.addItem(t);
-      } else {
-        products.push(t);
-      }
-    });
+      
+    buildfire.bookmarks.getAll((err, bookmarks) => {
+      if (err) return console.error(err);
+        var t = new ListViewItem();
+        t.id = element.id;
+        t.title = element.data.title;
+        t.description = element.data.subTitle;
+        t.imageUrl = element.data.profileImgUrl;
+        t.data = element.data;
+        let isProductBookmardExist = false;
+        for (let i = 0; i < bookmarks.length; i++) {
+          if (bookmarks[i].id == element.id) {
+            isProductBookmardExist = true;
+            break;
+          }
+        }
+        if (isProductBookmardExist) {
+          t.action = {
+            icon: "icon glyphicon glyphicon-star"
+          };
+        } else {
+          t.action = {
+            icon: "icon glyphicon glyphicon-star-empty"
+          };
+        }
+        if (!overwrite) {
+          listView.addItem(t);
+        } else {
+          products.push(t);
+        }
+
+  });
+});
     if (overwrite) {
       listView.loadListViewItems(products);
     }
