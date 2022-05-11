@@ -358,6 +358,7 @@ function loadData() {
           t.description = element.data.subTitle;
           t.imageUrl = element.data.profileImgUrl;
           t.data = element.data;
+          t.action = {icon:'icon glyphicon glyphicon-star'} ;
           products.push(t);
         });
         if (results[1].length < config.limit) {

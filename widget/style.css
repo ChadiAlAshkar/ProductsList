@@ -224,3 +224,7 @@ input[type="search"]::-webkit-search-results-decoration {
 ::placeholder {
     color: var(--c, green);
 }
+
+.action-holder > .icon {
+    color: yellow !important;
+}
