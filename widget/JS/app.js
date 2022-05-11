@@ -174,7 +174,7 @@ function setupHandlers() {
 <<<<<<< HEAD
 =======
   listView.onItemActionClicked = (item) => {
-    updateProductBookmard(item)
+    updateProductBookmard(item);
   };
 
 >>>>>>> 185afd99299d97c8937ab14d880b9b65b233fdee
@@ -424,7 +424,7 @@ function loadData() {
           }
           listView.loadListViewItems(products);
 
-      })
+      });
     }
 >>>>>>> 185afd99299d97c8937ab14d880b9b65b233fdee
       if (results[0] && results[0].data) {
