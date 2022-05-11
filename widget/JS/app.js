@@ -205,7 +205,7 @@ function checkIfItemDetailsEmpty() {
 function setupHandlers() {
   let timer;
   listView.onItemActionClicked = (item) => {
-    updateProductBookmard(item)
+    updateProductBookmard(item);
   };
 
   buildfire.history.onPop((breadcrumb) => {
@@ -450,7 +450,7 @@ function loadData() {
           }
           listView.loadListViewItems(products);
 
-      })
+      });
     }
       if (results[0] && results[0].data) {
         if (results[0].data.images) viewer.loadItems(results[0].data.images);
