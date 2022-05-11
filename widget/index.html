@@ -1,73 +1,103 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <meta name="buildfire" content="enableMDTheme" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="../../../scripts/buildfire.js"></script>
+    <script src="../../../scripts/buildfire/services/notifications/pushNotifications.js"></script>
+    <script src="../../../scripts/buildfire/services/notifications/localNotifications.js"></script>
+    <script src="../../../scripts/buildfire/components/listView/listView.js"></script>
+    <script src="../../productsList_release/widget/common/main.js"></script>
+    <link rel="stylesheet" href="../../../styles/components/listView.css" />
 
-<head>
-  <meta name="buildfire" content="enableMDTheme" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />  
-  <script src="../../../scripts/buildfire.js"></script>
-  <script src="../../../scripts/buildfire/services/notifications/pushNotifications.js"></script>
-  <script src="../../../scripts/buildfire/services/notifications/localNotifications.js"></script>
-  <script src="../../../scripts/buildfire/components/listView/listView.js"></script>
-  <script src="../../productsList_release/widget/common/main.js"></script>
-  <link rel="stylesheet" href="../../../styles/components/listView.css" />
+    <link
+      href="../../../scripts/owlCarousel/owlCarousel.css"
+      rel="stylesheet"
+    />
+    <link href="../../../styles/helper.css" rel="stylesheet" />
+    <link href="../../../styles/siteStyle.css" rel="stylesheet" />
+    <link
+      href="../../../styles/control/siteIcons-control.css"
+      rel="stylesheet"
+    />
+    <link href="../../../styles/control/bf-base.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../../../styles/material-icons.css" />
+    <link
+      href="../../../styles/materialDesign/material-components-web@4.0.0.min.css"
+      rel="stylesheet"
+    />
+    <script
+      src="../../../scripts/materialDesign/material-components-web@4.0.0.min.js"
+      type="text/javascript"
+    ></script>
+    <link rel="stylesheet" href="style.css" />
 
-  <link href="../../../scripts/owlCarousel/owlCarousel.css" rel="stylesheet" />
-  <link href="../../../styles/helper.css" rel="stylesheet" />
-  <link href="../../../styles/siteStyle.css" rel="stylesheet" />
-  <link href="../../../styles/control/siteIcons-control.css" rel="stylesheet" />
-  <link href="../../../styles/control/bf-base.css" rel="stylesheet" />
-  <link rel="stylesheet" href="../../../styles/material-icons.css" />
-  <link href="../../../styles/materialDesign/material-components-web@4.0.0.min.css" rel="stylesheet" />
-  <script src="../../../scripts/materialDesign/material-components-web@4.0.0.min.js" type="text/javascript"></script>
-  <link rel="stylesheet" href="style.css" />
+    <!-- JS -->
+    <script src="../../../scripts/jquery/jquery-1.11.2.min.js"></script>
+    <script src="../../../scripts/owlCarousel/owlCarousel.js"></script>
+    <script src="../../../scripts/buildfire/components/carousel/carousel.js"></script>
+    <script src="../../../scripts/buildfire/components/drawer/drawer.js"></script>
+  </head>
 
-  <!-- JS -->
-  <script src="../../../scripts/jquery/jquery-1.11.2.min.js"></script>
-  <script src="../../../scripts/owlCarousel/owlCarousel.js"></script>
-  <script src="../../../scripts/buildfire/components/carousel/carousel.js"></script>
-  <script src="../../../scripts/buildfire/components/drawer/drawer.js"></script>
-</head>
+  <body id="body">
+    <div id="main">
+      <div
+        class="inner-search-container search-div"
+        style="background-color: var(--mdc-theme-surface, #fff)"
+      >
+        <span class="material-icons icon" id="searchIcon">search</span>
+        <input type="search" name="search" id="searchTxt" autocomplete="off" />
+        <span class="material-icons icon cursor" id="sortIcon">sort</span>
+      </div>
+      <div id="mainItems" style="flex: 1 1 auto; overflow-y: auto">
+        <div
+          style="height: 2.625rem; margin-top: 1rem; margin-bottom: 1rem"
+        ></div>
+        <div class="carousel hidden" id="carousel"></div>
 
-<body id="body">
-  <div id="main">
-    <div class="inner-search-container search-div" style="background-color: var(--mdc-theme-surface, #fff);">
-      <span class="material-icons icon" id="searchIcon">search</span>
-      <input type="search" name="search" id="searchTxt" autocomplete="off" />
-      <span class="material-icons icon cursor" id="sortIcon">sort</span>
-    </div>
-    <div id="mainItems" style="flex: 1 1 auto; overflow-y: auto;">
-      <div style="height: 2.625rem; margin-top: 1rem; margin-bottom: 1rem;"></div>
-      <div class="carousel hidden" id="carousel"></div>
+        <div id="wysiwygContent" class="hidden"></div>
+        <div id="listViewContainer" class="hidden"></div>
 
-      <div id="wysiwygContent" class="hidden"></div>
-      <div id="listViewContainer" class="hidden"></div>
-
-      <div id="skeleton">
+        <div id="skeleton"></div>
+      </div>
+      <div id="emptyProds" class="hidden">
+        <img src="../widget/.images/ic_bookmark_empty.svg" />
       </div>
     </div>
-    <div id="emptyProds" class="hidden">
+
+    <div id="subpage" class="hidden">
+      <div id="coverImg">
+        <img id="coverImgBody" />
+      </div>
+      <div id="profileImg">
+        <img id="profileImgBody" />
+      </div>
+
+      <label id="itemTitle"></label>
+      <label id="itemSubTitle"></label>
+      <div id="wysiwygItemContent"></div>
+    </div>
+    <div id="emptyProds2" class="hidden">
       <img src="../widget/.images/ic_bookmark_empty.svg" />
     </div>
-  </div>
+    <script src="../../productsList_release/widget/main.js"></script>
 
-  <div id="subpage" class="hidden">
-    <div id="coverImg">
-      <img id="coverImgBody" />
-    </div>
-    <div id="profileImg">
-      <img id="profileImgBody" />
-    </div>
+    <script>
+      buildfire.bookmarks.add(
+        {
+          id: "BOOKMARK_ID",
+          title: "My Bookmark",
+          icon: "https://placekitten.com/32/32",
+          payload: {
+            data: { myData: "Hello World" },
+          },
+        },
+        (err, bookmark) => {
+          if (err) return console.error(err);
 
-    <label id="itemTitle"></label>
-    <label id="itemSubTitle"></label>
-    <div id="wysiwygItemContent"></div>
-
-  </div>
-  <div id="emptyProds2" class="hidden">
-    <img src="../widget/.images/ic_bookmark_empty.svg" />
-  </div>
-  <script src="../../productsList_release/widget/main.js"></script>
-
-</body>
-
+          console.log("Bookmark ", bookmark);
+        }
+      );
+    </script>
+  </body>
 </html>
