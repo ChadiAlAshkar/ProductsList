@@ -418,7 +418,6 @@ function loadData() {
     products = [];
     if (results && results.length > 2) {
       if (results[1] && results[1].length > 0) {
-
         buildfire.bookmarks.getAll((err, bookmarks) => {
           if (err) return console.error(err);
           results[1].forEach((element) => {
@@ -450,7 +449,6 @@ function loadData() {
             config.endReached = false;
           }
           listView.loadListViewItems(products);
-        });
 
       }
       for (
@@ -596,7 +594,8 @@ function searchProducts(sort, searchText, overwrite, fromSearchBar, callback) {
       t.description = element.data.subTitle;
       t.imageUrl = element.data.profileImgUrl;
       t.data = element.data;
-      t.action = { icon: "icon glyphicon glyphicon-star" };
+      if(!element.data.isFavorite) t.action = { icon: "icon glyphicon glyphicon-star-empty" };
+      else t.action = { icon: "icon glyphicon glyphicon-star" };
       if (!overwrite) {
         listView.addItem(t);
       } else {
