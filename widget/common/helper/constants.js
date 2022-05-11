@@ -8,6 +8,7 @@ class Constants {
     return {
       PRODUCTS: "Products",
       INTRODUCTION: "Introduction",
+      SETTINGS: "Settings",
       LANGUAGE: "$bfLanguageSettings_",
     };
   }

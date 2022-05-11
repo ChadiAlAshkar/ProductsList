@@ -83,6 +83,18 @@ function minifyIntro() {
         .pipe(dest(destinationFolder + '/control/introduction'));
 }
 
+function minifySettings() {
+    return src('control/settings/app.js')
+        .pipe(sourcemaps.init())
+        .pipe(concat('main.js'))
+        .pipe(terser({
+            toplevel: true
+        }))
+        .pipe(sourcemaps.write('./'))
+
+        .pipe(dest(destinationFolder + '/control/settings'));
+}
+
 function minifyStrings() {
     return src([
             'control/strings/JS/stringsUI.js',
@@ -134,10 +146,12 @@ function minifyCommonW() {
                 'widget/common/models/product.js',
                 'widget/common/models/language.js',
                 'widget/common/models/introduction.js',
+                'widget/common/models/settings.js',
                 'widget/common/repository/analytics.js',
                 'widget/common/controllers/product.js',
                 'widget/common/controllers/language.js',
                 'widget/common/controllers/introduction.js',
+                'widget/common/controllers/settings.js',
                 'widget/common/helper/constants.js',
                 'widget/common/helper/enum.js',
                 'widget/common/helper/ui.js',
@@ -159,15 +173,18 @@ function minifyCommonW() {
 function watchChanges() {
     watch('control/content/JS/*.js', minifyContent);
     watch('control/introduction/app.js', minifyIntro);
+    watch('control/settings/app.js', minifySettings);
     watch('control/strings/JS/*.js', minifyStrings);
     watch('widget/JS/app.js', minifyWidget);
     watch([
         'widget/common/models/product.js',
         'widget/common/models/language.js',
         'widget/common/models/introduction.js',
+        'widget/common/models/settings.js',
         'widget/common/controllers/product.js',
         'widget/common/controllers/language.js',
         'widget/common/controllers/introduction.js',
+        'widget/common/controllers/settings.js',
         'widget/common/helper/constants.js',
         'widget/common/helper/enum.js',
         'widget/common/helper/ui.js',
@@ -240,6 +257,7 @@ exports.default = series([
     lint,
     minifyContent,
     minifyIntro,
+    minifySettings,
     minifyStrings,
     minifyWidget,
     minifyCommonW,
