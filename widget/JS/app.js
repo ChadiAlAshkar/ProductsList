@@ -217,12 +217,16 @@ function setupHandlers() {
         // );
       });
     } else {
-      Bookmark.add( {id: item.id, title: item.data.title, icon: item.action.icon}, (err, res) => {
-        if(err) return console.error(err)
-        item.data.isFavorite = true;
-        item.action.icon = "icon glyphicon glyphicon-star";
-        item.update();
-      });
+      Bookmark.add(
+        { id: item.id, title: item.data.title, icon: item.action.icon },
+        (err, res) => {
+          if (err) return console.error(err);
+          item.data.isFavorite = true;
+          item.action.icon = "icon glyphicon glyphicon-star";
+          item.update();
+          console.log(item);
+        }
+      );
     }
   };
   buildfire.history.onPop((breadcrumb) => {
@@ -428,9 +432,10 @@ function loadData() {
           t.description = element.data.subTitle;
           t.imageUrl = element.data.profileImgUrl;
           t.data = element.data;
-          if(element.data.isFavorite) t.action = { icon: "icon glyphicon glyphicon-star" };
-          else t.action = { icon: "icon glyphicon glyphicon-star-empty" }
-          
+          if (element.data.isFavorite)
+            t.action = { icon: "icon glyphicon glyphicon-star" };
+          else t.action = { icon: "icon glyphicon glyphicon-star-empty" };
+
           products.push(t);
         });
         if (results[1].length < config.limit) {
