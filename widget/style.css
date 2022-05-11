@@ -204,12 +204,13 @@ body {
     text-align: right;
     top: 10.813rem;
     position: absolute;
-    right: 0.5rem;
+    right: 0rem;
     color: white;
 }
-.action_Items_Container span:nth-child(2) {
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
+
+.iconsDet{
+    padding-right: 1rem;
+    cursor: pointer;
 }
 
 @keyframes gradient-animation {

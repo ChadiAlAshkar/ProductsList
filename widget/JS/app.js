@@ -78,9 +78,22 @@ function loadCustomCss() {
 }
 
 function clearSubItem() {
+  if (listView.items.indexOf(productClicked) != -1) {
+    listView.items[listView.items.indexOf(productClicked)].action = {
+      icon: finalStarState
+    }
+  }
+
+  var products = listView.items;
+  listView.clear();
+  listView.loadListViewItems(products);
+  setStarColor();
+
   productClicked = null;
   itemTitle.innerHTML = "";
   itemSubTitle.innerHTML = "";
+  finalStarState = "";
+
   main.classList.remove("hidden");
   subpage.classList.add("hidden");
   wysiwygItemContent.innerHTML = "";
@@ -89,24 +102,81 @@ function clearSubItem() {
   body.scrollTo(0, 0);
 }
 
+function setStarColor() {
+  for (var i = 0; i < document.getElementsByClassName('glyphicon').length; i++) {
+    document.getElementsByClassName('glyphicon')[i].style.setProperty('color', config.appTheme.colors.icons, 'important');
+  }
+}
 
 function fillSubItem(item) {
-  buildfire.history.push("ProductDetails");
-  productClicked = item;
-  itemTitle.innerHTML = item.data.title;
-  itemSubTitle.innerHTML = item.data.subTitle;
-  main.classList.add("hidden");
-  subpage.classList.remove("hidden");
-  wysiwygItemContent.innerHTML = item.data.description;
-  if (!config.fillingCover) {
-    config.fillingCover = true;
-    animateImg(coverImgBody, item.data.coverImgUrl, 500);
+  action.innerHTML = "";
+  buildfire.bookmarks.getAll((err, bookmarks) => {
+    if (err) console.error(err);
+    buildfire.history.push("ProductDetails");
+    productClicked = item;
+    itemTitle.innerHTML = item.data.title;
+    itemSubTitle.innerHTML = item.data.subTitle;
+
+    ui.createElement('span', action, "share", ["material-icons", "icon", "iconsDet"]);
+    ui.createElement('span', action, "note", ["material-icons", "icon", "iconsDet"]);
+
+    let found = false;
+    for (let i = 0; i < bookmarks.length; i++) {
+      if (bookmarks[i].id == item.id) {
+        found = true;
+        break;
+      }
+    }
+    let bookmrk;
+    if (found) {
+      bookmrk = ui.createElement('span', action, "star", ["material-icons", "icon", "iconsDet"]);
+      finalStarState = "icon glyphicon glyphicon-star";
+    } else {
+      bookmrk = ui.createElement('span', action, "star_outline", ["material-icons", "icon", "iconsDet"]);
+      finalStarState = "icon glyphicon glyphicon-star-empty";
+    }
+
+    bookmrk.addEventListener('click', () => {
+      addBookmark(item, bookmrk);
+    });
+
+    main.classList.add("hidden");
+    subpage.classList.remove("hidden");
+    wysiwygItemContent.innerHTML = item.data.description;
+    if (!config.fillingCover) {
+      config.fillingCover = true;
+      animateImg(coverImgBody, item.data.coverImgUrl, 500);
+    }
+    if (!config.fillingProfile) {
+      config.fillingProfile = true;
+      animateImg(profileImgBody, item.data.profileImgUrl, 1000);
+    }
+    body.scrollTo(0, 0);
+  });
+}
+
+finalStarState = "";
+
+function addBookmark(item, element) {
+  if (element.innerHTML == "star_outline") {
+    buildfire.bookmarks.add({
+        id: item.id,
+        title: item.data.title,
+        icon: item.data.profileImgUrl
+      },
+      (err, bookmark) => {
+        if (err) return console.error(err);
+        element.innerHTML = "star";
+        finalStarState = "icon glyphicon glyphicon-star";
+      }
+    );
+  } else {
+    buildfire.bookmarks.delete(item.id, () => {
+      console.log("Bookmark deleted successfully");
+      element.innerHTML = "star_outline";
+      finalStarState = "icon glyphicon glyphicon-star-empty";
+    });
   }
-  if (!config.fillingProfile) {
-    config.fillingProfile = true;
-    animateImg(profileImgBody, item.data.profileImgUrl, 1000);
-  }
-  body.scrollTo(0, 0);
 }
 
 function animateImg(element, imgUrl, duration) {
@@ -134,6 +204,7 @@ function animateImg(element, imgUrl, duration) {
 }
 
 function sendMessageToControl(isOpeningSubItemPage, item) {
+  console.log(item)
   buildfire.messaging.sendMessageToControl({
     openSubItemPage: isOpeningSubItemPage,
     itemClicked: {
@@ -175,17 +246,20 @@ function setupHandlers() {
       sendMessageToControl(false, "");
     }
   });
+
   sortIcon.addEventListener('click', openSortDrawer);
   gradientDiv.addEventListener('click', () => {
     imagePreview(coverImgBody.src);
   });
+
   profileImgBody.addEventListener('click', () => {
     imagePreview(profileImgBody.src);
   });
+
   listView.onItemClicked = (item) => {
     fillSubItem(item);
     Analytics.trackAction(item.id);
-    sendMessageToControl(true, productClicked);
+    sendMessageToControl(true, item);
   };
 
   listView.onItemActionClicked = item => {
@@ -194,9 +268,7 @@ function setupHandlers() {
         console.log("Bookmark deleted successfully");
         item.action.icon = 'icon glyphicon glyphicon-star-empty';
         item.update();
-        for (var i = 0; i < document.getElementsByClassName('glyphicon').length; i++) {
-          document.getElementsByClassName('glyphicon')[i].style.setProperty('color', config.appTheme.colors.icons, 'important');
-        }
+        setStarColor();
       });
     } else {
       console.log(item)
@@ -216,9 +288,7 @@ function setupHandlers() {
           console.log("Bookmark ", bookmark);
           item.action.icon = 'icon glyphicon glyphicon-star';
           item.update();
-          for (var i = 0; i < document.getElementsByClassName('glyphicon').length; i++) {
-            document.getElementsByClassName('glyphicon')[i].style.setProperty('color', config.appTheme.colors.icons, 'important');
-          }
+          setStarColor();
         }
       );
     }
@@ -367,6 +437,7 @@ function setupHandlers() {
       mainItems.scrollTo(0, 0);
       listView.clear();
       listView.loadListViewItems(products);
+      setStarColor();
     }
   });
 }
@@ -425,9 +496,7 @@ function loadData() {
             config.endReached = false;
           }
           listView.loadListViewItems(products);
-          for (var i = 0; i < document.getElementsByClassName('glyphicon').length; i++) {
-            document.getElementsByClassName('glyphicon')[i].style.setProperty('color', config.appTheme.colors.icons, 'important');
-          }
+          setStarColor();
         });
 
       }
@@ -537,42 +606,63 @@ function searchProducts(sort, searchText, overwrite, fromSearchBar, callback) {
   }
   Products.search(searchOptions).then((result) => {
     let products = [];
-    result.forEach((element) => {
-      var t = new ListViewItem();
-      t.id = element.id;
-      t.title = element.data.title;
-      t.description = element.data.subTitle;
-      t.imageUrl = element.data.profileImgUrl;
-      t.data = element.data;
-      if (!overwrite) {
-        listView.addItem(t);
-      } else {
-        products.push(t);
+    buildfire.bookmarks.getAll((err, bookmarks) => {
+      if (err) return console.error(err);
+      result.forEach((element) => {
+        var t = new ListViewItem();
+        t.id = element.id;
+        t.title = element.data.title;
+        t.description = element.data.subTitle;
+        t.imageUrl = element.data.profileImgUrl;
+        t.data = element.data;
+        let found = false;
+        for (let i = 0; i < bookmarks.length; i++) {
+          if (bookmarks[i].id == element.id) {
+            found = true;
+            break;
+          }
+        }
+        if (found) {
+          t.action = {
+            icon: "icon glyphicon glyphicon-star"
+          };
+        } else {
+          t.action = {
+            icon: "icon glyphicon glyphicon-star-empty"
+          };
+        }
+        if (!overwrite) {
+          listView.addItem(t);
+        } else {
+          products.push(t);
+        }
+      });
+
+      if (overwrite) {
+        listView.loadListViewItems(products);
       }
+      setStarColor();
+      config.endReached = result.length < config.limit;
+      skeleton.classList.add("hidden");
+      if (carousel.classList.contains("hidden") && wysiwygContent.classList.contains("hidden")) {
+        if (config.skipIndex == 0 && result.length == 0) {
+          listViewContainer.classList.add("hidden");
+          emptyProds.classList.remove("hidden");
+        } else {
+          listViewContainer.classList.remove("hidden");
+          emptyProds.classList.add("hidden");
+        }
+      } else {
+        if (config.skipIndex == 0 && result.length == 0 && viewer.items.length == 0 && wysiwygContent.innerHTML == "") {
+          listViewContainer.classList.add("hidden");
+          emptyProds.classList.remove("hidden");
+        } else {
+          listViewContainer.classList.remove("hidden");
+          emptyProds.classList.add("hidden");
+        }
+      }
+      callback();
     });
-    if (overwrite) {
-      listView.loadListViewItems(products);
-    }
-    config.endReached = result.length < config.limit;
-    skeleton.classList.add("hidden");
-    if (carousel.classList.contains("hidden") && wysiwygContent.classList.contains("hidden")) {
-      if (config.skipIndex == 0 && result.length == 0) {
-        listViewContainer.classList.add("hidden");
-        emptyProds.classList.remove("hidden");
-      } else {
-        listViewContainer.classList.remove("hidden");
-        emptyProds.classList.add("hidden");
-      }
-    } else {
-      if (config.skipIndex == 0 && result.length == 0 && viewer.items.length == 0 && wysiwygContent.innerHTML == "") {
-        listViewContainer.classList.add("hidden");
-        emptyProds.classList.remove("hidden");
-      } else {
-        listViewContainer.classList.remove("hidden");
-        emptyProds.classList.add("hidden");
-      }
-    }
-    callback();
   });
 }
 
