@@ -153,6 +153,8 @@ function fillSubItem(item) {
       finalStarState = "icon glyphicon glyphicon-star-empty";
     }
 
+    bookmrk.setAttribute("id", "starIcon");
+
     bookmrk.addEventListener('click', () => {
       addBookmark(item, bookmrk);
     });
@@ -175,25 +177,35 @@ function fillSubItem(item) {
 finalStarState = "";
 
 function addBookmark(item, element) {
-  if (element.innerHTML == "star_outline") {
-    buildfire.bookmarks.add({
-        id: item.id,
-        title: item.data.title,
-        icon: item.data.profileImgUrl
-      },
-      (err, bookmark) => {
-        if (err) return console.error(err);
-        element.innerHTML = "star";
-        finalStarState = "icon glyphicon glyphicon-star";
+  buildfire.auth.getCurrentUser((err, user) => {
+    if (err) return console.error(err);
+
+    if (!user) {
+      buildfire.auth.login({}, (err, user) => {
+        console.log(err, user);
+      });
+    } else {
+      if (element.innerHTML == "star_outline") {
+        buildfire.bookmarks.add({
+            id: item.id,
+            title: item.data.title,
+            icon: item.data.profileImgUrl
+          },
+          (err, bookmark) => {
+            if (err) return console.error(err);
+            element.innerHTML = "star";
+            finalStarState = "icon glyphicon glyphicon-star";
+          }
+        );
+      } else {
+        buildfire.bookmarks.delete(item.id, () => {
+          console.log("Bookmark deleted successfully");
+          element.innerHTML = "star_outline";
+          finalStarState = "icon glyphicon glyphicon-star-empty";
+        });
       }
-    );
-  } else {
-    buildfire.bookmarks.delete(item.id, () => {
-      console.log("Bookmark deleted successfully");
-      element.innerHTML = "star_outline";
-      finalStarState = "icon glyphicon glyphicon-star-empty";
-    });
-  }
+    }
+  });
 }
 
 function animateImg(element, imgUrl, duration) {
@@ -495,6 +507,24 @@ function setupHandlers() {
       listView.clear();
       listView.loadListViewItems(products);
       setStarColor();
+
+      if (productClicked) {
+        let found1 = false;
+        for (let i = 0; i < bookmarks.length; i++) {
+          if (bookmarks[i].id == productClicked.id) {
+            found1 = true;
+            break;
+          }
+        }
+
+        if (found1) {
+          starIcon.innerHTML = "star";
+          finalStarState = "icon glyphicon glyphicon-star";
+        } else {
+          starIcon.innerHTML = "star_outline";
+          finalStarState = "icon glyphicon glyphicon-star-empty";
+        }
+      }
     });
   }, true);
 
@@ -509,6 +539,11 @@ function setupHandlers() {
     listView.clear();
     listView.loadListViewItems(products);
     setStarColor();
+
+    if (productClicked) {
+      starIcon.innerHTML = "star_outline";
+      finalStarState = "icon glyphicon glyphicon-star-empty";
+    }
   }, false);
 }
 
