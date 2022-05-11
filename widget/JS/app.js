@@ -366,7 +366,9 @@ function loadData() {
         }
         listView.loadListViewItems(products);
       }
-
+      for (var i = 0; i < document.getElementsByClassName('glyphicon').length; i++) {
+        document.getElementsByClassName('glyphicon')[i].style.setProperty('color', config.appTheme.colors.icons, 'important');
+      }
       if (results[0] && results[0].data) {
         if (results[0].data.images)
           viewer.loadItems(results[0].data.images);
@@ -488,6 +490,9 @@ function searchProducts(sort, searchText, overwrite, fromSearchBar, callback) {
     });
     if (overwrite) {
       listView.loadListViewItems(products);
+    }
+    for (var i = 0; i < document.getElementsByClassName('glyphicon').length; i++) {
+      document.getElementsByClassName('glyphicon')[i].style.setProperty('color', config.appTheme.colors.icons, 'important');
     }
     config.endReached = result.length < config.limit;
     skeleton.classList.add("hidden");

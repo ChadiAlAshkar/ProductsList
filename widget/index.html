@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta name="buildfire" content="enableMDTheme" />
+    <!-- <meta name="buildfire" content="enableMDTheme" /> -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="../../../scripts/buildfire.js"></script>
     <script src="../../../scripts/buildfire/services/notifications/pushNotifications.js"></script>
@@ -81,23 +81,5 @@
       <img src="../widget/.images/ic_bookmark_empty.svg" />
     </div>
     <script src="../../productsList_release/widget/main.js"></script>
-
-    <script>
-      buildfire.bookmarks.add(
-        {
-          id: "BOOKMARK_ID",
-          title: "My Bookmark",
-          icon: "https://placekitten.com/32/32",
-          payload: {
-            data: { myData: "Hello World" },
-          },
-        },
-        (err, bookmark) => {
-          if (err) return console.error(err);
-
-          console.log("Bookmark ", bookmark);
-        }
-      );
-    </script>
   </body>
 </html>
