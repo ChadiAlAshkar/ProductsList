@@ -81,7 +81,7 @@ function clearSubItem() {
   if (listView.items.indexOf(productClicked) != -1) {
     listView.items[listView.items.indexOf(productClicked)].action = {
       icon: finalStarState
-    }
+    };
   }
 
   var products = listView.items;
@@ -204,7 +204,7 @@ function animateImg(element, imgUrl, duration) {
 }
 
 function sendMessageToControl(isOpeningSubItemPage, item) {
-  console.log(item)
+  console.log(item);
   buildfire.messaging.sendMessageToControl({
     openSubItemPage: isOpeningSubItemPage,
     itemClicked: {
@@ -271,7 +271,7 @@ function setupHandlers() {
         setStarColor();
       });
     } else {
-      console.log(item)
+      console.log(item);
       buildfire.bookmarks.add({
           id: item.id,
           title: item.data.title,
