@@ -103,6 +103,20 @@ function clearSubItem() {
 }
 
 function setStarColor() {
+  // let fillStars = document.getElementsByClassName('glyphicon-star');
+  // let emptyStars = document.getElementsByClassName('glyphicon-star-empty');
+
+  // for (var i = 0; i < fillStars.length; i++) {
+  //   fillStars[i].classList = [];
+  //   fillStars[i].classList.add(['material-icons', 'icon', 'cursor']);
+
+  //   fillStars[i].innerHTML = 'star';
+  // }
+  // for (var i = 0; i < emptyStars.length; i++) {
+  //   // emptyStars[i].className = "material-icons icon cursor glyphicon";
+  //   emptyStars[i].innerHTML = '<span class="material-icons icon cursor">star_border</span>';
+  // }
+
   for (var i = 0; i < document.getElementsByClassName('glyphicon').length; i++) {
     document.getElementsByClassName('glyphicon')[i].style.setProperty('color', config.appTheme.colors.icons, 'important');
   }
