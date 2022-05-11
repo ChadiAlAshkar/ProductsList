@@ -13,16 +13,16 @@ const searchTableConfig = {
     },
     {
       header: "Title",
-      data: "${data.title.substring(0,15)}" +
-        "${data.title.length > 15 ? '...' : '' }",
+      data: "${data.title.substring(0,12)}" +
+        "${data.title.length > 12 ? '...' : '' }",
       type: "string",
       width: "",
       sortBy: "title",
     },
     {
       header: "Subtitle",
-      data: "${data.subTitle.substring(0,15)}" +
-        "${data.subTitle.length > 15 ? '...' : '' }",
+      data: "${data.subTitle.substring(0,12)}" +
+        "${data.subTitle.length > 12 ? '...' : '' }",
       type: "string",
       width: "",
       sortBy: "subTitle",
