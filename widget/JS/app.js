@@ -78,6 +78,7 @@ function loadCustomCss() {
 }
 
 function clearSubItem() {
+  iconsContainer.innerHTML="";
   productClicked = null;
   itemTitle.innerHTML = "";
   itemSubTitle.innerHTML = "";
@@ -91,6 +92,7 @@ function clearSubItem() {
 
 
 function fillSubItem(item) {
+  loadActionItems(item);
   buildfire.history.push("ProductDetails");
   productClicked = item;
   itemTitle.innerHTML = item.data.title;
@@ -605,6 +607,44 @@ function openSortDrawer() {
       });
     }
   );
+}
+
+function loadActionItems(item){
+  buildfire.bookmarks.getAll((err, bookmarks) => {
+    let isProductBookmardExist= false , bookmarkElement;
+    if (err) return console.error(err);
+    ui.createElement("span",iconsContainer,"share",["material-icons","icon"]);
+    ui.createElement("span",iconsContainer,"note",["material-icons","icon"]);
+    for (let i = 0; i < bookmarks.length; i++) {
+      if (bookmarks[i].id == item.id) {
+        isProductBookmardExist = true;
+        break;
+      }
+    }
+    if(isProductBookmardExist){
+      bookmarkElement=ui.createElement("span",iconsContainer,"star",["material-icons","icon","bookmarkActive"]);
+      bookmarkElement.setAttribute("id","isBooked");
+    }else{
+      bookmarkElement=ui.createElement("span",iconsContainer,"star_outline",["material-icons","icon"]);
+      bookmarkElement.setAttribute("id","notBooked");
+    }
+    
+    bookmarkElement.addEventListener("click",()=>{
+      if (bookmarkElement.classList.contains("bookmarkActive")) {
+        bookmarkElement.classList.remove("bookmarkActive");
+        Bookmark.add( {id: item.id, title: item.data.title}, () => {
+          bookmarkElement.innerHTML="star";
+        });
+      } else {
+        Bookmark.delete(item.id, () => {
+          bookmarkElement.classList.add("bookmarkActive");
+          bookmarkElement.innerHTML="star_outline";
+        });
+      }
+      
+    })
+    
+  })
 }
 
 init();

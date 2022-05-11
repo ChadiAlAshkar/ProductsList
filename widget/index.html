@@ -6,7 +6,6 @@
     <script src="../../../scripts/buildfire.js"></script>
     <script src="../../../scripts/buildfire/services/notifications/pushNotifications.js"></script>
     <script src="../../../scripts/buildfire/services/notifications/localNotifications.js"></script>
-    <script src="./common/repository/bookmark.js"></script>
     <script src="../../../scripts/buildfire/components/listView/listView.js"></script>
     <script src="../../productsList_release/widget/common/main.js"></script>
     <link rel="stylesheet" href="../../../styles/components/listView.css" />
@@ -68,12 +67,14 @@
 
     <div id="subpage" class="hidden">
       <div id="coverImg">
+        <div class="coverImage-shadow"></div>
         <img id="coverImgBody" />
+        <div class="icons-container" id="iconsContainer">
+        </div>
       </div>
       <div id="profileImg">
         <img id="profileImgBody" />
       </div>
-
       <label id="itemTitle"></label>
       <label id="itemSubTitle"></label>
       <div id="wysiwygItemContent"></div>

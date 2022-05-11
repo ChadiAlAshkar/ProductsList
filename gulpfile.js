@@ -164,7 +164,8 @@ function minifyCommonW() {
                 'widget/common/repository/localnotification.js',
                 'widget/common/repository/pushnotification.js',
                 'widget/common/repository/strings.js',
-                'widget/common/repository/stringsConfig.js'
+                'widget/common/repository/stringsConfig.js',
+                'widget/common/repository/bookmark.js'
             ])
         .pipe(sourcemaps.init())
         .pipe(concat('main.js'))
