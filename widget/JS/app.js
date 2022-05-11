@@ -210,7 +210,7 @@ function setupHandlers() {
         item.update();
         console.log(item);
         // document.getElementsByClassName("glyphicon")
-        // [i].style.setProperty(
+        // [3].style.setProperty(
         //   "color",
         //   config.appTheme.colors.icons,
         //   "important"
@@ -430,7 +430,6 @@ function loadData() {
           t.data = element.data;
           if(element.data.isFavorite) t.action = { icon: "icon glyphicon glyphicon-star" };
           else t.action = { icon: "icon glyphicon glyphicon-star-empty" }
-          
           products.push(t);
         });
         if (results[1].length < config.limit) {
