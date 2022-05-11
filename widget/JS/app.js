@@ -450,20 +450,8 @@ function loadData() {
           }
           listView.loadListViewItems(products);
 
-      }
-      for (
-        var i = 0;
-        i < document.getElementsByClassName("glyphicon").length;
-        i++
-      ) {
-        document
-          .getElementsByClassName("glyphicon")
-          [i].style.setProperty(
-            "color",
-            config.appTheme.colors.icons,
-            "important"
-          );
-      }
+      })
+    }
       if (results[0] && results[0].data) {
         if (results[0].data.images) viewer.loadItems(results[0].data.images);
         if (results[0].data.description)
