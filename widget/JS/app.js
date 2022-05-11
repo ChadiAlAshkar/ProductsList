@@ -78,8 +78,17 @@ function loadCustomCss() {
 }
 
 function clearSubItem() {
+  let productIndex = listView.items.indexOf(productClicked);
+
+  if (productIndex != -1) {
+    listView.items[productIndex].action = {
+      icon: isSelectedProductBookmarked ? "icon glyphicon glyphicon-star" : "icon glyphicon glyphicon-star-empty"
+    };
+    listView.items[productIndex].update()
+  }
+
   iconsContainer.innerHTML="";
-  productClicked = null;
+  
   itemTitle.innerHTML = "";
   itemSubTitle.innerHTML = "";
   main.classList.remove("hidden");
@@ -175,6 +184,7 @@ function setupHandlers() {
   let timer;
 
   listView.onItemActionClicked = (item) => {
+    console.log(item)
     updateProductBookmard(item);
   };
 
@@ -608,7 +618,7 @@ function openSortDrawer() {
     }
   );
 }
-
+var isSelectedProductBookmarked = false;
 function loadActionItems(item){
   buildfire.bookmarks.getAll((err, bookmarks) => {
     let isProductBookmardExist= false , bookmarkElement;
@@ -623,28 +633,29 @@ function loadActionItems(item){
     }
     if(isProductBookmardExist){
       bookmarkElement=ui.createElement("span",iconsContainer,"star",["material-icons","icon","bookmarkActive"]);
-      bookmarkElement.setAttribute("id","isBooked");
     }else{
       bookmarkElement=ui.createElement("span",iconsContainer,"star_outline",["material-icons","icon"]);
-      bookmarkElement.setAttribute("id","notBooked");
     }
     
     bookmarkElement.addEventListener("click",()=>{
       if (bookmarkElement.classList.contains("bookmarkActive")) {
         bookmarkElement.classList.remove("bookmarkActive");
-        Bookmark.add( {id: item.id, title: item.data.title}, () => {
-          bookmarkElement.innerHTML="star";
-        });
-      } else {
         Bookmark.delete(item.id, () => {
           bookmarkElement.classList.add("bookmarkActive");
           bookmarkElement.innerHTML="star_outline";
         });
+      
+        isSelectedProductBookmarked = false;
+      } else {
+        isSelectedProductBookmarked = true;
+        Bookmark.add( {id: item.id, title: item.data.title}, () => {
+          bookmarkElement.innerHTML="star";
+        });
       }
       
-    })
+    });
     
-  })
+  });
 }
 
 init();
