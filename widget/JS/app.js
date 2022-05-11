@@ -84,7 +84,7 @@ function clearSubItem() {
     listView.items[productIndex].action = {
       icon: isSelectedProductBookmarked ? "icon glyphicon glyphicon-star" : "icon glyphicon glyphicon-star-empty"
     };
-    listView.items[productIndex].update()
+    listView.items[productIndex].update();
   }
 
   iconsContainer.innerHTML="";
@@ -184,7 +184,6 @@ function setupHandlers() {
   let timer;
 
   listView.onItemActionClicked = (item) => {
-    console.log(item)
     updateProductBookmard(item);
   };
 
@@ -557,8 +556,6 @@ function searchProducts(sort, searchText, overwrite, fromSearchBar, callback) {
           products.push(t);
         }
 
-  });
-});
     if (overwrite) {
       listView.loadListViewItems(products);
     }
@@ -582,6 +579,9 @@ function searchProducts(sort, searchText, overwrite, fromSearchBar, callback) {
       }
     }
     callback();
+    
+      });
+    });
   });
 }
 
@@ -641,13 +641,12 @@ function loadActionItems(item){
       if (bookmarkElement.classList.contains("bookmarkActive")) {
         bookmarkElement.classList.remove("bookmarkActive");
         Bookmark.delete(item.id, () => {
-          bookmarkElement.classList.add("bookmarkActive");
           bookmarkElement.innerHTML="star_outline";
         });
-      
         isSelectedProductBookmarked = false;
       } else {
         isSelectedProductBookmarked = true;
+        bookmarkElement.classList.add("bookmarkActive");
         Bookmark.add( {id: item.id, title: item.data.title}, () => {
           bookmarkElement.innerHTML="star";
         });
