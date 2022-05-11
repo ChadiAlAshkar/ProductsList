@@ -225,6 +225,10 @@ input[type="search"]::-webkit-search-results-decoration {
     color: var(--c, green);
 }
 
-.action-holder > .icon {
-    color: yellow !important;
+.glyphicon-star-empty {
+    color: var(--c-primary);
+}
+
+.glyphicon-star {
+    color: var(--c-primary);
 }

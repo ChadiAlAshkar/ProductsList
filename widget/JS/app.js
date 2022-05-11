@@ -27,7 +27,7 @@ var config = {
   appTheme: {},
   fillingCover: false,
   fillingProfile: false,
-  skeletonItems: 4
+  skeletonItems: 4,
 };
 
 function init() {
@@ -39,9 +39,9 @@ function init() {
 
 function buildSkeletonUI(showCarousel, nbOfItems) {
   if (showCarousel) {
-    ui.createElement('div', skeleton, "", ["carouselLoad", "loadColor"]);
+    ui.createElement("div", skeleton, "", ["carouselLoad", "loadColor"]);
   }
-  ui.createElement('div', skeleton, "", ["user-card"]);
+  ui.createElement("div", skeleton, "", ["user-card"]);
   for (var i = 0; i < nbOfItems; i++) {
     var itemLoadClass = "item1Load";
     if (showCarousel) {
@@ -51,11 +51,24 @@ function buildSkeletonUI(showCarousel, nbOfItems) {
     } else {
       itemLoadClass = "item3Load";
     }
-    let listViewItemLoad = ui.createElement('div', skeleton, "", [itemLoadClass, "listViewItem"]);
-    let listViewItemImg = ui.createElement('div', listViewItemLoad, "", ["listViewItemImgContainer"]);
-    ui.createElement('div', listViewItemImg, "", ["listViewItemImg", "loadColor"]);
-    let listViewItemCopy = ui.createElement('div', listViewItemLoad, "", ["listViewItemCopy", "ellipsis", "padded", "padded--m"]);
-    ui.createElement('div', listViewItemCopy, "", ["textLoad", "loadColor"]);
+    let listViewItemLoad = ui.createElement("div", skeleton, "", [
+      itemLoadClass,
+      "listViewItem",
+    ]);
+    let listViewItemImg = ui.createElement("div", listViewItemLoad, "", [
+      "listViewItemImgContainer",
+    ]);
+    ui.createElement("div", listViewItemImg, "", [
+      "listViewItemImg",
+      "loadColor",
+    ]);
+    let listViewItemCopy = ui.createElement("div", listViewItemLoad, "", [
+      "listViewItemCopy",
+      "ellipsis",
+      "padded",
+      "padded--m",
+    ]);
+    ui.createElement("div", listViewItemCopy, "", ["textLoad", "loadColor"]);
   }
 }
 
@@ -63,18 +76,37 @@ function loadCustomCss() {
   buildfire.appearance.getAppTheme((err, appTheme) => {
     if (err) return console.error(err);
     config.appTheme = appTheme;
-    document.getElementsByClassName('icon')[0].style.setProperty('color', appTheme.colors.icons, 'important');
-    document.getElementsByClassName('icon')[1].style.setProperty('color', appTheme.colors.icons, 'important');
-    for (var i = 0; i < document.getElementsByClassName('loadColor').length; i++) {
-      document.getElementsByClassName('loadColor')[i].style.setProperty('background', appTheme.colors.bodyText, 'important');
+    document
+      .getElementsByClassName("icon")[0]
+      .style.setProperty("color", appTheme.colors.icons, "important");
+    document
+      .getElementsByClassName("icon")[1]
+      .style.setProperty("color", appTheme.colors.icons, "important");
+    for (
+      var i = 0;
+      i < document.getElementsByClassName("loadColor").length;
+      i++
+    ) {
+      document
+        .getElementsByClassName("loadColor")
+        [i].style.setProperty(
+          "background",
+          appTheme.colors.bodyText,
+          "important"
+        );
     }
     coverImg.style.backgroundColor = appTheme.colors.bodyText;
     profileImg.style.backgroundColor = appTheme.colors.backgroundColor;
-    document.getElementById('searchTxt').style.setProperty("--c", appTheme.colors.bodyText);
-    document.getElementById('itemTitle').style.setProperty('color', appTheme.colors.headerText, 'important');
-    document.getElementById('itemSubTitle').style.setProperty('color', appTheme.colors.headerText, 'important');
+    document
+      .getElementById("searchTxt")
+      .style.setProperty("--c", appTheme.colors.bodyText);
+    document
+      .getElementById("itemTitle")
+      .style.setProperty("color", appTheme.colors.headerText, "important");
+    document
+      .getElementById("itemSubTitle")
+      .style.setProperty("color", appTheme.colors.headerText, "important");
   });
-
 }
 
 function clearSubItem() {
@@ -84,11 +116,10 @@ function clearSubItem() {
   main.classList.remove("hidden");
   subpage.classList.add("hidden");
   wysiwygItemContent.innerHTML = "";
-  coverImgBody.src = '';
-  profileImgBody.src = '';
+  coverImgBody.src = "";
+  profileImgBody.src = "";
   body.scrollTo(0, 0);
 }
-
 
 function fillSubItem(item) {
   buildfire.history.push("ProductDetails");
@@ -113,18 +144,20 @@ function animateImg(element, imgUrl, duration) {
   setTimeout(() => {
     element.src = imgUrl;
     element.animate(
-      [{
-          opacity: .1
+      [
+        {
+          opacity: 0.1,
         },
         {
-          opacity: .5
+          opacity: 0.5,
         },
         {
-          opacity: 1
-        }
-      ], {
+          opacity: 1,
+        },
+      ],
+      {
         duration: 200,
-        iterations: 1
+        iterations: 1,
       }
     );
     config.fillingProfile = false;
@@ -148,8 +181,8 @@ function checkIfItemDetailsEmpty() {
     itemTitle.innerHTML == "" &&
     itemSubTitle.innerHTML == "" &&
     wysiwygItemContent.innerHTML == "" &&
-    coverImgBody.src.endsWith('styles/media/holder-16x9.png') &&
-    profileImgBody.src.endsWith('styles/media/holder-1x1.png')
+    coverImgBody.src.endsWith("styles/media/holder-16x9.png") &&
+    profileImgBody.src.endsWith("styles/media/holder-1x1.png")
   ) {
     emptyProds2.classList.remove("hidden");
     coverImg.classList.add("hidden");
@@ -169,17 +202,40 @@ function checkIfItemDetailsEmpty() {
 
 function setupHandlers() {
   let timer;
+  listView.onItemActionClicked = (item) => {
+    if (item.data.isFavorite) {
+      Bookmark.delete(item.id, (err, res) => {
+        item.data.isFavorite = false;
+        item.action.icon = "icon glyphicon glyphicon-star-empty";
+        item.update();
+        console.log(item);
+        // document.getElementsByClassName("glyphicon")
+        // [i].style.setProperty(
+        //   "color",
+        //   config.appTheme.colors.icons,
+        //   "important"
+        // );
+      });
+    } else {
+      Bookmark.add( {id: item.id, title: item.data.title, icon: item.action.icon}, (err, res) => {
+        if(err) return console.error(err)
+        item.data.isFavorite = true;
+        item.action.icon = "icon glyphicon glyphicon-star";
+        item.update();
+      });
+    }
+  };
   buildfire.history.onPop((breadcrumb) => {
     if (main.classList.contains("hidden")) {
       clearSubItem();
       sendMessageToControl(false, "");
     }
   });
-  sortIcon.addEventListener('click', openSortDrawer);
-  coverImgBody.addEventListener('click', () => {
+  sortIcon.addEventListener("click", openSortDrawer);
+  coverImgBody.addEventListener("click", () => {
     imagePreview(coverImgBody.src);
   });
-  profileImgBody.addEventListener('click', () => {
+  profileImgBody.addEventListener("click", () => {
     imagePreview(profileImgBody.src);
   });
   listView.onItemClicked = (item) => {
@@ -199,13 +255,11 @@ function setupHandlers() {
 
   buildfire.navigation.onBackButtonClick = () => {
     buildfire.history.pop();
-
   };
 
   buildfire.messaging.onReceivedMessage = (message) => {
     if (message) {
       if (message.id) {
-
         switch (message.id) {
           case Enum.messageType.profileImg:
             if (message.data == "") {
@@ -224,7 +278,6 @@ function setupHandlers() {
               if (!config.fillingCover) {
                 config.fillingCover = true;
                 animateImg(coverImgBody, message.data, 500);
-
               }
             }
             break;
@@ -267,7 +320,11 @@ function setupHandlers() {
     if (response.tag == Constants.Collections.INTRODUCTION) {
       wysiwygContent.innerHTML = response.data.description;
       viewer.loadItems(response.data.images);
-      if (listView.items.length == 0 && response.data.images.length == 0 && response.data.description == "") {
+      if (
+        listView.items.length == 0 &&
+        response.data.images.length == 0 &&
+        response.data.description == ""
+      ) {
         listViewContainer.classList.add("hidden");
         emptyProds.classList.remove("hidden");
       } else {
@@ -277,7 +334,12 @@ function setupHandlers() {
     }
     if (response.tag == Constants.Collections.LANGUAGE + "en-us") {
       config.lang = response;
-      searchTxt.setAttribute("placeholder", (config.lang.data.search.value != "" ? config.lang.data.search.value : config.lang.data.search.defaultValue));
+      searchTxt.setAttribute(
+        "placeholder",
+        config.lang.data.search.value != ""
+          ? config.lang.data.search.value
+          : config.lang.data.search.defaultValue
+      );
     }
   });
 
@@ -294,8 +356,18 @@ function setupHandlers() {
       emptyProds.classList.add("hidden");
       buildSkeletonUI(false, 4);
       skeleton.classList.remove("hidden");
-      for (var i = 0; i < document.getElementsByClassName('loadColor').length; i++) {
-        document.getElementsByClassName('loadColor')[i].style.setProperty('background', config.appTheme.colors.bodyText, 'important');
+      for (
+        var i = 0;
+        i < document.getElementsByClassName("loadColor").length;
+        i++
+      ) {
+        document
+          .getElementsByClassName("loadColor")
+          [i].style.setProperty(
+            "background",
+            config.appTheme.colors.bodyText,
+            "important"
+          );
       }
       listView.clear();
       timer = setTimeout(() => {
@@ -307,10 +379,8 @@ function setupHandlers() {
           config.fetchingNextPage = false;
         });
       }, 500);
-
     } else {
       if (products.length > 0) {
-
         listViewContainer.classList.remove("hidden");
         emptyProds.classList.add("hidden");
       } else {
@@ -337,7 +407,7 @@ function imagePreview(imageUrl) {
 }
 
 function loadData() {
-  listViewContainer.classList.remove('listViewContainer');
+  listViewContainer.classList.remove("listViewContainer");
   var searchOptions = {
     filter: {},
     sort: config.defaultSort,
@@ -358,7 +428,9 @@ function loadData() {
           t.description = element.data.subTitle;
           t.imageUrl = element.data.profileImgUrl;
           t.data = element.data;
-          t.action = {icon:'icon glyphicon glyphicon-star'} ;
+          if(element.data.isFavorite) t.action = { icon: "icon glyphicon glyphicon-star" };
+          else t.action = { icon: "icon glyphicon glyphicon-star-empty" }
+          
           products.push(t);
         });
         if (results[1].length < config.limit) {
@@ -366,12 +438,21 @@ function loadData() {
         }
         listView.loadListViewItems(products);
       }
-      for (var i = 0; i < document.getElementsByClassName('glyphicon').length; i++) {
-        document.getElementsByClassName('glyphicon')[i].style.setProperty('color', config.appTheme.colors.icons, 'important');
+      for (
+        var i = 0;
+        i < document.getElementsByClassName("glyphicon").length;
+        i++
+      ) {
+        document
+          .getElementsByClassName("glyphicon")
+          [i].style.setProperty(
+            "color",
+            config.appTheme.colors.icons,
+            "important"
+          );
       }
       if (results[0] && results[0].data) {
-        if (results[0].data.images)
-          viewer.loadItems(results[0].data.images);
+        if (results[0].data.images) viewer.loadItems(results[0].data.images);
         if (results[0].data.description)
           wysiwygContent.innerHTML = results[0].data.description;
       }
@@ -379,13 +460,13 @@ function loadData() {
       if (results[2] && !isEmpty(results[2].data)) {
         config.lang = results[2];
       } else {
-
         let obj = {};
         for (let sectionKey in stringsConfig) {
           let section = (obj[sectionKey] = {});
           for (let labelKey in stringsConfig[sectionKey].labels) {
             section[labelKey] = {
-              defaultValue: stringsConfig[sectionKey].labels[labelKey].defaultValue,
+              defaultValue:
+                stringsConfig[sectionKey].labels[labelKey].defaultValue,
               required: stringsConfig[sectionKey].labels[labelKey].required,
             };
           }
@@ -395,25 +476,33 @@ function loadData() {
         for (let sectionKey in obj) {
           for (let labelKey in obj[sectionKey]) {
             language[labelKey].value = "";
-            language[labelKey].defaultValue = obj[sectionKey][labelKey].defaultValue;
+            language[labelKey].defaultValue =
+              obj[sectionKey][labelKey].defaultValue;
           }
         }
 
         config.lang = {
-          data: language
+          data: language,
         };
       }
 
-      searchTxt.setAttribute("placeholder", (config.lang.data.search.value != "" ? config.lang.data.search.value : config.lang.data.search.defaultValue));
+      searchTxt.setAttribute(
+        "placeholder",
+        config.lang.data.search.value != ""
+          ? config.lang.data.search.value
+          : config.lang.data.search.defaultValue
+      );
 
       if (
-        (!results[0] || results[0].data || results[0].data.images.length == 0) &&
+        (!results[0] ||
+          results[0].data ||
+          results[0].data.images.length == 0) &&
         (!results[1] || results[1].length == 0) &&
-        (!results[2] || isEmpty(results[2].data))) {
+        (!results[2] || isEmpty(results[2].data))
+      ) {
         listViewContainer.classList.add("hidden");
         emptyProds.classList.remove("hidden");
       }
-
     } else {
       listViewContainer.classList.add("hidden");
       emptyProds.classList.remove("hidden");
@@ -424,7 +513,6 @@ function loadData() {
     carousel.classList.remove("hidden");
     wysiwygContent.classList.remove("hidden");
     listViewContainer.classList.remove("hidden");
-
   });
 }
 
@@ -441,7 +529,8 @@ function isEmpty(obj) {
 function searchProducts(sort, searchText, overwrite, fromSearchBar, callback) {
   var searchOptions = {
     filter: {
-      $or: [{
+      $or: [
+        {
           "$json.title": {
             $regex: searchText,
             $options: "-i",
@@ -469,8 +558,18 @@ function searchProducts(sort, searchText, overwrite, fromSearchBar, callback) {
     }
 
     skeleton.classList.remove("hidden");
-    for (var i = 0; i < document.getElementsByClassName('loadColor').length; i++) {
-      document.getElementsByClassName('loadColor')[i].style.setProperty('background', config.appTheme.colors.bodyText, 'important');
+    for (
+      var i = 0;
+      i < document.getElementsByClassName("loadColor").length;
+      i++
+    ) {
+      document
+        .getElementsByClassName("loadColor")
+        [i].style.setProperty(
+          "background",
+          config.appTheme.colors.bodyText,
+          "important"
+        );
     }
   }
   Products.search(searchOptions).then((result) => {
@@ -482,6 +581,7 @@ function searchProducts(sort, searchText, overwrite, fromSearchBar, callback) {
       t.description = element.data.subTitle;
       t.imageUrl = element.data.profileImgUrl;
       t.data = element.data;
+      t.action = { icon: "icon glyphicon glyphicon-star" };
       if (!overwrite) {
         listView.addItem(t);
       } else {
@@ -491,12 +591,25 @@ function searchProducts(sort, searchText, overwrite, fromSearchBar, callback) {
     if (overwrite) {
       listView.loadListViewItems(products);
     }
-    for (var i = 0; i < document.getElementsByClassName('glyphicon').length; i++) {
-      document.getElementsByClassName('glyphicon')[i].style.setProperty('color', config.appTheme.colors.icons, 'important');
+    for (
+      var i = 0;
+      i < document.getElementsByClassName("glyphicon").length;
+      i++
+    ) {
+      document
+        .getElementsByClassName("glyphicon")
+        [i].style.setProperty(
+          "color",
+          config.appTheme.colors.icons,
+          "important"
+        );
     }
     config.endReached = result.length < config.limit;
     skeleton.classList.add("hidden");
-    if (carousel.classList.contains("hidden") && wysiwygContent.classList.contains("hidden")) {
+    if (
+      carousel.classList.contains("hidden") &&
+      wysiwygContent.classList.contains("hidden")
+    ) {
       if (config.skipIndex == 0 && result.length == 0) {
         listViewContainer.classList.add("hidden");
         emptyProds.classList.remove("hidden");
@@ -505,7 +618,12 @@ function searchProducts(sort, searchText, overwrite, fromSearchBar, callback) {
         emptyProds.classList.add("hidden");
       }
     } else {
-      if (config.skipIndex == 0 && result.length == 0 && viewer.items.length == 0 && wysiwygContent.innerHTML == "") {
+      if (
+        config.skipIndex == 0 &&
+        result.length == 0 &&
+        viewer.items.length == 0 &&
+        wysiwygContent.innerHTML == ""
+      ) {
         listViewContainer.classList.add("hidden");
         emptyProds.classList.remove("hidden");
       } else {
@@ -528,14 +646,22 @@ function _fetchNextPage() {
 }
 
 function openSortDrawer() {
-  buildfire.components.drawer.open({
-      listItems: [{
+  buildfire.components.drawer.open(
+    {
+      listItems: [
+        {
           sort: config.sortAsc,
-          text: (config.lang.data.sortAsc.value != "" ? config.lang.data.sortAsc.value : config.lang.data.sortAsc.defaultValue),
+          text:
+            config.lang.data.sortAsc.value != ""
+              ? config.lang.data.sortAsc.value
+              : config.lang.data.sortAsc.defaultValue,
         },
         {
           sort: config.sortDesc,
-          text: (config.lang.data.sortDesc.value != "" ? config.lang.data.sortDesc.value : config.lang.data.sortDesc.defaultValue),
+          text:
+            config.lang.data.sortDesc.value != ""
+              ? config.lang.data.sortDesc.value
+              : config.lang.data.sortDesc.defaultValue,
         },
       ],
     },
