@@ -1,31 +1,67 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css"/>
-
-    <!--
-    NOTE:
-    1. You can reference the file in SDK via relative path
-    2. The Control and Widget Should NOT share resources. They will be separated in production.
-    3. You may include any JS framework you want with your Widget and Control folders. However, keep in mind
-        to keep you plugin as light weight as possible for performance and transport reasons
-  -->
-
-    <!-- You can load helper.css to use our helper classes.
-    <link href="../../../../styles/helper.css" rel="stylesheet">
-    -->
-
-  <!-- JS -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css" />
   <script src="../../../../scripts/buildfire.js"></script>
 
-  <!--
-    <script src="../../../../scripts/angular/angular.min.js"></script>
-    <script src="../../../../scripts/angular/ui-bootstrap.min.js"></script>
-   <script src="../../../../scripts/jquery/jquery-1.11.2.min.js"></script>
-   -->
+  <link href="../../../../styles/helper.css" rel="stylesheet" />
+  <link href="../../../../styles/siteStyle.css" rel="stylesheet" />
+  <link href="../../../../styles/control/siteIcons-control.css" rel="stylesheet" />
+  <link href="../../../../styles/control/bf-base.css" rel="stylesheet" />
 </head>
-<body>
-<span>Settings - Hello world!</span>
+
+<body class="slide-in">
+  <h1>Item List Actions</h1>
+  <p class="info-note margin-bottom-twenty" style="font-size: 13px">
+    Users can perform actions on the list item. All enabled actions will be shown on the item details screen, and only
+    bookmarks on the list screen.
+  </p>
+
+  <div class="row">
+    <div class="col-md-8">
+      <label class="lab1">Enable Bookmarks</label>
+    </div>
+    <div class="col-md-4">
+      <div class="button-switch">
+        <input id="bookmarkSwitchBtn" type="checkbox" />
+        <label for="bookmarkSwitchBtn" class="label-success"></label>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-8">
+      <label class="lab1">Enable Notes</label>
+    </div>
+    <div class="col-md-4">
+      <div class="button-switch">
+        <input id="NotesSwitchBtn" type="checkbox" />
+        <label for="NotesSwitchBtn" class="label-success"></label>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-8">
+      <label class="lab1">Enable Sharing</label>
+    </div>
+    <div class="col-md-4">
+      <div class="button-switch">
+        <input id="shareSwitchBtn" type="checkbox" />
+        <label for="shareSwitchBtn" class="label-success"></label>
+      </div>
+    </div>
+  </div>
+
+  <h1>Delete Data</h1>
+  <p class="info-note margin-bottom-twenty" style="font-size: 13px">
+    This action will delete all existing data added to this feature.
+  </p>
+
+  <div class="button-switch">
+    <button class="delete-btn btn-danger">Delete Data</button>
+  </div>
+
 </body>
+
 </html>
