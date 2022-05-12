@@ -557,11 +557,11 @@ function loadData() {
               }
               if (isProductBookmardExist) {
                 t.action = {
-                  icon: "icon glyphicon glyphicon-star",
+                  icon: "material-icons material-inject--star",
                 };
               } else {
                 t.action = {
-                  icon: "icon glyphicon glyphicon-star-empty",
+                  icon: "material-icons material-inject--empty_star",
                 };
               }
             }

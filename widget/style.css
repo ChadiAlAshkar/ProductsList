@@ -227,13 +227,6 @@ input[type="search"]::-webkit-search-results-decoration {
     color: var(--c, green);
 }
 
-.glyphicon-star-empty {
-    color: var(--bf-theme-icons);
-}
-
-.glyphicon-star {
-    color: var(--bf-theme-icons);
-}
 
 .icons-container{
     position: absolute;
@@ -257,4 +250,12 @@ input[type="search"]::-webkit-search-results-decoration {
     margin-left: 1.125rem;
     color: var(--c-white);
     z-index: 2;
+}
+.material-inject--star:after {
+    content: "star";
+    color: var(--bf-theme-icons);
+}
+  .material-inject--empty_star:after {
+    content: "star_outline";
+    color: var(--bf-theme-icons);
 }
