@@ -326,21 +326,31 @@ function addBookmark(item, element) {
             if (err) return console.error(err);
             element.innerHTML = "star";
             finalStarState = "icon glyphicon glyphicon-star";
-            showToastMessage("Bookmark was added.");
+            showToastMessage(1);
           }
         );
       } else {
         buildfire.bookmarks.delete(item.id, () => {
           element.innerHTML = "star_outline";
           finalStarState = "icon glyphicon glyphicon-star-empty";
-          showToastMessage("Bookmark was deleted.");
+          showToastMessage(2);
         });
       }
     }
   });
 }
 
-function showToastMessage(message) {
+function showToastMessage(id) {
+  let message = "";
+  if (id == 1) {
+    message = config.lang.data.bookAdd.value != "" ?
+      config.lang.data.bookAdd.value :
+      config.lang.data.bookAdd.defaultValue
+  } else {
+    message = config.lang.data.bookRemove.value != "" ?
+      config.lang.data.bookRemove.value :
+      config.lang.data.bookRemove.defaultValue
+  }
   buildfire.dialog.toast({
     message: message,
     duration: 4000,
@@ -445,7 +455,7 @@ function setupHandlers() {
             item.action.icon = "icon glyphicon glyphicon-star-empty";
             item.update();
             setStarColor();
-            showToastMessage("Bookmark was deleted.");
+            showToastMessage(2);
           });
         } else {
           console.log(item);
@@ -465,7 +475,7 @@ function setupHandlers() {
               item.action.icon = "icon glyphicon glyphicon-star";
               item.update();
               setStarColor();
-              showToastMessage("Bookmark was added.");
+              showToastMessage(1);
             }
           );
         }
