@@ -95,6 +95,18 @@ function minifySettings() {
         .pipe(dest(destinationFolder + '/control/settings'));
 }
 
+function minifyDesign() {
+    return src('control/design/app.js')
+        .pipe(sourcemaps.init())
+        .pipe(concat('main.js'))
+        .pipe(terser({
+            toplevel: true
+        }))
+        .pipe(sourcemaps.write('./'))
+
+        .pipe(dest(destinationFolder + '/control/design'));
+}
+
 function minifyStrings() {
     return src([
             'control/strings/JS/stringsUI.js',
@@ -125,7 +137,14 @@ function minifyWidget() {
 }
 
 function minifyCSS() {
-    return src(['control/content/*.css', 'control/introduction/*.css', 'control/strings/*.css', 'control/settings/*.css', 'widget/*.css'], {
+    return src([
+            'control/content/*.css',
+            'control/introduction/*.css',
+            'control/strings/*.css',
+            'control/settings/*.css',
+            'control/design/*.css',
+            'widget/*.css'
+        ], {
             base: '.'
         })
 
@@ -147,11 +166,13 @@ function minifyCommonW() {
                 'widget/common/models/language.js',
                 'widget/common/models/introduction.js',
                 'widget/common/models/settings.js',
+                'widget/common/models/design.js',
                 'widget/common/repository/analytics.js',
                 'widget/common/controllers/product.js',
                 'widget/common/controllers/language.js',
                 'widget/common/controllers/introduction.js',
                 'widget/common/controllers/settings.js',
+                'widget/common/controllers/design.js',
                 'widget/common/helper/constants.js',
                 'widget/common/helper/enum.js',
                 'widget/common/helper/ui.js',
@@ -174,6 +195,7 @@ function watchChanges() {
     watch('control/content/JS/*.js', minifyContent);
     watch('control/introduction/app.js', minifyIntro);
     watch('control/settings/app.js', minifySettings);
+    watch('control/design/app.js', minifyDesign);
     watch('control/strings/JS/*.js', minifyStrings);
     watch('widget/JS/app.js', minifyWidget);
     watch([
@@ -181,10 +203,12 @@ function watchChanges() {
         'widget/common/models/language.js',
         'widget/common/models/introduction.js',
         'widget/common/models/settings.js',
+        'widget/common/models/design.js',
         'widget/common/controllers/product.js',
         'widget/common/controllers/language.js',
         'widget/common/controllers/introduction.js',
         'widget/common/controllers/settings.js',
+        'widget/common/controllers/design.js',
         'widget/common/helper/constants.js',
         'widget/common/helper/enum.js',
         'widget/common/helper/ui.js',
@@ -198,6 +222,7 @@ function watchChanges() {
         'control/content/*.html',
         'control/introduction/*.html',
         'control/settings/*.html',
+        'control/design/*.html',
         'control/strings/*.html',
         'widget/*.html'
     ], minifyHTML);
@@ -205,6 +230,8 @@ function watchChanges() {
         'control/content/*.css',
         'control/introduction/*.css',
         'control/strings/*.css',
+        'control/settings/*.css',
+        'control/design/*.css',
         'widget/*.css'
     ], minifyCSS);
     watch([
@@ -214,7 +241,14 @@ function watchChanges() {
 }
 
 function minifyHTML() {
-    return src(['control/content/*.html', 'control/settings/*.html', 'control/introduction/*.html', 'control/strings/*.html', 'widget/*.html'], {
+    return src([
+            'control/content/*.html',
+            'control/settings/*.html',
+            'control/introduction/*.html',
+            'control/strings/*.html',
+            'control/design/*.html',
+            'widget/*.html'
+        ], {
             base: '.'
         })
         /// replace all the <!-- build:bundleJSFiles  --> comment bodies
@@ -227,6 +261,7 @@ function minifyHTML() {
         .pipe(replace('src="../../../ProductsList_release/control/introduction/', 'src="./'))
         .pipe(replace('src="../../../ProductsList_release/control/strings/', 'src="./'))
         .pipe(replace('src="../../../ProductsList_release/control/settings/', 'src="./'))
+        .pipe(replace('src="../../../ProductsList_release/control/design/', 'src="./'))
         .pipe(replace('src="../../ProductsList_release/widget/common', 'src="./common'))
         .pipe(replace('src="../../ProductsList_release/widget/main.js', 'src="./main.js'))
         .pipe(replace('src="../../../ProductsList_release/widget/common/', 'src="../../widget/common/'))
@@ -260,6 +295,7 @@ exports.default = series([
     minifyContent,
     minifyIntro,
     minifySettings,
+    minifyDesign,
     minifyStrings,
     minifyWidget,
     minifyCommonW,
