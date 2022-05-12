@@ -291,7 +291,20 @@ class SearchTableHelper {
   onEditRow(obj, tr) {}
 
   onAnalyticsClicked(obj, tr) {
-    // console.log(obj)
+    buildfire.navigation.navigateToTab({
+        tabTitle: "Analytics"
+      },
+      (err) => {
+        if (err) return console.error(err);
+
+        buildfire.analytics.showReports({
+          eventKey: obj.id
+        }, (err, result) => {
+          console.log(err)
+          console.log(result)
+        });
+      }
+    );
   }
 
   onRowDeleted(obj, tr) {
