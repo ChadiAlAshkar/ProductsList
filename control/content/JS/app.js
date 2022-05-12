@@ -232,6 +232,9 @@ function generateSampleData() {
   dummyData
     .insertDummyRecords()
     .then((result) => {
+
+      //Search for all items and then foreach and Register Analytics
+
       init();
     })
     .catch((err) => {
