@@ -88,13 +88,10 @@ function loadCustomCss() {
       .getElementsByClassName("icon")[1]
       .style.setProperty("color", appTheme.colors.icons, "important");
     for (
-      var i = 0;
-      i < document.getElementsByClassName("loadColor").length;
-      i++
+      var i = 0; i < document.getElementsByClassName("loadColor").length; i++
     ) {
       document
-        .getElementsByClassName("loadColor")
-        [i].style.setProperty(
+        .getElementsByClassName("loadColor")[i].style.setProperty(
           "background",
           appTheme.colors.bodyText,
           "important"
@@ -158,13 +155,10 @@ function setStarColor() {
   // }
 
   for (
-    var i = 0;
-    i < document.getElementsByClassName("glyphicon").length;
-    i++
+    var i = 0; i < document.getElementsByClassName("glyphicon").length; i++
   ) {
     document
-      .getElementsByClassName("glyphicon")
-      [i].style.setProperty("color", config.appTheme.colors.icons, "important");
+      .getElementsByClassName("glyphicon")[i].style.setProperty("color", config.appTheme.colors.icons, "important");
   }
 }
 
@@ -184,8 +178,7 @@ function fillSubItem(item) {
         "iconsDet",
       ]);
       shareIcon.addEventListener("click", () => {
-        buildfire.deeplink.generateUrl(
-          {
+        buildfire.deeplink.generateUrl({
             data: {
               videoId: "9Q-4sZF0_CE",
             },
@@ -198,8 +191,15 @@ function fillSubItem(item) {
             }
           }
         );
-        
+
       });
+      shareIcon.setAttribute("id", "shareIcn");
+    } else {
+      let shareIcon = ui.createElement("span", action, "", [
+        "material-icons",
+        "icon",
+        "iconsDet",
+      ]);
       shareIcon.setAttribute("id", "shareIcn");
     }
 
@@ -218,15 +218,18 @@ function fillSubItem(item) {
               console.log(err, user);
             });
           } else {
-            buildfire.notes.openDialog(
-              {
+            buildfire.notes.openDialog({
                 itemId: item.id,
                 title: item.data.title,
                 imageUrl: item.data.profileImgUrl,
               },
               (err, data) => {
                 if (err) return console.error(err);
-                const { hasNotes, noteCount, itemId } = data;
+                const {
+                  hasNotes,
+                  noteCount,
+                  itemId
+                } = data;
                 if (hasNotes) {
                   console.log(
                     `Product with id ${itemId} has ${noteCount} notes!`
@@ -239,6 +242,13 @@ function fillSubItem(item) {
           }
         });
       });
+    } else {
+      let notes = ui.createElement("span", action, "", [
+        "material-icons",
+        "icon",
+        "iconsDet",
+      ]);
+      notes.setAttribute("id", "noteIcn");
     }
 
     if (config.settings.bookmarks) {
@@ -271,6 +281,13 @@ function fillSubItem(item) {
       bookmrk.addEventListener("click", () => {
         addBookmark(item, bookmrk);
       });
+    } else {
+      bookmrk = ui.createElement("span", action, "", [
+        "material-icons",
+        "icon",
+        "iconsDet",
+      ]);
+      bookmrk.setAttribute("id", "starIcon");
     }
 
     main.classList.add("hidden");
@@ -300,8 +317,7 @@ function addBookmark(item, element) {
       });
     } else {
       if (element.innerHTML == "star_outline") {
-        buildfire.bookmarks.add(
-          {
+        buildfire.bookmarks.add({
             id: item.id,
             title: item.data.title,
             icon: item.data.profileImgUrl,
@@ -327,8 +343,7 @@ function animateImg(element, imgUrl, duration) {
   setTimeout(() => {
     element.src = imgUrl;
     element.animate(
-      [
-        {
+      [{
           opacity: 0.1,
         },
         {
@@ -337,8 +352,7 @@ function animateImg(element, imgUrl, duration) {
         {
           opacity: 1,
         },
-      ],
-      {
+      ], {
         duration: 200,
         iterations: 1,
       }
@@ -426,8 +440,7 @@ function setupHandlers() {
           });
         } else {
           console.log(item);
-          buildfire.bookmarks.add(
-            {
+          buildfire.bookmarks.add({
               id: item.id,
               title: item.data.title,
               icon: item.data.profileImgUrl,
@@ -548,9 +561,9 @@ function setupHandlers() {
       config.lang = response;
       searchTxt.setAttribute(
         "placeholder",
-        config.lang.data.search.value != ""
-          ? config.lang.data.search.value
-          : config.lang.data.search.defaultValue
+        config.lang.data.search.value != "" ?
+        config.lang.data.search.value :
+        config.lang.data.search.defaultValue
       );
     }
     if (response.tag == Constants.Collections.SETTINGS) {
@@ -681,13 +694,10 @@ function setupHandlers() {
       buildSkeletonUI(false, 4);
       skeleton.classList.remove("hidden");
       for (
-        var i = 0;
-        i < document.getElementsByClassName("loadColor").length;
-        i++
+        var i = 0; i < document.getElementsByClassName("loadColor").length; i++
       ) {
         document
-          .getElementsByClassName("loadColor")
-          [i].style.setProperty(
+          .getElementsByClassName("loadColor")[i].style.setProperty(
             "background",
             config.appTheme.colors.bodyText,
             "important"
@@ -868,8 +878,7 @@ function loadData() {
           let section = (obj[sectionKey] = {});
           for (let labelKey in stringsConfig[sectionKey].labels) {
             section[labelKey] = {
-              defaultValue:
-                stringsConfig[sectionKey].labels[labelKey].defaultValue,
+              defaultValue: stringsConfig[sectionKey].labels[labelKey].defaultValue,
               required: stringsConfig[sectionKey].labels[labelKey].required,
             };
           }
@@ -891,9 +900,9 @@ function loadData() {
 
       searchTxt.setAttribute(
         "placeholder",
-        config.lang.data.search.value != ""
-          ? config.lang.data.search.value
-          : config.lang.data.search.defaultValue
+        config.lang.data.search.value != "" ?
+        config.lang.data.search.value :
+        config.lang.data.search.defaultValue
       );
 
       if (
@@ -932,8 +941,7 @@ function isEmpty(obj) {
 function searchProducts(sort, searchText, overwrite, fromSearchBar, callback) {
   var searchOptions = {
     filter: {
-      $or: [
-        {
+      $or: [{
           "$json.title": {
             $regex: searchText,
             $options: "-i",
@@ -962,13 +970,10 @@ function searchProducts(sort, searchText, overwrite, fromSearchBar, callback) {
 
     skeleton.classList.remove("hidden");
     for (
-      var i = 0;
-      i < document.getElementsByClassName("loadColor").length;
-      i++
+      var i = 0; i < document.getElementsByClassName("loadColor").length; i++
     ) {
       document
-        .getElementsByClassName("loadColor")
-        [i].style.setProperty(
+        .getElementsByClassName("loadColor")[i].style.setProperty(
           "background",
           config.appTheme.colors.bodyText,
           "important"
@@ -1056,22 +1061,18 @@ function _fetchNextPage() {
 }
 
 function openSortDrawer() {
-  buildfire.components.drawer.open(
-    {
-      listItems: [
-        {
+  buildfire.components.drawer.open({
+      listItems: [{
           sort: config.sortAsc,
-          text:
-            config.lang.data.sortAsc.value != ""
-              ? config.lang.data.sortAsc.value
-              : config.lang.data.sortAsc.defaultValue,
+          text: config.lang.data.sortAsc.value != "" ?
+            config.lang.data.sortAsc.value :
+            config.lang.data.sortAsc.defaultValue,
         },
         {
           sort: config.sortDesc,
-          text:
-            config.lang.data.sortDesc.value != ""
-              ? config.lang.data.sortDesc.value
-              : config.lang.data.sortDesc.defaultValue,
+          text: config.lang.data.sortDesc.value != "" ?
+            config.lang.data.sortDesc.value :
+            config.lang.data.sortDesc.defaultValue,
         },
       ],
     },
