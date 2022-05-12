@@ -355,7 +355,7 @@ function setupHandlers() {
         Config.bookmarksEnabled = true;
       } else if(!response.data.bookmarks){
           if(productClicked){
-            console.log("i")
+            console.log("i");
             starId.innerHTML = "";
           }
           listView.items.forEach((item) => {
@@ -365,8 +365,8 @@ function setupHandlers() {
           listView.clear();
           listView.loadListViewItems(productsList);
           Config.bookmarksEnabled = false;
-
       }
+
       if (!response.data.notes) {
         if (productClicked) {
           if(noteId){
@@ -389,10 +389,9 @@ function setupHandlers() {
         if (productClicked) {
           if(shareId){
             shareId.innerHTML = "";
-
           }
         }
-        Config.notesEnabled = true;
+        Config.sharingEnabled = false;
 
       } else if (response.data.sharings) {
         if (productClicked) {
@@ -400,8 +399,7 @@ function setupHandlers() {
             shareId.innerHTML = "share";
           }
         }
-        Config.notesEnabled = true;
-
+        Config.sharingEnabled = true;
       }
     }
     if (response.tag == Constants.Collections.PRODUCTS) {
