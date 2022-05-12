@@ -711,6 +711,33 @@ function setupHandlers() {
       }
       config.settings = response.data;
     }
+    if(response.tag == Constants.Collections.DESIGN){
+      document.getElementsByTagName("head")[0].removeChild(config.style.sheetDesign);
+      document.getElementsByTagName("head")[0].removeChild(config.style.sheetList);
+        console.log("design data -=> ", response.data);
+        config.style.sheetList = document.createElement('link');
+        config.style.sheetList.setAttribute('rel', "stylesheet");
+        
+        config.style.sheetDesign = document.createElement('link');
+        config.style.sheetDesign.setAttribute('rel', "stylesheet");
+
+        if(response.data.list == 2){
+          config.style.sheetList.setAttribute('href', "./styleList2.css")
+        }else{
+          config.style.sheetList.setAttribute('href', "./styleList1.css")
+        }
+
+        if(response.data.details == 2){
+          config.style.sheetDesign.setAttribute('href', "./styleDetails2.css")
+          // console.log("change design" , sheetDesign);
+        }else{
+          config.style.sheetDesign.setAttribute('href', "./styleDetails1.css")
+        }
+
+        document.getElementsByTagName("head")[0].appendChild(config.style.sheetDesign);
+        document.getElementsByTagName("head")[0].appendChild(config.style.sheetList);
+      }
+    
   });
 
   searchTxt.addEventListener("keyup", function (event) {
@@ -841,7 +868,7 @@ function imagePreview(imageUrl) {
 }
 
 function loadData() {
-  listViewContainer.classList.remove("listViewContainer");
+  // listViewContainer.classList.remove("listViewContainer");
   var searchOptions = {
     filter: {},
     sort: config.defaultSort,
@@ -875,7 +902,9 @@ function loadData() {
         }else{
           sheetDesign.setAttribute('href', "./styleDetails1.css")
         }
-
+        config.style = {
+          sheetDesign , sheetList
+        }
         document.getElementsByTagName("head")[0].appendChild(sheetDesign);
         document.getElementsByTagName("head")[0].appendChild(sheetList);
       }
