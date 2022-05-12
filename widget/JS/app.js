@@ -163,14 +163,24 @@ function fillSubItem(item) {
       shareIcon.addEventListener("click", () => {
         buildfire.deeplink.generateUrl({
             data: {
-              videoId: "9Q-4sZF0_CE",
+              ItemId: item.id,
             },
           },
           (err, result) => {
             if (err) {
               console.error(err);
             } else {
-              console.log(result.url);
+              buildfire.device.share({
+                subject: "Share Product",
+                text: item.data.title,
+                image: item.data.profileImg,
+                link: result.url
+              }, function (err, result) {
+                if (err)
+                  alert(err);
+                else
+                  alert('sharing invoked');
+              });
             }
           }
         );
@@ -184,6 +194,32 @@ function fillSubItem(item) {
         "iconsDet",
       ]);
       shareIcon.setAttribute("id", "shareIcn");
+      shareIcon.addEventListener("click", () => {
+        buildfire.deeplink.generateUrl({
+            data: {
+              ItemId: item.id,
+            },
+          },
+          (err, result) => {
+            if (err) {
+              console.error(err);
+            } else {
+              buildfire.device.share({
+                subject: "Share Product",
+                text: item.data.title,
+                image: item.data.profileImg,
+                link: result.url
+              }, function (err, result) {
+                if (err)
+                  alert(err);
+                else
+                  alert('sharing invoked');
+              });
+            }
+          }
+        );
+
+      });
     }
 
     if (config.settings.notes) {
