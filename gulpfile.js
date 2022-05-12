@@ -125,7 +125,7 @@ function minifyWidget() {
 }
 
 function minifyCSS() {
-    return src(['control/content/*.css', 'control/introduction/*.css', 'control/strings/*.css', 'widget/*.css'], {
+    return src(['control/content/*.css', 'control/introduction/*.css', 'control/strings/*.css', 'control/settings/*.css', 'widget/*.css'], {
             base: '.'
         })
 
@@ -197,6 +197,7 @@ function watchChanges() {
     watch([,
         'control/content/*.html',
         'control/introduction/*.html',
+        'control/settings/*.html',
         'control/strings/*.html',
         'widget/*.html'
     ], minifyHTML);
@@ -213,7 +214,7 @@ function watchChanges() {
 }
 
 function minifyHTML() {
-    return src(['control/content/*.html', 'control/introduction/*.html', 'control/strings/*.html', 'widget/*.html'], {
+    return src(['control/content/*.html', 'control/settings/*.html', 'control/introduction/*.html', 'control/strings/*.html', 'widget/*.html'], {
             base: '.'
         })
         /// replace all the <!-- build:bundleJSFiles  --> comment bodies
