@@ -852,9 +852,34 @@ function loadData() {
   var promise2 = Products.search(searchOptions);
   var promise3 = Language.get(Constants.Collections.LANGUAGE + "en-us");
   var promise4 = Settings.get();
-  Promise.all([promise1, promise2, promise3, promise4]).then((results) => {
+  var promise5 = Design.get();
+  Promise.all([promise1, promise2, promise3, promise4, promise5]).then((results) => {
     products = [];
-    if (results && results.length > 3) {
+    if (results && results.length > 4) {
+      if (results[4] && results[4].data) {
+        console.log("design data -=> ", results[4].data);
+        var sheetList = document.createElement('link');
+        sheetList.setAttribute('rel', "stylesheet");
+        
+        var sheetDesign = document.createElement('link');
+        sheetDesign.setAttribute('rel', "stylesheet");
+
+        if(results[4].data.list == 2){
+          sheetList.setAttribute('href', "./styleList2.css")
+        }else{
+          sheetList.setAttribute('href', "./styleList1.css")
+        }
+
+        if(results[4].data.details == 2){
+          sheetDesign.setAttribute('href', "./styleDetails2.css")
+        }else{
+          sheetDesign.setAttribute('href', "./styleDetails1.css")
+        }
+
+        document.getElementsByTagName("head")[0].appendChild(sheetDesign);
+        document.getElementsByTagName("head")[0].appendChild(sheetList);
+      }
+      
       if (results[3] && results[3].data) {
         config.settings = results[3].data;
       }
