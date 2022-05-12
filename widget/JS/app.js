@@ -318,7 +318,7 @@ function setupHandlers() {
             starId.classList.add("hidden");
             Config.bookmarksEnabled = false;
           } catch (error) {
-
+            
           }
         } else if (response.data.bookmarks) {
           try {
