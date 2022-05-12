@@ -127,7 +127,7 @@ function clearSubItem() {
   }
 
   iconsContainer.innerHTML = "";
-
+  productClicked = null;
   itemTitle.innerHTML = "";
   itemSubTitle.innerHTML = "";
   main.classList.remove("hidden");
@@ -346,16 +346,17 @@ function setupHandlers() {
               }
             }
             if(isProductClickedBookmarked){
-              starId.innerHTML = "star"
+              starId.innerHTML = "star";
             } else {
-              starId.innerHTML = "star_outline"
+              starId.innerHTML = "star_outline";
             }
          }
         });
         Config.bookmarksEnabled = true;
       } else if(!response.data.bookmarks){
           if(productClicked){
-            starId.innerHTML = ""
+            console.log("i")
+            starId.innerHTML = "";
           }
           listView.items.forEach((item) => {
             item.action =  null;
@@ -365,6 +366,41 @@ function setupHandlers() {
           listView.loadListViewItems(productsList);
           Config.bookmarksEnabled = false;
 
+      }
+      if (!response.data.notes) {
+        if (productClicked) {
+          if(noteId){
+            noteId.innerHTML = "";
+
+          }
+        }
+        Config.notesEnabled = false;
+      } else if (response.data.notes) {
+        if (productClicked) {
+          if(noteId){
+            noteId.innerHTML =  "note";
+
+          }
+        }
+        Config.notesEnabled = true;
+      }
+
+      if (!response.data.sharings) {
+        if (productClicked) {
+          if(shareId){
+            shareId.innerHTML = "";
+
+          }
+        }
+        Config.notesEnabled = true;
+
+      } else if (response.data.sharings) {
+        if (productClicked) {
+          if(shareId){
+            shareId.innerHTML = "share";
+          }
+        }
+        Config.notesEnabled = true;
 
       }
     }
@@ -777,27 +813,23 @@ function loadActionItems(item) {
     let isProductBookmardExist = false,
       bookmarkElement;
     if (err) return console.error(err);
-    if (Config.sharingEnabled) {
-      ui.createElement(
-        "span",
-        iconsContainer,
-        "share",
-        ["material-icons", "icon"],
-        "shareId"
-      );
-    }
-    if (Config.notesEnabled) {
-      ui.createElement(
-        "span",
-        iconsContainer,
-        "note",
-        ["material-icons", "icon"],
-        "noteId"
-      );
-    }
-
-    if (Config.bookmarksEnabled) {
-      console.log("Hii")
+    
+    ui.createElement(
+      "span",
+      iconsContainer,
+      "share",
+      ["material-icons", "icon"],
+      "shareId"
+    );
+    ui.createElement(
+      "span",
+      iconsContainer,
+      "note",
+      ["material-icons", "icon"],
+      "noteId"
+    );
+   
+    
       for (let i = 0; i < bookmarks.length; i++) {
         if (bookmarks[i].id == item.id) {
           isProductBookmardExist = true;
@@ -836,7 +868,15 @@ function loadActionItems(item) {
           });
         }
       });
-    }
+      if (!Config.sharingEnabled) {
+        shareId.innerHTML = "";
+      }
+      if (!Config.notesEnabled) {
+        noteId.innerHTML = "";
+      }
+      if (!Config.bookmarksEnabled) {
+        starId.innerHTML = "";
+      }
   });
 }
 init();
