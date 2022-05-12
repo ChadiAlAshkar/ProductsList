@@ -1,0 +1,76 @@
+
+#coverImg {
+    width: 100%;
+    height: 13.1rem;
+    text-align: center;
+}
+
+#gradientDiv {
+    width: 100%;
+    height: 13.1rem;
+    position: absolute;
+    top: 0;
+    background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0));
+}
+
+#profileImg {
+    width: 7.5rem;
+    height: 7.5rem;
+    top: 7.1rem;
+    left: calc((100% - 7.5rem)/2);
+    position: absolute;
+    border-radius: 0.25rem;
+    box-shadow: 0 0.125rem 0.5rem rgb(150 150 150 / 20%);
+}
+
+label {
+    display: inline-block;
+}
+
+#itemTitle {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 29px;
+    text-align: center;
+    width: 100%;
+    margin-top: 3rem !important;
+    margin-bottom: 0.5rem !important;
+    padding: 0 1rem;
+}
+
+#itemSubTitle {
+    font-style: normal;
+    text-align: center;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 29px;
+    margin-bottom: 1.5rem;
+    padding: 0 1rem;
+    width: 100%;
+}
+
+#coverImgBody,
+#profileImgBody {
+    height: 100%;
+    border-radius: 0.25rem;
+}
+#wysiwygItemContent {
+    width: 100%;
+    text-align: center;
+    padding: 0 1rem;
+}
+
+.action_Items_Container {
+    text-align: right;
+    top: 1.625rem;
+    position: absolute;
+    right: 0rem;
+    color: white;
+}
+
+
+.iconsDet{
+    padding-right: 1rem;
+    cursor: pointer;
+}
