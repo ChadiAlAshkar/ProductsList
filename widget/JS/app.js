@@ -527,12 +527,14 @@ function updateProductBookmard(item) {
         () => {
           item.action.icon = "material-icons material-inject--star";
           item.update();
+          buildfire.components.toast.showToastMessage({ text: config.lang.data.bookmarkAdded.value });
         }
       );
     } else {
       Bookmark.delete(item.id, () => {
         item.action.icon = "material-icons material-inject--empty_star";
         item.update();
+        buildfire.components.toast.showToastMessage({ text: config.lang.data.bookmarkRemoved.value });
       });
     }
   }
@@ -928,11 +930,13 @@ function loadActionItems(item) {
             bookmarkElement.innerHTML = "star_outline";
           });
           isSelectedProductBookmarked = false;
+          buildfire.components.toast.showToastMessage({ text: config.lang.data.bookmarkRemoved.value });
         } else {
           isSelectedProductBookmarked = true;
           bookmarkElement.classList.add("bookmarkActive");
           Bookmark.add({ id: item.id, title: item.data.title }, () => {
             bookmarkElement.innerHTML = "star";
+            buildfire.components.toast.showToastMessage({ text: config.lang.data.bookmarkAdded.value });
           });
         }
       });

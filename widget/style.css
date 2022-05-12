@@ -259,3 +259,7 @@ input[type="search"]::-webkit-search-results-decoration {
     content: "star_outline";
     color: var(--bf-theme-icons);
 }
+
+.material-icons {
+    cursor: pointer;
+}
