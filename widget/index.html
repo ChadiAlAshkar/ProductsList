@@ -65,7 +65,6 @@
         <img src="../widget/.images/ic_bookmark_empty.svg" />
       </div>
     </div>
-    <button onclick="tt()">asd</button>
     <div id="subpage" class="hidden">
       <div id="coverImg">
         <div class="coverImage-shadow"></div>
@@ -83,30 +82,6 @@
     <div id="emptyProds2" class="hidden">
       <img src="../widget/.images/ic_bookmark_empty.svg" />
     </div>
-    <script>
-      function tt(){
-        buildfire.notes.openDialog(
-  {
-    itemId: "MY_VIDEO_ID",
-    title: "Crazy cat jumping over the fence!",
-    imageUrl: "https://example.com/image.jpg",
-    timeIndex: 22,
-  },
-  (err, data) => {
-    if (err) return console.error(err);
-
-    const { hasNotes, noteCount, itemId } = data;
-
-    if (hasNotes) {
-      console.log(`Video with id ${itemId} has ${noteCount} notes!`);
-    } else {
-      console.log(`No notes yet!`);
-    }
-  }
-);
-      }
-     
-    </script>
     <script src="../../productsList_release/widget/main.js"></script>
   </body>
 </html>

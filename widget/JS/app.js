@@ -119,8 +119,8 @@ function clearSubItem() {
     if (productIndex != -1) {
       listView.items[productIndex].action = {
         icon: isSelectedProductBookmarked
-          ? "icon glyphicon glyphicon-star"
-          : "icon glyphicon glyphicon-star-empty",
+          ? "material-icons material-inject--star"
+          : "material-icons material-inject--empty_star",
       };
       listView.items[productIndex].update();
     }
@@ -324,11 +324,11 @@ function setupHandlers() {
             }
             if (isProductBookmarked) {
               item.action = {
-                icon: "icon glyphicon glyphicon-star",
+                icon: "material-icons material-inject--star",
               };
             } else {
               item.action = {
-                icon: "icon glyphicon glyphicon-star-empty",
+                icon: "material-icons material-inject--empty_star",
               };
             }
           });
@@ -499,13 +499,13 @@ function updateProductBookmard(item) {
       Bookmark.add(
         { id: item.id, title: item.data.title, icon: item.action.icon },
         () => {
-          item.action.icon = "icon glyphicon glyphicon-star";
+          item.action.icon = "material-icons material-inject--star";
           item.update();
         }
       );
     } else {
       Bookmark.delete(item.id, () => {
-        item.action.icon = "icon glyphicon glyphicon-star-empty";
+        item.action.icon = "material-icons material-inject--empty_star";
         item.update();
       });
     }
@@ -714,11 +714,11 @@ function searchProducts(sort, searchText, overwrite, fromSearchBar, callback) {
           }
           if (isProductBookmardExist) {
             t.action = {
-              icon: "icon glyphicon glyphicon-star",
+              icon: "material-icons material-inject--star",
             };
           } else {
             t.action = {
-              icon: "icon glyphicon glyphicon-star-empty",
+              icon: "material-icons material-inject--empty_star",
             };
           }
         }
