@@ -3,6 +3,8 @@ class LanguageItem {
     this.search = data.search || new LanguageValues();
     this.sortAsc = data.sortAsc || new LanguageValues();
     this.sortDesc = data.sortDesc || new LanguageValues();
+    this.bookmarkAdded=data.bookmarkAdded || new LanguageValues();
+    this.bookmarkRemoved=data.bookmarkRemoved || new LanguageValues();
   }
 }
 
