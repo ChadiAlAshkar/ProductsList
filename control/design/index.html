@@ -1,31 +1,42 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css" />
 
-    <!--
-    NOTE:
-    1. You can reference the file in SDK via relative path
-    2. The Control and Widget Should NOT share resources. They will be separated in production.
-    3. You may include any JS framework you want with your Widget and Control folders. However, keep in mind
-        to keep you plugin as light weight as possible for performance and transport reasons
-  -->
-
-    <!-- You can load helper.css to use our helper classes.
-    <link href="../../../../styles/helper.css" rel="stylesheet">
-    -->
-
-  <!-- JS -->
   <script src="../../../../scripts/buildfire.js"></script>
+  <script src="../../../ProductsList_release/widget/common/main.js"></script>
 
-  <!--
-    <script src="../../../../scripts/angular/angular.min.js"></script>
-    <script src="../../../../scripts/angular/ui-bootstrap.min.js"></script>
-   <script src="../../../../scripts/jquery/jquery-1.11.2.min.js"></script>
-   -->
+  <link href="../../../../styles/helper.css" rel="stylesheet" />
+  <link href="../../../../styles/siteStyle.css" rel="stylesheet" />
+  <link href="../../../../styles/control/siteIcons-control.css" rel="stylesheet" />
+  <link href="../../../../styles/control/bf-base.css" rel="stylesheet" />
 </head>
-<body>
-<span>Design - Hello world!</span>
+
+<body class="slide-in padding-left-thirty padding-right-thirty">
+  <h1>List Layout</h1>
+  <div class="row">
+    <div class="col-md-3 colLeft">
+      <img src="./images/List1.png" id="list" class="img1" />
+    </div>
+    <div class="col-md-9 colRight">
+      <img src="./images/List1.png" id="list1" class="img2" />
+      <img src="./images/List2.png" id="list2" class="img2" />
+    </div>
+  </div>
+
+  <h1 style="margin-top: 73px;">Item Details Layout</h1>
+  <div class="row">
+    <div class="col-md-3 colLeft">
+      <img src="./images/Details1.png" id="details" class="img1" />
+    </div>
+    <div class="col-md-9 colRight">
+      <img src="./images/Details1.png" id="details1" class="img2" />
+      <img src="./images/Details2.png" id="details2" class="img2" />
+    </div>
+  </div>
+  <script src="../../../ProductsList_release/control/design/main.js"></script>
 </body>
+
 </html>
