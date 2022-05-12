@@ -20,6 +20,18 @@ const stringsConfig = {
 				placeholder: "Sort Z - A",
 				maxLength: 50,
 				defaultValue: "Sort Z - A"
+			},
+			bookAdd: {
+				title: "Bookmark Added",
+				placeholder: "Bookmark Added",
+				maxLength: 50,
+				defaultValue: "Bookmark Added"
+			},
+			bookRemove: {
+				title: "Bookmark Removed",
+				placeholder: "Bookmark Removed",
+				maxLength: 50,
+				defaultValue: "Bookmark Removed"
 			}
 		}
 	}
