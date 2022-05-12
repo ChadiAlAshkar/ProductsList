@@ -87,6 +87,9 @@ function loadCustomCss() {
     document
       .getElementsByClassName("icon")[1]
       .style.setProperty("color", appTheme.colors.icons, "important");
+    document
+      .getElementsByClassName("icon")[2]
+      .style.setProperty("color", appTheme.colors.icons, "important");
     for (
       var i = 0;
       i < document.getElementsByClassName("loadColor").length;
@@ -329,13 +332,15 @@ function setupHandlers() {
     }
   });
 
-  searchTxt.addEventListener("keyup", function (event) {
+  function searchInputHandler(){
     clearTimeout(timer);
     if (searchTxt.value != "") {
       if (!carousel.classList.contains("hidden")) {
         products = [];
         products = listView.items;
       }
+      clearIcon.classList.remove("hidden");
+      sortIcon.classList.add("hidden");
       carousel.classList.add("hidden");
       wysiwygContent.classList.add("hidden");
       skeleton.innerHTML = "";
@@ -373,6 +378,8 @@ function setupHandlers() {
         listViewContainer.classList.add("hidden");
         emptyProds.classList.remove("hidden");
       }
+      clearIcon.classList.add("hidden");
+      sortIcon.classList.remove("hidden");
       skeleton.classList.add("hidden");
       carousel.classList.remove("hidden");
       wysiwygContent.classList.remove("hidden");
@@ -383,6 +390,13 @@ function setupHandlers() {
       listView.clear();
       listView.loadListViewItems(products);
     }
+  }
+  clearIcon.addEventListener("click", (event) =>{
+    searchTxt.value = "";
+    searchInputHandler();
+  })
+  searchTxt.addEventListener("keyup", function (event) {
+    searchInputHandler();
   });
 }
 
