@@ -326,16 +326,25 @@ function addBookmark(item, element) {
             if (err) return console.error(err);
             element.innerHTML = "star";
             finalStarState = "icon glyphicon glyphicon-star";
+            showToastMessage("Bookmark was added.");
           }
         );
       } else {
         buildfire.bookmarks.delete(item.id, () => {
-          console.log("Bookmark deleted successfully");
           element.innerHTML = "star_outline";
           finalStarState = "icon glyphicon glyphicon-star-empty";
+          showToastMessage("Bookmark was deleted.");
         });
       }
     }
+  });
+}
+
+function showToastMessage(message) {
+  buildfire.dialog.toast({
+    message: message,
+    duration: 4000,
+    hideDismissButton: true
   });
 }
 
@@ -433,10 +442,10 @@ function setupHandlers() {
       } else {
         if (item.action.icon == "icon glyphicon glyphicon-star") {
           buildfire.bookmarks.delete(item.id, () => {
-            console.log("Bookmark deleted successfully");
             item.action.icon = "icon glyphicon glyphicon-star-empty";
             item.update();
             setStarColor();
+            showToastMessage("Bookmark was deleted.");
           });
         } else {
           console.log(item);
@@ -453,10 +462,10 @@ function setupHandlers() {
             (err, bookmark) => {
               if (err) return console.error(err);
 
-              console.log("Bookmark ", bookmark);
               item.action.icon = "icon glyphicon glyphicon-star";
               item.update();
               setStarColor();
+              showToastMessage("Bookmark was added.");
             }
           );
         }
@@ -1065,14 +1074,12 @@ function openSortDrawer() {
       listItems: [{
           sort: config.sortAsc,
           text: config.lang.data.sortAsc.value != "" ?
-            config.lang.data.sortAsc.value :
-            config.lang.data.sortAsc.defaultValue,
+            config.lang.data.sortAsc.value : config.lang.data.sortAsc.defaultValue,
         },
         {
           sort: config.sortDesc,
           text: config.lang.data.sortDesc.value != "" ?
-            config.lang.data.sortDesc.value :
-            config.lang.data.sortDesc.defaultValue,
+            config.lang.data.sortDesc.value : config.lang.data.sortDesc.defaultValue,
         },
       ],
     },
