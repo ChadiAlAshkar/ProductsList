@@ -431,8 +431,10 @@ function _onConfigUpdate(response){
         }
         if(isProductClickedBookmarked){
           starId.innerHTML = "star";
+          starId.classList.remove("hidden");
         } else {
           starId.innerHTML = "star_outline";
+          starId.classList.remove("hidden");
         }
      }
     });
@@ -441,6 +443,7 @@ function _onConfigUpdate(response){
       if(productClicked){
         console.log("i");
         starId.innerHTML = "";
+        starId.classList.add("hidden");
       }
       listView.items.forEach((item) => {
         item.action =  null;
@@ -455,7 +458,7 @@ function _onConfigUpdate(response){
     if (productClicked) {
       if(noteId){
         noteId.innerHTML = "";
-
+        noteId.classList.add("hidden");
       }
     }
     Config.notesEnabled = false;
@@ -463,7 +466,7 @@ function _onConfigUpdate(response){
     if (productClicked) {
       if(noteId){
         noteId.innerHTML =  "note";
-
+        noteId.classList.remove("hidden");
       }
     }
     Config.notesEnabled = true;
@@ -473,6 +476,7 @@ function _onConfigUpdate(response){
     if (productClicked) {
       if(shareId){
         shareId.innerHTML = "";
+        shareId.classList.add("hidden");
       }
     }
     Config.sharingEnabled = false;
@@ -481,6 +485,7 @@ function _onConfigUpdate(response){
     if (productClicked) {
       if(shareId){
         shareId.innerHTML = "share";
+        shareId.classList.remove("hidden");
       }
     }
     Config.sharingEnabled = true;

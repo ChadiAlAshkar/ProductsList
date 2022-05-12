@@ -249,7 +249,7 @@ input[type="search"]::-webkit-search-results-decoration {
 .icons-container .icon{
     margin-left: 1.125rem;
     color: var(--c-white);
-    z-index: 2;
+    z-index: 10;
 }
 .material-inject--star:after {
     content: "star";

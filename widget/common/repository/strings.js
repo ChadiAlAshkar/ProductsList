@@ -110,6 +110,7 @@ buildfire.services.Strings = class {
   save(callback) {
     var language = new LanguageItem();
     for (let sectionKey in this._data) {
+      console.log("from string ",this._data);
       for (let labelKey in this._data[sectionKey]) {
         language[labelKey].value = this._data[sectionKey][labelKey].value;
         language[labelKey].defaultValue = this._data[sectionKey][labelKey].defaultValue;
