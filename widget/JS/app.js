@@ -868,7 +868,31 @@ function loadActionItems(item) {
         }
       );
     });
-    
+    document.getElementById("shareId").addEventListener("click",()=>{
+      buildfire.deeplink.generateUrl(
+        {
+          data: { productId: productClicked.id },
+        },
+        (err, result) => {
+          if (err) {
+            console.error(err);
+          } else {
+            buildfire.device.share({ 
+              subject: productClicked.data.title,
+              text: productClicked.data.description,
+              image: productClicked.data.profileImgUrl,
+              link: result.url
+           }, function (err,result) {
+              if (err)
+                  alert(err);
+              else
+                  alert('sharing invoked');
+           });
+          }
+        }
+      );
+    });
+
       for (let i = 0; i < bookmarks.length; i++) {
         if (bookmarks[i].id == item.id) {
           isProductBookmardExist = true;
