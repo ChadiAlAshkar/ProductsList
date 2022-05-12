@@ -1,5 +1,6 @@
 let viewer = new buildfire.components.carousel.view(".carousel");
 let productClicked = null;
+var isSelectedProductBookmarked = false;
 const listView = new buildfire.components.listView("listViewContainer", {
   enableAddButton: false,
 });
@@ -311,128 +312,20 @@ function setupHandlers() {
   };
 
   buildfire.datastore.onUpdate((response) => {
-    if (response.tag == Constants.Collections.CONFIG) {
-      if(response.data.bookmarks){
-        buildfire.bookmarks.getAll((err, bookmarks) => {
-          listView.items.forEach((item) => {
-            let isProductBookmarked = false;
-            for (let i = 0; i < bookmarks.length; i++) {
-              if (bookmarks[i].id == item.id) {
-                isProductBookmarked = true;
-                break;
-              }
-            }
-            if (isProductBookmarked) {
-              item.action = {
-                icon: "material-icons material-inject--star",
-              };
-            } else {
-              item.action = {
-                icon: "material-icons material-inject--empty_star",
-              };
-            }
-          });
+  switch (response.tag) {
+    case Constants.Collections.PRODUCTS:
+      _onProductUpdate(response);
+    break;
+    case Constants.Collections.INTRODUCTION:
+      _onIntroductionUpdate(response);
+    break;
+    case Constants.Collections.LANGUAGE + "en-us":
+      _onLanguageUpdate(response);
+    break;
+    case Constants.Collections.CONFIG:
+      _onConfigUpdate(response);
+    break;
 
-          var products = listView.items;
-          listView.clear();
-          listView.loadListViewItems(products);
-
-          if (productClicked) {
-            let isProductClickedBookmarked = false;
-            for (let i = 0; i < bookmarks.length; i++) {
-              if (bookmarks[i].id == productClicked.id) {
-                isProductClickedBookmarked = true;
-                break;
-              }
-            }
-            if(isProductClickedBookmarked){
-              starId.innerHTML = "star";
-            } else {
-              starId.innerHTML = "star_outline";
-            }
-         }
-        });
-        Config.bookmarksEnabled = true;
-      } else if(!response.data.bookmarks){
-          if(productClicked){
-            console.log("i");
-            starId.innerHTML = "";
-          }
-          listView.items.forEach((item) => {
-            item.action =  null;
-          });
-          var productsList = listView.items;
-          listView.clear();
-          listView.loadListViewItems(productsList);
-          Config.bookmarksEnabled = false;
-      }
-
-      if (!response.data.notes) {
-        if (productClicked) {
-          if(noteId){
-            noteId.innerHTML = "";
-
-          }
-        }
-        Config.notesEnabled = false;
-      } else if (response.data.notes) {
-        if (productClicked) {
-          if(noteId){
-            noteId.innerHTML =  "note";
-
-          }
-        }
-        Config.notesEnabled = true;
-      }
-
-      if (!response.data.sharings) {
-        if (productClicked) {
-          if(shareId){
-            shareId.innerHTML = "";
-          }
-        }
-        Config.sharingEnabled = false;
-
-      } else if (response.data.sharings) {
-        if (productClicked) {
-          if(shareId){
-            shareId.innerHTML = "share";
-          }
-        }
-        Config.sharingEnabled = true;
-      }
-    }
-    if (response.tag == Constants.Collections.PRODUCTS) {
-      listView.clear();
-      config.skipIndex = 0;
-      config.endReached = false;
-      searchProducts(config.defaultSort, "", false, false, () => {
-        config.fetchingNextPage = false;
-      });
-    }
-    if (response.tag == Constants.Collections.INTRODUCTION) {
-      wysiwygContent.innerHTML = response.data.description;
-      viewer.loadItems(response.data.images);
-      if (
-        listView.items.length == 0 &&
-        response.data.images.length == 0 &&
-        response.data.description == ""
-      ) {
-        listViewContainer.classList.add("hidden");
-        emptyProds.classList.remove("hidden");
-      } else {
-        listViewContainer.classList.remove("hidden");
-        emptyProds.classList.add("hidden");
-      }
-    }
-    if (response.tag == Constants.Collections.LANGUAGE + "en-us") {
-      config.lang = response;
-      searchTxt.setAttribute(
-        "placeholder",
-        config.lang.data.search.value != ""
-          ? config.lang.data.search.value
-          : config.lang.data.search.defaultValue
-      );
     }
   });
 
@@ -492,6 +385,134 @@ function setupHandlers() {
     }
   });
 }
+
+function _onProductUpdate(response){
+  listView.clear();
+  config.skipIndex = 0;
+  config.endReached = false;
+  searchProducts(config.defaultSort, "", false, false, () => {
+    config.fetchingNextPage = false;
+  });
+}
+
+function _onConfigUpdate(response){
+  if(response.data.bookmarks){
+    buildfire.bookmarks.getAll((err, bookmarks) => {
+      listView.items.forEach((item) => {
+        let isProductBookmarked = false;
+        for (let i = 0; i < bookmarks.length; i++) {
+          if (bookmarks[i].id == item.id) {
+            isProductBookmarked = true;
+            break;
+          }
+        }
+        if (isProductBookmarked) {
+          item.action = {
+            icon: "material-icons material-inject--star",
+          };
+        } else {
+          item.action = {
+            icon: "material-icons material-inject--empty_star",
+          };
+        }
+      });
+
+      var products = listView.items;
+      listView.clear();
+      listView.loadListViewItems(products);
+
+      if (productClicked) {
+        let isProductClickedBookmarked = false;
+        for (let i = 0; i < bookmarks.length; i++) {
+          if (bookmarks[i].id == productClicked.id) {
+            isProductClickedBookmarked = true;
+            break;
+          }
+        }
+        if(isProductClickedBookmarked){
+          starId.innerHTML = "star";
+        } else {
+          starId.innerHTML = "star_outline";
+        }
+     }
+    });
+    Config.bookmarksEnabled = true;
+  } else if(!response.data.bookmarks){
+      if(productClicked){
+        console.log("i");
+        starId.innerHTML = "";
+      }
+      listView.items.forEach((item) => {
+        item.action =  null;
+      });
+      var productsList = listView.items;
+      listView.clear();
+      listView.loadListViewItems(productsList);
+      Config.bookmarksEnabled = false;
+  }
+  
+  if (!response.data.notes) {
+    if (productClicked) {
+      if(noteId){
+        noteId.innerHTML = "";
+
+      }
+    }
+    Config.notesEnabled = false;
+  } else if (response.data.notes) {
+    if (productClicked) {
+      if(noteId){
+        noteId.innerHTML =  "note";
+
+      }
+    }
+    Config.notesEnabled = true;
+  }
+
+  if (!response.data.sharings) {
+    if (productClicked) {
+      if(shareId){
+        shareId.innerHTML = "";
+      }
+    }
+    Config.sharingEnabled = false;
+
+  } else if (response.data.sharings) {
+    if (productClicked) {
+      if(shareId){
+        shareId.innerHTML = "share";
+      }
+    }
+    Config.sharingEnabled = true;
+  }
+}
+
+function _onIntroductionUpdate(response){
+  wysiwygContent.innerHTML = response.data.description;
+  viewer.loadItems(response.data.images);
+  if (
+    listView.items.length == 0 &&
+    response.data.images.length == 0 &&
+    response.data.description == ""
+  ) {
+    listViewContainer.classList.add("hidden");
+    emptyProds.classList.remove("hidden");
+  } else {
+    listViewContainer.classList.remove("hidden");
+    emptyProds.classList.add("hidden");
+  }
+}
+
+function _onLanguageUpdate(response){
+  config.lang = response;
+  searchTxt.setAttribute(
+    "placeholder",
+    config.lang.data.search.value != ""
+      ? config.lang.data.search.value
+      : config.lang.data.search.defaultValue
+  );
+}
+
 
 function updateProductBookmard(item) {
   if (Config.bookmarksEnabled) {
@@ -805,7 +826,7 @@ function openSortDrawer() {
     }
   );
 }
-var isSelectedProductBookmarked = false;
+
 function loadActionItems(item) {
   buildfire.bookmarks.getAll((err, bookmarks) => {
     let isProductBookmardExist = false,
