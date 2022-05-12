@@ -30,27 +30,27 @@ const concat = require('gulp-concat');
 
 const eslint = require('gulp-eslint');
 
-function lint(){
+function lint() {
     return src(['widget/**/*.js', 'control/**/*.js'])
-    .pipe(eslint({
-        "env": {
-            "browser": true,
-            "es6": true,
-        },
-        "parser": "@babel/eslint-parser",
-        "extends": "eslint:recommended",
-        "parserOptions": {
-            "requireConfigFile": false,
-            "sourceType": "module",
-        },
-        "rules": {
-            "no-console": [
-                "off"
-            ]
-        }
-    }))
-    .pipe(eslint.format())
-    .pipe(eslint.failAfterError());
+        .pipe(eslint({
+            "env": {
+                "browser": true,
+                "es6": true,
+            },
+            "parser": "@babel/eslint-parser",
+            "extends": "eslint:recommended",
+            "parserOptions": {
+                "requireConfigFile": false,
+                "sourceType": "module",
+            },
+            "rules": {
+                "no-console": [
+                    "off"
+                ]
+            }
+        }))
+        .pipe(eslint.format())
+        .pipe(eslint.failAfterError());
 }
 
 function minifyContent() {
@@ -208,7 +208,7 @@ function watchChanges() {
         'widget/*.css'
     ], minifyCSS);
     watch([
-        'resources/*', 
+        'resources/*',
         'plugin.json'
     ], AddCommonFiles);
 }
@@ -226,6 +226,7 @@ function minifyHTML() {
         .pipe(replace('src="../../../ProductsList_release/control/content/', 'src="./'))
         .pipe(replace('src="../../../ProductsList_release/control/introduction/', 'src="./'))
         .pipe(replace('src="../../../ProductsList_release/control/strings/', 'src="./'))
+        .pipe(replace('src="../../../ProductsList_release/control/settings/', 'src="./'))
         .pipe(replace('src="../../ProductsList_release/widget/common', 'src="./common'))
         .pipe(replace('src="../../ProductsList_release/widget/main.js', 'src="./main.js'))
         .pipe(replace('src="../../../ProductsList_release/widget/common/', 'src="../../widget/common/'))
