@@ -312,59 +312,60 @@ function setupHandlers() {
 
   buildfire.datastore.onUpdate((response) => {
     if (response.tag == Constants.Collections.CONFIG) {
-      if (productClicked != null) {
-        if (!response.data.bookmarks) {
-          try {
-            starId.classList.add("hidden");
-            Config.bookmarksEnabled = false;
-          } catch (error) {
-            
-          }
-        } else if (response.data.bookmarks) {
-          try {
-            starId.classList.remove("hidden");
-            Config.bookmarksEnabled = true;
-          } catch (error) {
-            let productIndex = listView.items.indexOf(productClicked);
-            let productId = listView.items[productIndex].id;
-            //console.log(listView.items[productIndex].id, "HHHH");
-            let isBookmared = false;
-            buildfire.bookmarks.getAll((err, bookmarks) => {
-              if (err) return console.error(err);
-              for (let i = 0; i < bookmarks.length; i++) {
-                //console.log(bookmarks[15].id, "hhhehehehe", bookmarks[15]);
-                if (productId == bookmarks[i].id) {
-                  isBookmared = true;
-                  break;
-                }
+      if(response.data.bookmarks){
+        buildfire.bookmarks.getAll((err, bookmarks) => {
+          listView.items.forEach((item) => {
+            let isProductBookmarked = false;
+            for (let i = 0; i < bookmarks.length; i++) {
+              if (bookmarks[i].id == item.id) {
+                isProductBookmarked = true;
+                break;
               }
-              if (isBookmared) {
-                let e = ui.createElement(
-                  "span",
-                  iconsContainer,
-                  "star",
-                  ["material-icons", "icon", "bookmarkActive"],
-                  "starId"
-                );
-              } else {
-                let e = ui.createElement(
-                  "span",
-                  iconsContainer,
-                  "star_outline",
-                  ["material-icons", "icon", "bookmarkActive"],
-                  "starId"
-                );
-              }
-            });
-            Config.bookmarksEnabled = true;
-          }
-        }
-      } else {
-        if (!response.data.bookmarks) {
+            }
+            if (isProductBookmarked) {
+              item.action = {
+                icon: "icon glyphicon glyphicon-star",
+              };
+            } else {
+              item.action = {
+                icon: "icon glyphicon glyphicon-star-empty",
+              };
+            }
+          });
+
+          var products = listView.items;
           listView.clear();
-          loadData();
+          listView.loadListViewItems(products);
+
+          if (productClicked) {
+            let isProductClickedBookmarked = false;
+            for (let i = 0; i < bookmarks.length; i++) {
+              if (bookmarks[i].id == productClicked.id) {
+                isProductClickedBookmarked = true;
+                break;
+              }
+            }
+            if(isProductClickedBookmarked){
+              starId.innerHTML = "star"
+            } else {
+              starId.innerHTML = "star_outline"
+            }
+         }
+        });
+        Config.bookmarksEnabled = true;
+      } else if(!response.data.bookmarks){
+          if(productClicked){
+            starId.innerHTML = ""
+          }
+          listView.items.forEach((item) => {
+            item.action =  null;
+          });
+          var productsList = listView.items;
+          listView.clear();
+          listView.loadListViewItems(productsList);
           Config.bookmarksEnabled = false;
-        }
+
+
       }
     }
     if (response.tag == Constants.Collections.PRODUCTS) {
@@ -796,6 +797,7 @@ function loadActionItems(item) {
     }
 
     if (Config.bookmarksEnabled) {
+      console.log("Hii")
       for (let i = 0; i < bookmarks.length; i++) {
         if (bookmarks[i].id == item.id) {
           isProductBookmardExist = true;
