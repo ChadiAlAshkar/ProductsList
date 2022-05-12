@@ -819,6 +819,7 @@ function loadActionItems(item) {
       ["material-icons", "icon"],
       "shareId"
     );
+    
     ui.createElement(
       "span",
       iconsContainer,
@@ -826,7 +827,26 @@ function loadActionItems(item) {
       ["material-icons", "icon"],
       "noteId"
     );
-   
+    document.getElementById("noteId").addEventListener("click",()=>{
+      buildfire.notes.openDialog(
+        {
+          itemId: productClicked.id,
+          title: productClicked.data.title,
+          imageUrl: productClicked.data.profileImgUrl,
+        },
+        (err, data) => {
+          if (err) return console.error(err);
+      
+          const { hasNotes, noteCount, itemId } = data;
+      
+          if (hasNotes) {
+            console.log(`Video with id ${itemId} has ${noteCount} notes!`);
+          } else {
+            console.log(`No notes yet!`);
+          }
+        }
+      );
+    });
     
       for (let i = 0; i < bookmarks.length; i++) {
         if (bookmarks[i].id == item.id) {
