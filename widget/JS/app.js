@@ -137,28 +137,11 @@ function clearSubItem() {
 }
 
 function setStarColor() {
-  // let fillStars = document.getElementsByClassName('glyphicon-star');
-  // let emptyStars = document.getElementsByClassName('glyphicon-star-empty');
-
-  // for (let item of emptyStars) {
-  //   console.log(item);
-  //   item.classList = []
-  //   item.classList.add("material-icons", "icon");
-  //   item.innerHTML = 'star_border';
-  // }
-
-  // for (let item of fillStars) {
-  //   console.log(item);
-  //   item.classList = []
-  //   item.classList.add("material-icons", "icon");
-  //   item.innerHTML = 'star';
-  // }
-
   for (
-    var i = 0; i < document.getElementsByClassName("glyphicon").length; i++
+    var i = 0; i < document.getElementsByClassName("starIcnCol").length; i++
   ) {
     document
-      .getElementsByClassName("glyphicon")[i].style.setProperty("color", config.appTheme.colors.icons, "important");
+      .getElementsByClassName("starIcnCol")[i].style.setProperty("color", config.appTheme.colors.icons, "important");
   }
 }
 
@@ -266,14 +249,14 @@ function fillSubItem(item) {
           "icon",
           "iconsDet",
         ]);
-        finalStarState = "icon glyphicon glyphicon-star";
+        finalStarState = "material-icons material-inject--star starIcnCol";
       } else {
         bookmrk = ui.createElement("span", action, "star_outline", [
           "material-icons",
           "icon",
           "iconsDet",
         ]);
-        finalStarState = "icon glyphicon glyphicon-star-empty";
+        finalStarState = "material-icons material-inject--star_outline starIcnCol";
       }
 
       bookmrk.setAttribute("id", "starIcon");
@@ -325,14 +308,14 @@ function addBookmark(item, element) {
           (err, bookmark) => {
             if (err) return console.error(err);
             element.innerHTML = "star";
-            finalStarState = "icon glyphicon glyphicon-star";
+            finalStarState = "material-icons material-inject--star starIcnCol";
             showToastMessage(1);
           }
         );
       } else {
         buildfire.bookmarks.delete(item.id, () => {
           element.innerHTML = "star_outline";
-          finalStarState = "icon glyphicon glyphicon-star-empty";
+          finalStarState = "material-icons material-inject--star_outline starIcnCol";
           showToastMessage(2);
         });
       }
@@ -450,9 +433,9 @@ function setupHandlers() {
           console.log(err, user);
         });
       } else {
-        if (item.action.icon == "icon glyphicon glyphicon-star") {
+        if (item.action.icon == "material-icons material-inject--star starIcnCol") {
           buildfire.bookmarks.delete(item.id, () => {
-            item.action.icon = "icon glyphicon glyphicon-star-empty";
+            item.action.icon = "material-icons material-inject--star_outline starIcnCol";
             item.update();
             setStarColor();
             showToastMessage(2);
@@ -472,7 +455,7 @@ function setupHandlers() {
             (err, bookmark) => {
               if (err) return console.error(err);
 
-              item.action.icon = "icon glyphicon glyphicon-star";
+              item.action.icon = "material-icons material-inject--star starIcnCol";
               item.update();
               setStarColor();
               showToastMessage(1);
@@ -481,11 +464,6 @@ function setupHandlers() {
         }
       }
     });
-    // Favorites.add(item.data.userId, () => {
-    //   item.data.isFavorite = true;
-    //   item.action.icon = 'icon glyphicon glyphicon-star';
-    //   item.update();
-    // });
   };
 
   mainItems.onscroll = (e) => {
@@ -606,7 +584,7 @@ function setupHandlers() {
           if (!user) {
             listView.items.forEach((itm) => {
               itm.action = {
-                icon: "icon glyphicon glyphicon-star-empty",
+                icon: "material-icons material-inject--star_outline starIcnCol",
               };
             });
             var products = listView.items;
@@ -616,7 +594,7 @@ function setupHandlers() {
 
             if (productClicked) {
               starIcon.innerHTML = "star_outline";
-              finalStarState = "icon glyphicon glyphicon-star-empty";
+              finalStarState = "material-icons material-inject--star_outline starIcnCol";
             }
           } else {
             buildfire.bookmarks.getAll((err, bookmarks) => {
@@ -632,11 +610,11 @@ function setupHandlers() {
                 }
                 if (found) {
                   item.action = {
-                    icon: "icon glyphicon glyphicon-star",
+                    icon: "material-icons material-inject--star starIcnCol",
                   };
                 } else {
                   item.action = {
-                    icon: "icon glyphicon glyphicon-star-empty",
+                    icon: "material-icons material-inject--star_outline starIcnCol",
                   };
                 }
               });
@@ -657,10 +635,10 @@ function setupHandlers() {
 
                 if (found1) {
                   starIcon.innerHTML = "star";
-                  finalStarState = "icon glyphicon glyphicon-star";
+                  finalStarState = "material-icons material-inject--star starIcnCol";
                 } else {
                   starIcon.innerHTML = "star_outline";
-                  finalStarState = "icon glyphicon glyphicon-star-empty";
+                  finalStarState = "material-icons material-inject--star_outline starIcnCol";
                 }
               }
             });
@@ -767,11 +745,11 @@ function setupHandlers() {
         }
         if (found) {
           item.action = {
-            icon: "icon glyphicon glyphicon-star",
+            icon: "material-icons material-inject--star starIcnCol",
           };
         } else {
           item.action = {
-            icon: "icon glyphicon glyphicon-star-empty",
+            icon: "material-icons material-inject--star_outline starIcnCol",
           };
         }
       });
@@ -792,10 +770,10 @@ function setupHandlers() {
 
         if (found1) {
           starIcon.innerHTML = "star";
-          finalStarState = "icon glyphicon glyphicon-star";
+          finalStarState = "material-icons material-inject--star starIcnCol";
         } else {
           starIcon.innerHTML = "star_outline";
-          finalStarState = "icon glyphicon glyphicon-star-empty";
+          finalStarState = "material-icons material-inject--star_outline starIcnCol";
         }
       }
     });
@@ -804,7 +782,7 @@ function setupHandlers() {
   buildfire.auth.onLogout(() => {
     listView.items.forEach((item) => {
       item.action = {
-        icon: "icon glyphicon glyphicon-star-empty",
+        icon: "material-icons material-inject--star_outline starIcnCol",
       };
     });
 
@@ -815,7 +793,7 @@ function setupHandlers() {
 
     if (productClicked) {
       starIcon.innerHTML = "star_outline";
-      finalStarState = "icon glyphicon glyphicon-star-empty";
+      finalStarState = "material-icons material-inject--star_outline starIcnCol";
     }
   }, false);
 }
@@ -865,11 +843,11 @@ function loadData() {
               }
               if (found) {
                 t.action = {
-                  icon: "icon glyphicon glyphicon-star",
+                  icon: "material-icons material-inject--star starIcnCol",
                 };
               } else {
                 t.action = {
-                  icon: "icon glyphicon glyphicon-star-empty",
+                  icon: "material-icons material-inject--star_outline starIcnCol",
                 };
               }
             }
@@ -1019,11 +997,11 @@ function searchProducts(sort, searchText, overwrite, fromSearchBar, callback) {
         }
         if (found) {
           t.action = {
-            icon: "icon glyphicon glyphicon-star",
+            icon: "material-icons material-inject--star starIcnCol",
           };
         } else {
           t.action = {
-            icon: "icon glyphicon glyphicon-star-empty",
+            icon: "material-icons material-inject--star_outline starIcnCol",
           };
         }
         if (!overwrite) {

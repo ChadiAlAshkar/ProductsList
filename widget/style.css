@@ -213,6 +213,14 @@ body {
     cursor: pointer;
 }
 
+.material-inject--star:after {
+    content: "star";
+}
+
+.material-inject--star_outline:after {
+    content: "star_outline";
+}
+
 @keyframes gradient-animation {
     0% {
         left: 0%;
