@@ -51,6 +51,7 @@ function buildSkeletonUI(showCarousel, nbOfItems) {
     ui.createElement("div", skeleton, "", ["carouselLoad", "loadColor"]);
   }
   ui.createElement("div", skeleton, "", ["user-card"]);
+  let listVIewContainer = ui.createElement("div", skeleton, "", ["listViewContainer", "full-width"])
   for (var i = 0; i < nbOfItems; i++) {
     var itemLoadClass = "item1Load";
     if (showCarousel) {
@@ -60,7 +61,7 @@ function buildSkeletonUI(showCarousel, nbOfItems) {
     } else {
       itemLoadClass = "item3Load";
     }
-    let listViewItemLoad = ui.createElement("div", skeleton, "", [
+    let listViewItemLoad = ui.createElement("div", listVIewContainer, "", [
       itemLoadClass,
       "listViewItem",
     ]);
@@ -954,9 +955,7 @@ function loadData() {
             }
             products.push(t);
           });
-          if (results[1].length < config.limit) {
-            config.endReached = false;
-          }
+          config.endReached = results[1].length < config.limit;
           listView.loadListViewItems(products);
           setStarColor();
         });
@@ -1063,7 +1062,7 @@ function searchProducts(sort, searchText, overwrite, fromSearchBar, callback) {
     if (config.skipIndex == 0) {
       buildSkeletonUI(false, 4);
     } else {
-      buildSkeletonUI(false, 1);
+      buildSkeletonUI(false, 2);
     }
 
     skeleton.classList.remove("hidden");
@@ -1151,7 +1150,7 @@ function searchProducts(sort, searchText, overwrite, fromSearchBar, callback) {
 function _fetchNextPage() {
   if (config.fetchingNextPage) return;
   config.fetchingNextPage = true;
-  if (config.skipIndex > 0 && config.endReached) return;
+  if (config.endReached) return;
   config.skipIndex++;
   searchProducts(config.defaultSort, "", false, false, () => {
     config.fetchingNextPage = false;
