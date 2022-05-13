@@ -121,15 +121,7 @@ body {
     display: block;
 }
 
-.item1Load {
-    margin-top: 2.25rem;
-    min-height: 0;
-}
 
-.item2Load {
-    margin-top: 1.5rem;
-    min-height: 0;
-}
 
 .textLoad {
     height: 1rem;
@@ -140,20 +132,7 @@ body {
     opacity: 0.2;
 }
 
-.user-card {
-    content: "";
-    position: absolute;
-    left: 0px;
-    top: 0;
-    height: 100%;
-    width: 10px;
-    background: white;
-    animation-name: gradient-animation;
-    animation-duration: 2s;
-    animation-iteration-count: infinite;
-    filter: blur(20px);
-    z-index: 1;
-}
+
 
 #skeleton {
     position: relative;
@@ -194,15 +173,3 @@ input[type="search"]::-webkit-search-results-decoration {
 
 
 
-.material-inject--star:after {
-    content: "star";
-    color: var(--bf-theme-icons);
-}
-  .material-inject--empty_star:after {
-    content: "star_outline";
-    color: var(--bf-theme-icons);
-}
-
-.material-icons {
-    cursor: pointer;
-}

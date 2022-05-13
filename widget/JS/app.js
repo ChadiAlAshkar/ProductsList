@@ -264,8 +264,6 @@ function setupHandlers() {
 
   buildfire.navigation.onBackButtonClick = () => {
     buildfire.history.pop();
-    listView.clear();
-    loadData();
   };
 
   buildfire.messaging.onReceivedMessage = (message) => {
@@ -617,8 +615,6 @@ function updateDesign() {
       "./styles/detailsLayout2.css"
     );
   }
-  console.log(config.style.listLayout);
-  console.log(config.style.detailsLayout);
   document.getElementsByTagName("head")[0].appendChild(config.style.listLayout);
   document
     .getElementsByTagName("head")[0]
@@ -626,7 +622,7 @@ function updateDesign() {
 
     setTimeout(()=>{
       body.classList.remove("hidden");
-    },100)
+    },100);
 }
 
 function loadData() {
