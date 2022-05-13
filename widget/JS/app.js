@@ -52,6 +52,7 @@ function checkForDeepLinks() {
     if (err) return console.log(err);
     if (result) {
       console.log("Deep link found", result.data);
+      //Get Item By ID and call function fillSubItem(resultOfGetByID)
     } else {
       console.log("Deep link not found");
     }
