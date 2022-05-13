@@ -44,6 +44,18 @@ function init() {
   loadCustomCss();
   loadData();
   setupHandlers();
+  checkForDeepLinks();
+}
+
+function checkForDeepLinks() {
+  buildfire.deeplink.getDeeplink("ItemId", (err, result) => {
+    if (err) return console.log(err);
+    if (result) {
+      console.log("Deep link found", result.data);
+    } else {
+      console.log("Deep link not found");
+    }
+  });
 }
 
 function buildSkeletonUI(showCarousel, nbOfItems) {
