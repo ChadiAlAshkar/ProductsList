@@ -23,6 +23,7 @@ html[buildfire] {
     margin-left: 1rem;
     margin-right: 1rem;
     width: calc(100% - 2rem);
+    border-radius: 4px;
 }
 .search-card {
     margin-top: 1rem;
@@ -112,7 +113,9 @@ body {
 .hidden {
     display: none !important;
 }
-
+#carousel .plugin-slide  img{
+    width: 100% !important;
+}
 .carouselLoad {
     min-height: 202px;
     position: relative;
