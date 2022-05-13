@@ -36,8 +36,8 @@ var config = {
   Design: {},
   style: {
     listLayout: "",
-    detailsLayout: ""
-  }
+    detailsLayout: "",
+  },
 };
 
 function init() {
@@ -320,26 +320,25 @@ function setupHandlers() {
   };
 
   buildfire.datastore.onUpdate((response) => {
-  switch (response.tag) {
-    case Constants.Collections.PRODUCTS:
-      _onProductUpdate(response);
-    break;
-    case Constants.Collections.INTRODUCTION:
-      _onIntroductionUpdate(response);
-    break;
-    case Constants.Collections.LANGUAGE + "en-us":
-      _onLanguageUpdate(response);
-    break;
-    case Constants.Collections.CONFIG:
-      _onConfigUpdate(response);
-    case Constants.Collections.DESIGN:
-      _onDesignUpdate(response);
-    break;
-
+    switch (response.tag) {
+      case Constants.Collections.PRODUCTS:
+        _onProductUpdate(response);
+        break;
+      case Constants.Collections.INTRODUCTION:
+        _onIntroductionUpdate(response);
+        break;
+      case Constants.Collections.LANGUAGE + "en-us":
+        _onLanguageUpdate(response);
+        break;
+      case Constants.Collections.CONFIG:
+        _onConfigUpdate(response);
+      case Constants.Collections.DESIGN:
+        _onDesignUpdate(response);
+        break;
     }
   });
 
-  function searchInputHandler(){
+  function searchInputHandler() {
     clearTimeout(timer);
     if (searchTxt.value != "") {
       if (!carousel.classList.contains("hidden")) {
@@ -398,7 +397,7 @@ function setupHandlers() {
       listView.loadListViewItems(products);
     }
   }
-  clearIcon.addEventListener("click", (event) =>{
+  clearIcon.addEventListener("click", (event) => {
     searchTxt.value = "";
     searchInputHandler();
   });
@@ -407,7 +406,7 @@ function setupHandlers() {
   });
 }
 
-function _onProductUpdate(response){
+function _onProductUpdate(response) {
   listView.clear();
   config.skipIndex = 0;
   config.endReached = false;
@@ -416,8 +415,8 @@ function _onProductUpdate(response){
   });
 }
 
-function _onConfigUpdate(response){
-  if(response.data.bookmarks){
+function _onConfigUpdate(response) {
+  if (response.data.bookmarks) {
     buildfire.bookmarks.getAll((err, bookmarks) => {
       listView.items.forEach((item) => {
         let isProductBookmarked = false;
@@ -450,34 +449,34 @@ function _onConfigUpdate(response){
             break;
           }
         }
-        if(isProductClickedBookmarked){
+        if (isProductClickedBookmarked) {
           starId.innerHTML = "star";
           starId.classList.remove("hidden");
         } else {
           starId.innerHTML = "star_outline";
           starId.classList.remove("hidden");
         }
-     }
+      }
     });
     Config.bookmarksEnabled = true;
-  } else if(!response.data.bookmarks){
-      if(productClicked){
-        console.log("i");
-        starId.innerHTML = "";
-        starId.classList.add("hidden");
-      }
-      listView.items.forEach((item) => {
-        item.action =  null;
-      });
-      var productsList = listView.items;
-      listView.clear();
-      listView.loadListViewItems(productsList);
-      Config.bookmarksEnabled = false;
+  } else if (!response.data.bookmarks) {
+    if (productClicked) {
+      console.log("i");
+      starId.innerHTML = "";
+      starId.classList.add("hidden");
+    }
+    listView.items.forEach((item) => {
+      item.action = null;
+    });
+    var productsList = listView.items;
+    listView.clear();
+    listView.loadListViewItems(productsList);
+    Config.bookmarksEnabled = false;
   }
-  
+
   if (!response.data.notes) {
     if (productClicked) {
-      if(noteId){
+      if (noteId) {
         noteId.innerHTML = "";
         noteId.classList.add("hidden");
       }
@@ -485,8 +484,8 @@ function _onConfigUpdate(response){
     Config.notesEnabled = false;
   } else if (response.data.notes) {
     if (productClicked) {
-      if(noteId){
-        noteId.innerHTML =  "note";
+      if (noteId) {
+        noteId.innerHTML = "note";
         noteId.classList.remove("hidden");
       }
     }
@@ -495,16 +494,15 @@ function _onConfigUpdate(response){
 
   if (!response.data.sharings) {
     if (productClicked) {
-      if(shareId){
+      if (shareId) {
         shareId.innerHTML = "";
         shareId.classList.add("hidden");
       }
     }
     Config.sharingEnabled = false;
-
   } else if (response.data.sharings) {
     if (productClicked) {
-      if(shareId){
+      if (shareId) {
         shareId.innerHTML = "share";
         shareId.classList.remove("hidden");
       }
@@ -513,7 +511,7 @@ function _onConfigUpdate(response){
   }
 }
 
-function _onIntroductionUpdate(response){
+function _onIntroductionUpdate(response) {
   wysiwygContent.innerHTML = response.data.description;
   viewer.loadItems(response.data.images);
   if (
@@ -529,7 +527,7 @@ function _onIntroductionUpdate(response){
   }
 }
 
-function _onLanguageUpdate(response){
+function _onLanguageUpdate(response) {
   config.lang = response;
   searchTxt.setAttribute(
     "placeholder",
@@ -539,13 +537,9 @@ function _onLanguageUpdate(response){
   );
 }
 
-function _onDesignUpdate(response){
-  let isListLayoutChanged = false;
-  if(response.data.listLayout != config.Design.listLayout){
-    isListLayoutChanged = true;
-  }
+function _onDesignUpdate(response) {
   config.Design = response.data;
-  updateDesign(isListLayoutChanged);
+  updateDesign();
 }
 
 function updateProductBookmard(item) {
@@ -556,24 +550,30 @@ function updateProductBookmard(item) {
         () => {
           item.action.icon = "material-icons material-inject--star";
           item.update();
-          let bookmarkAddedValue = config.lang.data.bookmarkAdded.value == "" ? 
-          config.lang.data.bookmarkAdded.defaultValue : config.lang.data.bookmarkAdded.value; 
-          buildfire.components.toast.showToastMessage({ text:  bookmarkAddedValue});
+          let bookmarkAddedValue =
+            config.lang.data.bookmarkAdded.value == ""
+              ? config.lang.data.bookmarkAdded.defaultValue
+              : config.lang.data.bookmarkAdded.value;
+          buildfire.components.toast.showToastMessage({
+            text: bookmarkAddedValue,
+          });
         }
       );
     } else {
       Bookmark.delete(item.id, () => {
         item.action.icon = "material-icons material-inject--empty_star";
         item.update();
-        let bookmarkRemovedValue = config.lang.data.bookmarkAdded.value == "" ? 
-          config.lang.data.bookmarkRemoved.defaultValue : config.lang.data.bookmarkRemoved.value; 
-        buildfire.components.toast.showToastMessage({ text: bookmarkRemovedValue });
+        let bookmarkRemovedValue =
+          config.lang.data.bookmarkAdded.value == ""
+            ? config.lang.data.bookmarkRemoved.defaultValue
+            : config.lang.data.bookmarkRemoved.value;
+        buildfire.components.toast.showToastMessage({
+          text: bookmarkRemovedValue,
+        });
       });
     }
   }
 }
-
-
 
 function imagePreview(imageUrl) {
   buildfire.imagePreviewer.show({
@@ -581,49 +581,52 @@ function imagePreview(imageUrl) {
   });
 }
 
-function updateDesign(isListLayoutChanged){
- if(config.style.listLayout != "" && config.style.detailsLayout != ""){
-  document.getElementsByTagName("head")[0].removeChild(config.style.listLayout);
-  document.getElementsByTagName("head")[0].removeChild(config.style.detailsLayout);
+function updateDesign() {
 
+  body.classList.add("hidden");
+  if (config.style.listLayout != "" && config.style.detailsLayout != "") {
+    document
+      .getElementsByTagName("head")[0]
+      .removeChild(config.style.listLayout);
+    document
+      .getElementsByTagName("head")[0]
+      .removeChild(config.style.detailsLayout);
   }
-  config.style.listLayout = document.createElement('link');
-  config.style.detailsLayout = document.createElement('link');
+  config.style.listLayout = document.createElement("link");
+  config.style.detailsLayout = document.createElement("link");
 
   config.style.listLayout.rel = "stylesheet";
-  config.style.listLayout.type = 'text/css';
+  config.style.listLayout.type = "text/css";
 
   config.style.detailsLayout.rel = "stylesheet";
-  config.style.detailsLayout.type = 'text/css';
-  if(!isListLayoutChanged){
-    if(config.Design.listLayout == 1){
-      config.style.listLayout.setAttribute('href', "./styles/listLayout1.css");
-    } else {
-      config.style.listLayout.setAttribute('href', "./styles/listLayout2.css");
-    }
-    if(config.Design.detailsLayout == 1){
-      config.style.detailsLayout.setAttribute('href', "./styles/detailsLayout1.css");
-    } else {
-      config.style.detailsLayout.setAttribute('href', "./styles/detailsLayout2.css");
-    }
-  } else {
-    if(isListLayoutChanged){
-      if(config.Design.listLayout == 1){
-        config.style.listLayout.setAttribute('href', "./styles/listLayout1.css");
-      } else {
-        config.style.listLayout.setAttribute('href', "./styles/listLayout2.css");
-      }
-    } else {
-      if(config.Design.detailsLayout == 1){
-        config.style.detailsLayout.setAttribute('href', "./styles/detailsLayout1.css");
-      } else {
-        config.style.detailsLayout.setAttribute('href', "./styles/detailsLayout2.css");
-      }
-    }
-  }
+  config.style.detailsLayout.type = "text/css";
 
+  if (config.Design.listLayout == 1) {
+    config.style.listLayout.setAttribute("href", "./styles/listLayout1.css");
+  } else {
+    config.style.listLayout.setAttribute("href", "./styles/listLayout2.css");
+  }
+  if (config.Design.detailsLayout == 1) {
+    config.style.detailsLayout.setAttribute(
+      "href",
+      "./styles/detailsLayout1.css"
+    );
+  } else {
+    config.style.detailsLayout.setAttribute(
+      "href",
+      "./styles/detailsLayout2.css"
+    );
+  }
+  console.log(config.style.listLayout);
+  console.log(config.style.detailsLayout);
   document.getElementsByTagName("head")[0].appendChild(config.style.listLayout);
-  document.getElementsByTagName("head")[0].appendChild(config.style.detailsLayout);
+  document
+    .getElementsByTagName("head")[0]
+    .appendChild(config.style.detailsLayout);
+
+    setTimeout(()=>{
+      body.classList.remove("hidden");
+    },100)
 }
 
 function loadData() {
@@ -639,118 +642,120 @@ function loadData() {
   var promise3 = Language.get(Constants.Collections.LANGUAGE + "en-us");
   var promise4 = Config.get();
   var promise5 = Design.get();
-  Promise.all([promise1, promise2, promise3, promise4, promise5]).then((results) => {
-    products = [];
-   
-    //let notesEnabled = results[3].data.boo
-    if (results && results.length > 3) {
+  Promise.all([promise1, promise2, promise3, promise4, promise5]).then(
+    (results) => {
+      products = [];
 
-      Config.bookmarksEnabled = results[3].data.bookmarks;
-      Config.notesEnabled = results[3].data.notes;
-      Config.sharingEnabled = results[3].data.sharings;
+      //let notesEnabled = results[3].data.boo
+      if (results && results.length > 3) {
+        Config.bookmarksEnabled = results[3].data.bookmarks;
+        Config.notesEnabled = results[3].data.notes;
+        Config.sharingEnabled = results[3].data.sharings;
 
-      Config.Design = results[4].data;
-      updateDesign();
-      if (results[1] && results[1].length > 0) {
-        buildfire.bookmarks.getAll((err, bookmarks) => {
-          if (err) return console.error(err);
-          results[1].forEach((element) => {
-            var t = new ListViewItem();
-            t.id = element.id;
-            t.title = element.data.title;
-            t.description = element.data.subTitle;
-            t.imageUrl = element.data.profileImgUrl;
-            t.data = element.data;
-            let isProductBookmardExist = false;
-            if (Config.bookmarksEnabled) {
-              for (let i = 0; i < bookmarks.length; i++) {
-                if (bookmarks[i].id == element.id) {
-                  isProductBookmardExist = true;
-                  break;
+        config.Design = results[4].data;
+
+        updateDesign();
+        if (results[1] && results[1].length > 0) {
+          buildfire.bookmarks.getAll((err, bookmarks) => {
+            if (err) return console.error(err);
+            results[1].forEach((element) => {
+              var t = new ListViewItem();
+              t.id = element.id;
+              t.title = element.data.title;
+              t.description = element.data.subTitle;
+              t.imageUrl = element.data.profileImgUrl;
+              t.data = element.data;
+              let isProductBookmardExist = false;
+              if (Config.bookmarksEnabled) {
+                for (let i = 0; i < bookmarks.length; i++) {
+                  if (bookmarks[i].id == element.id) {
+                    isProductBookmardExist = true;
+                    break;
+                  }
+                }
+                if (isProductBookmardExist) {
+                  t.action = {
+                    icon: "material-icons material-inject--star",
+                  };
+                } else {
+                  t.action = {
+                    icon: "material-icons material-inject--empty_star",
+                  };
                 }
               }
-              if (isProductBookmardExist) {
-                t.action = {
-                  icon: "material-icons material-inject--star",
-                };
-              } else {
-                t.action = {
-                  icon: "material-icons material-inject--empty_star",
-                };
-              }
+
+              products.push(t);
+            });
+            if (results[1].length < config.limit) {
+              config.endReached = false;
             }
-
-            products.push(t);
+            listView.loadListViewItems(products);
           });
-          if (results[1].length < config.limit) {
-            config.endReached = false;
-          }
-          listView.loadListViewItems(products);
-        });
-      }
-      if (results[0] && results[0].data) {
-        if (results[0].data.images) viewer.loadItems(results[0].data.images);
-        if (results[0].data.description)
-          wysiwygContent.innerHTML = results[0].data.description;
-      }
+        }
+        if (results[0] && results[0].data) {
+          if (results[0].data.images) viewer.loadItems(results[0].data.images);
+          if (results[0].data.description)
+            wysiwygContent.innerHTML = results[0].data.description;
+        }
 
-      if (results[2] && !isEmpty(results[2].data)) {
-        config.lang = results[2];
+        if (results[2] && !isEmpty(results[2].data)) {
+          config.lang = results[2];
+        } else {
+          let obj = {};
+          for (let sectionKey in stringsConfig) {
+            let section = (obj[sectionKey] = {});
+            for (let labelKey in stringsConfig[sectionKey].labels) {
+              section[labelKey] = {
+                defaultValue:
+                  stringsConfig[sectionKey].labels[labelKey].defaultValue,
+                required: stringsConfig[sectionKey].labels[labelKey].required,
+              };
+            }
+          }
+
+          var language = new LanguageItem();
+          for (let sectionKey in obj) {
+            for (let labelKey in obj[sectionKey]) {
+              language[labelKey].value = "";
+              language[labelKey].defaultValue =
+                obj[sectionKey][labelKey].defaultValue;
+            }
+          }
+
+          config.lang = {
+            data: language,
+          };
+        }
+
+        searchTxt.setAttribute(
+          "placeholder",
+          config.lang.data.search.value != ""
+            ? config.lang.data.search.value
+            : config.lang.data.search.defaultValue
+        );
+
+        if (
+          (!results[0] ||
+            results[0].data ||
+            results[0].data.images.length == 0) &&
+          (!results[1] || results[1].length == 0) &&
+          (!results[2] || isEmpty(results[2].data))
+        ) {
+          listViewContainer.classList.add("hidden");
+          emptyProds.classList.remove("hidden");
+        }
       } else {
-        let obj = {};
-        for (let sectionKey in stringsConfig) {
-          let section = (obj[sectionKey] = {});
-          for (let labelKey in stringsConfig[sectionKey].labels) {
-            section[labelKey] = {
-              defaultValue:
-                stringsConfig[sectionKey].labels[labelKey].defaultValue,
-              required: stringsConfig[sectionKey].labels[labelKey].required,
-            };
-          }
-        }
-
-        var language = new LanguageItem();
-        for (let sectionKey in obj) {
-          for (let labelKey in obj[sectionKey]) {
-            language[labelKey].value = "";
-            language[labelKey].defaultValue =
-              obj[sectionKey][labelKey].defaultValue;
-          }
-        }
-
-        config.lang = {
-          data: language,
-        };
-      }
-
-      searchTxt.setAttribute(
-        "placeholder",
-        config.lang.data.search.value != ""
-          ? config.lang.data.search.value
-          : config.lang.data.search.defaultValue
-      );
-
-      if (
-        (!results[0] ||
-          results[0].data ||
-          results[0].data.images.length == 0) &&
-        (!results[1] || results[1].length == 0) &&
-        (!results[2] || isEmpty(results[2].data))
-      ) {
         listViewContainer.classList.add("hidden");
         emptyProds.classList.remove("hidden");
       }
-    } else {
-      listViewContainer.classList.add("hidden");
-      emptyProds.classList.remove("hidden");
-    }
 
-    skeleton.classList.add("hidden");
-    main.classList.remove("hidden");
-    carousel.classList.remove("hidden");
-    wysiwygContent.classList.remove("hidden");
-    listViewContainer.classList.remove("hidden");
-  });
+      skeleton.classList.add("hidden");
+      main.classList.remove("hidden");
+      carousel.classList.remove("hidden");
+      wysiwygContent.classList.remove("hidden");
+      listViewContainer.classList.remove("hidden");
+    }
+  );
 }
 
 function isEmpty(obj) {
@@ -925,7 +930,7 @@ function loadActionItems(item) {
     let isProductBookmardExist = false,
       bookmarkElement;
     if (err) return console.error(err);
-    
+
     ui.createElement(
       "span",
       iconsContainer,
@@ -933,7 +938,7 @@ function loadActionItems(item) {
       ["material-icons", "icon"],
       "shareId"
     );
-    
+
     ui.createElement(
       "span",
       iconsContainer,
@@ -941,7 +946,7 @@ function loadActionItems(item) {
       ["material-icons", "icon"],
       "noteId"
     );
-    document.getElementById("noteId").addEventListener("click",()=>{
+    document.getElementById("noteId").addEventListener("click", () => {
       buildfire.notes.openDialog(
         {
           itemId: productClicked.id,
@@ -950,9 +955,9 @@ function loadActionItems(item) {
         },
         (err, data) => {
           if (err) return console.error(err);
-      
+
           const { hasNotes, noteCount, itemId } = data;
-      
+
           if (hasNotes) {
             console.log(`Video with id ${itemId} has ${noteCount} notes!`);
           } else {
@@ -961,7 +966,7 @@ function loadActionItems(item) {
         }
       );
     });
-    document.getElementById("shareId").addEventListener("click",()=>{
+    document.getElementById("shareId").addEventListener("click", () => {
       buildfire.deeplink.generateUrl(
         {
           data: { productId: productClicked.id },
@@ -970,71 +975,76 @@ function loadActionItems(item) {
           if (err) {
             console.error(err);
           } else {
-            buildfire.device.share({ 
-              subject: productClicked.data.title,
-              text: productClicked.data.description,
-              image: productClicked.data.profileImgUrl,
-              link: result.url
-           }, function (err,result) {
-              if (err)
-                  alert(err);
-              else
-                  alert('sharing invoked');
-           });
+            buildfire.device.share(
+              {
+                subject: productClicked.data.title,
+                text: productClicked.data.description,
+                image: productClicked.data.profileImgUrl,
+                link: result.url,
+              },
+              function (err, result) {
+                if (err) alert(err);
+                else alert("sharing invoked");
+              }
+            );
           }
         }
       );
     });
 
-      for (let i = 0; i < bookmarks.length; i++) {
-        if (bookmarks[i].id == item.id) {
-          isProductBookmardExist = true;
-          break;
-        }
+    for (let i = 0; i < bookmarks.length; i++) {
+      if (bookmarks[i].id == item.id) {
+        isProductBookmardExist = true;
+        break;
       }
-      if (isProductBookmardExist) {
-        bookmarkElement = ui.createElement(
-          "span",
-          iconsContainer,
-          "star",
-          ["material-icons", "icon", "bookmarkActive"],
-          "starId"
-        );
+    }
+    if (isProductBookmardExist) {
+      bookmarkElement = ui.createElement(
+        "span",
+        iconsContainer,
+        "star",
+        ["material-icons", "icon", "bookmarkActive"],
+        "starId"
+      );
+    } else {
+      bookmarkElement = ui.createElement(
+        "span",
+        iconsContainer,
+        "star_outline",
+        ["material-icons", "icon"],
+        "starId"
+      );
+    }
+    bookmarkElement.addEventListener("click", () => {
+      if (bookmarkElement.classList.contains("bookmarkActive")) {
+        bookmarkElement.classList.remove("bookmarkActive");
+        Bookmark.delete(item.id, () => {
+          bookmarkElement.innerHTML = "star_outline";
+        });
+        isSelectedProductBookmarked = false;
+        buildfire.components.toast.showToastMessage({
+          text: config.lang.data.bookmarkRemoved.value,
+        });
       } else {
-        bookmarkElement = ui.createElement(
-          "span",
-          iconsContainer,
-          "star_outline",
-          ["material-icons", "icon"],
-          "starId"
-        );
-      }
-      bookmarkElement.addEventListener("click", () => {
-        if (bookmarkElement.classList.contains("bookmarkActive")) {
-          bookmarkElement.classList.remove("bookmarkActive");
-          Bookmark.delete(item.id, () => {
-            bookmarkElement.innerHTML = "star_outline";
+        isSelectedProductBookmarked = true;
+        bookmarkElement.classList.add("bookmarkActive");
+        Bookmark.add({ id: item.id, title: item.data.title }, () => {
+          bookmarkElement.innerHTML = "star";
+          buildfire.components.toast.showToastMessage({
+            text: config.lang.data.bookmarkAdded.value,
           });
-          isSelectedProductBookmarked = false;
-          buildfire.components.toast.showToastMessage({ text: config.lang.data.bookmarkRemoved.value });
-        } else {
-          isSelectedProductBookmarked = true;
-          bookmarkElement.classList.add("bookmarkActive");
-          Bookmark.add({ id: item.id, title: item.data.title }, () => {
-            bookmarkElement.innerHTML = "star";
-            buildfire.components.toast.showToastMessage({ text: config.lang.data.bookmarkAdded.value });
-          });
-        }
-      });
-      if (!Config.sharingEnabled) {
-        shareId.innerHTML = "";
+        });
       }
-      if (!Config.notesEnabled) {
-        noteId.innerHTML = "";
-      }
-      if (!Config.bookmarksEnabled) {
-        starId.innerHTML = "";
-      }
+    });
+    if (!Config.sharingEnabled) {
+      shareId.innerHTML = "";
+    }
+    if (!Config.notesEnabled) {
+      noteId.innerHTML = "";
+    }
+    if (!Config.bookmarksEnabled) {
+      starId.innerHTML = "";
+    }
   });
 }
 init();

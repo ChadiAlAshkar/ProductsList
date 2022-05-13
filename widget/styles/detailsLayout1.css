@@ -1,0 +1,64 @@
+.coverImage-shadow {
+    position: absolute;
+    width: 100%;
+    height: inherit;
+    z-index: 1;
+    background: linear-gradient(180deg, rgba(196, 196, 196, 0) 0%, rgba(0, 0, 0, 0.5) 100%);
+}
+.icons-container{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* background-color: red; */
+    right: 0;
+    bottom: 1rem;
+    margin-right: 1.125rem;
+}
+
+
+.icons-container .icon{
+    margin-left: 1.125rem;
+    color: var(--c-white);
+    z-index: 10;
+}
+
+#coverImgBody,
+#profileImgBody {
+    height: 100%;
+    border-radius: 0.25rem;
+}
+
+#profileImg {
+    width: 7.5rem;
+    height: 7.5rem;
+    top: 7.1rem;
+    position: absolute;
+    left: 1rem;
+    border-radius: 0.25rem;
+    box-shadow: 0 0.125rem 0.5rem rgb(150 150 150 / 20%);
+    z-index: 2;
+}
+#itemTitle {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 29px;
+    width: 100%;
+    margin-top: 3rem !important;
+    margin-bottom: 0.5rem !important;
+    padding: 0 1rem;
+}
+#itemSubTitle {
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 29px;
+    margin-bottom: 1.5rem;
+    padding: 0 1rem;
+    width: 100%;
+}
+#wysiwygItemContent {
+    width: 100%;
+    padding: 0 1rem;
+}
