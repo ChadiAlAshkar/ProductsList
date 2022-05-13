@@ -44,17 +44,18 @@ function init() {
   loadCustomCss();
   loadData();
   setupHandlers();
-  checkForDeepLinks();
 }
 
 function checkForDeepLinks() {
-  buildfire.deeplink.getDeeplink("ItemId", (err, result) => {
-    if (err) return console.log(err);
-    if (result) {
-      console.log("Deep link found", result.data);
-      //Get Item By ID and call function fillSubItem(resultOfGetByID)
-    } else {
-      console.log("Deep link not found");
+  buildfire.deeplink.getData((deeplinkData) => {
+    if (deeplinkData) {
+      if (deeplinkData.ItemId) {
+        Products.getById(deeplinkData.ItemId).then(item => {
+          fillSubItem(item);
+        }).catch(err => {
+          console.error(err);
+        })
+      }
     }
   });
 }
@@ -1035,6 +1036,9 @@ function loadData() {
     carousel.classList.remove("hidden");
     wysiwygContent.classList.remove("hidden");
     listViewContainer.classList.remove("hidden");
+
+    checkForDeepLinks();
+
   });
 }
 
