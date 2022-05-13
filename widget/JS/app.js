@@ -33,6 +33,10 @@ var config = {
   fillingCover: false,
   fillingProfile: false,
   skeletonItems: 4,
+  design: {
+    list: 1,
+    details: 1
+  }
 };
 
 function init() {
@@ -140,8 +144,13 @@ function setStarColor() {
   for (
     var i = 0; i < document.getElementsByClassName("starIcnCol").length; i++
   ) {
-    document
-      .getElementsByClassName("starIcnCol")[i].style.setProperty("color", config.appTheme.colors.icons, "important");
+    if (config.design.list == 2) {
+      document
+        .getElementsByClassName("starIcnCol")[i].style.setProperty("color", "white", "important");
+    } else {
+      document
+        .getElementsByClassName("starIcnCol")[i].style.setProperty("color", config.appTheme.colors.icons, "important");
+    }
   }
 }
 
@@ -711,33 +720,34 @@ function setupHandlers() {
       }
       config.settings = response.data;
     }
-    if(response.tag == Constants.Collections.DESIGN){
+    if (response.tag == Constants.Collections.DESIGN) {
       document.getElementsByTagName("head")[0].removeChild(config.style.sheetDesign);
       document.getElementsByTagName("head")[0].removeChild(config.style.sheetList);
-        console.log("design data -=> ", response.data);
-        config.style.sheetList = document.createElement('link');
-        config.style.sheetList.setAttribute('rel', "stylesheet");
-        
-        config.style.sheetDesign = document.createElement('link');
-        config.style.sheetDesign.setAttribute('rel', "stylesheet");
+      console.log("design data -=> ", response.data);
+      config.style.sheetList = document.createElement('link');
+      config.style.sheetList.setAttribute('rel', "stylesheet");
 
-        if(response.data.list == 2){
-          config.style.sheetList.setAttribute('href', "./styleList2.css")
-        }else{
-          config.style.sheetList.setAttribute('href', "./styleList1.css")
-        }
+      config.style.sheetDesign = document.createElement('link');
+      config.style.sheetDesign.setAttribute('rel', "stylesheet");
 
-        if(response.data.details == 2){
-          config.style.sheetDesign.setAttribute('href', "./styleDetails2.css")
-          // console.log("change design" , sheetDesign);
-        }else{
-          config.style.sheetDesign.setAttribute('href', "./styleDetails1.css")
-        }
-
-        document.getElementsByTagName("head")[0].appendChild(config.style.sheetDesign);
-        document.getElementsByTagName("head")[0].appendChild(config.style.sheetList);
+      if (response.data.list == 2) {
+        config.style.sheetList.setAttribute('href', "./styleList2.css")
+      } else {
+        config.style.sheetList.setAttribute('href', "./styleList1.css")
       }
-    
+
+      if (response.data.details == 2) {
+        config.style.sheetDesign.setAttribute('href', "./styleDetails2.css")
+      } else {
+        config.style.sheetDesign.setAttribute('href', "./styleDetails1.css")
+      }
+
+      document.getElementsByTagName("head")[0].appendChild(config.style.sheetDesign);
+      document.getElementsByTagName("head")[0].appendChild(config.style.sheetList);
+      config.design = response.data;
+      setStarColor();
+    }
+
   });
 
   searchTxt.addEventListener("keyup", function (event) {
@@ -884,31 +894,32 @@ function loadData() {
     products = [];
     if (results && results.length > 4) {
       if (results[4] && results[4].data) {
-        console.log("design data -=> ", results[4].data);
         var sheetList = document.createElement('link');
         sheetList.setAttribute('rel', "stylesheet");
-        
+
         var sheetDesign = document.createElement('link');
         sheetDesign.setAttribute('rel', "stylesheet");
 
-        if(results[4].data.list == 2){
-          sheetList.setAttribute('href', "./styleList2.css")
-        }else{
-          sheetList.setAttribute('href', "./styleList1.css")
+        if (results[4].data.list == 2) {
+          sheetList.setAttribute('href', "styleList2.css")
+        } else {
+          sheetList.setAttribute('href', "styleList1.css")
         }
 
-        if(results[4].data.details == 2){
-          sheetDesign.setAttribute('href', "./styleDetails2.css")
-        }else{
-          sheetDesign.setAttribute('href', "./styleDetails1.css")
+        if (results[4].data.details == 2) {
+          sheetDesign.setAttribute('href', "styleDetails2.css")
+        } else {
+          sheetDesign.setAttribute('href', "styleDetails1.css")
         }
         config.style = {
-          sheetDesign , sheetList
+          sheetDesign,
+          sheetList
         }
+        config.design = results[4].data;
         document.getElementsByTagName("head")[0].appendChild(sheetDesign);
         document.getElementsByTagName("head")[0].appendChild(sheetList);
       }
-      
+
       if (results[3] && results[3].data) {
         config.settings = results[3].data;
       }
