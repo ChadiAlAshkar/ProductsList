@@ -283,7 +283,7 @@ function AddCommonFiles() {
 };
 
 function AddImages() {
-    return src(['**/.images/**'], {
+    return src(['**/.images/**','**/images/**'], {
             base: '.'
         })
         .pipe(imagemin())
