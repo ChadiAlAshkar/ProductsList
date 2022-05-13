@@ -33,6 +33,11 @@ var config = {
   notesEnabled: false,
   sharingEnabled: false,
   currentPage: 0,
+  Design: {},
+  style: {
+    listLayout: "",
+    detailsLayout: ""
+  }
 };
 
 function init() {
@@ -327,6 +332,8 @@ function setupHandlers() {
     break;
     case Constants.Collections.CONFIG:
       _onConfigUpdate(response);
+    case Constants.Collections.DESIGN:
+      _onDesignUpdate(response);
     break;
 
     }
@@ -394,7 +401,7 @@ function setupHandlers() {
   clearIcon.addEventListener("click", (event) =>{
     searchTxt.value = "";
     searchInputHandler();
-  })
+  });
   searchTxt.addEventListener("keyup", function (event) {
     searchInputHandler();
   });
@@ -532,6 +539,14 @@ function _onLanguageUpdate(response){
   );
 }
 
+function _onDesignUpdate(response){
+  let isListLayoutChanged = false;
+  if(response.data.listLayout != config.Design.listLayout){
+    isListLayoutChanged = true;
+  }
+  config.Design = response.data;
+  updateDesign(isListLayoutChanged);
+}
 
 function updateProductBookmard(item) {
   if (Config.bookmarksEnabled) {
@@ -541,23 +556,74 @@ function updateProductBookmard(item) {
         () => {
           item.action.icon = "material-icons material-inject--star";
           item.update();
-          buildfire.components.toast.showToastMessage({ text: config.lang.data.bookmarkAdded.value });
+          let bookmarkAddedValue = config.lang.data.bookmarkAdded.value == "" ? 
+          config.lang.data.bookmarkAdded.defaultValue : config.lang.data.bookmarkAdded.value; 
+          buildfire.components.toast.showToastMessage({ text:  bookmarkAddedValue});
         }
       );
     } else {
       Bookmark.delete(item.id, () => {
         item.action.icon = "material-icons material-inject--empty_star";
         item.update();
-        buildfire.components.toast.showToastMessage({ text: config.lang.data.bookmarkRemoved.value });
+        let bookmarkRemovedValue = config.lang.data.bookmarkAdded.value == "" ? 
+          config.lang.data.bookmarkRemoved.defaultValue : config.lang.data.bookmarkRemoved.value; 
+        buildfire.components.toast.showToastMessage({ text: bookmarkRemovedValue });
       });
     }
   }
 }
 
+
+
 function imagePreview(imageUrl) {
   buildfire.imagePreviewer.show({
     images: [imageUrl],
   });
+}
+
+function updateDesign(isListLayoutChanged){
+ if(config.style.listLayout != "" && config.style.detailsLayout != ""){
+  document.getElementsByTagName("head")[0].removeChild(config.style.listLayout);
+  document.getElementsByTagName("head")[0].removeChild(config.style.detailsLayout);
+
+  }
+  config.style.listLayout = document.createElement('link');
+  config.style.detailsLayout = document.createElement('link');
+
+  config.style.listLayout.rel = "stylesheet";
+  config.style.listLayout.type = 'text/css';
+
+  config.style.detailsLayout.rel = "stylesheet";
+  config.style.detailsLayout.type = 'text/css';
+  if(!isListLayoutChanged){
+    if(config.Design.listLayout == 1){
+      config.style.listLayout.setAttribute('href', "./styles/listLayout1.css");
+    } else {
+      config.style.listLayout.setAttribute('href', "./styles/listLayout2.css");
+    }
+    if(config.Design.detailsLayout == 1){
+      config.style.detailsLayout.setAttribute('href', "./styles/detailsLayout1.css");
+    } else {
+      config.style.detailsLayout.setAttribute('href', "./styles/detailsLayout2.css");
+    }
+  } else {
+    if(isListLayoutChanged){
+      if(config.Design.listLayout == 1){
+        config.style.listLayout.setAttribute('href', "./styles/listLayout1.css");
+      } else {
+        config.style.listLayout.setAttribute('href', "./styles/listLayout2.css");
+      }
+    } else {
+      if(config.Design.detailsLayout == 1){
+        config.style.detailsLayout.setAttribute('href', "./styles/detailsLayout1.css");
+      } else {
+        config.style.detailsLayout.setAttribute('href', "./styles/detailsLayout2.css");
+      }
+    }
+  }
+
+  document.getElementsByTagName("head")[0].appendChild(config.style.listLayout);
+  document.getElementsByTagName("head")[0].appendChild(config.style.detailsLayout);
 }
 
 function loadData() {
@@ -572,13 +638,19 @@ function loadData() {
   var promise2 = Products.search(searchOptions);
   var promise3 = Language.get(Constants.Collections.LANGUAGE + "en-us");
   var promise4 = Config.get();
-  Promise.all([promise1, promise2, promise3, promise4]).then((results) => {
+  var promise5 = Design.get();
+  Promise.all([promise1, promise2, promise3, promise4, promise5]).then((results) => {
     products = [];
-    Config.bookmarksEnabled = results[3].data.bookmarks;
-    Config.notesEnabled = results[3].data.notes;
-    Config.sharingEnabled = results[3].data.sharings;
+   
     //let notesEnabled = results[3].data.boo
-    if (results && results.length > 2) {
+    if (results && results.length > 3) {
+
+      Config.bookmarksEnabled = results[3].data.bookmarks;
+      Config.notesEnabled = results[3].data.notes;
+      Config.sharingEnabled = results[3].data.sharings;
+
+      Config.Design = results[4].data;
+      updateDesign();
       if (results[1] && results[1].length > 0) {
         buildfire.bookmarks.getAll((err, bookmarks) => {
           if (err) return console.error(err);

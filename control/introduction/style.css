@@ -1,3 +1,7 @@
+html[buildfire] {
+  padding-top: 0 !important;
+}
+
 .btn-plus-icon-with-text {
   float: right !important;
 }
