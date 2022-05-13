@@ -212,13 +212,23 @@ function AddCommonFiles() {
         .pipe(dest(destinationFolder));
 };
 
-function AddImages() {
+function AddCommonImages() {
     return src(['**/.images/**'], {
             base: '.'
         })
         .pipe(imagemin())
         .pipe(dest(destinationFolder));
 }
+
+function AddDesignImages(){
+    return src(['control/design/images/**'], {
+        base: '.'
+    })
+    .pipe(imagemin())
+    .pipe(dest(destinationFolder));
+
+}
+
 
 function watchChanges() {
     watch(contentJs, minifyContent);
@@ -245,6 +255,7 @@ exports.default = series([
     minifyHTML,
     minifyCSS,
     AddCommonFiles,
-    AddImages,
+    AddCommonImages,
+    AddDesignImages,
     watchChanges
 ]);
