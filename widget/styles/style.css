@@ -23,7 +23,7 @@ html[buildfire] {
     margin-left: 1rem;
     margin-right: 1rem;
     width: calc(100% - 2rem);
-    border-radius: 4px;
+    border-radius: 4px !important;
 }
 .search-card {
     margin-top: 1rem;

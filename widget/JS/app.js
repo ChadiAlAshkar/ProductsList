@@ -876,6 +876,12 @@ function searchProducts(sort, searchText, overwrite, fromSearchBar, callback) {
         callback();
       });
     });
+    if (result.length === 0 && carousel.classList.contains("hidden")
+    &&wysiwygContent.classList.contains("hidden")) {
+      console.log(products.length);
+      skeleton.classList.add("hidden");
+      emptyProds.classList.remove("hidden");
+    }
   });
 }
 
